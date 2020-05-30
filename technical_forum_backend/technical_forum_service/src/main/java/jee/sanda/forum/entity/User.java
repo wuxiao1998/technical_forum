@@ -1,7 +1,6 @@
 package jee.sanda.forum.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,6 +14,13 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String email;
+    private String phone;
     private Integer gender;
+    private Integer experience;
+    private Integer level;
+    private String designation;
+    private Integer status;
     private Integer role;
+    private String createtime;
+    private String updatetime;
 }

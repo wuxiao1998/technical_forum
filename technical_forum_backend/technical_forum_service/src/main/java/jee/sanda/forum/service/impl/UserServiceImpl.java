@@ -22,13 +22,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(User user) {
-        userRepository.save(user);
+        userRepository.saveUser(user);
     }
 
-    @Override
-    public void sendEmail(String email) {
-       mailService.sendSimpleMail(email);
-    }
+
+
+
 
 
 }

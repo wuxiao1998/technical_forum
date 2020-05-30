@@ -16,5 +16,8 @@ public interface UserService {
      */
     void register(User user);
 
-    void sendEmail(String email);
+
+
+
+
 }
