@@ -11,7 +11,9 @@ class Main extends React.Component{
         }
     }
 
+
     render(){
+        console.log(this.props,1234)
         return <div>
           这是主页
         </div>

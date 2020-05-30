@@ -17,13 +17,17 @@ class LoginFrom extends React.Component{
         username:values.username,
         password:values.password
       }).then((response)=>{
+        var path={
+          pathname:'/',
+          state:response.data
+        } 
         console.log(response)
         if(response.data.message==='用户名或密码错误')
         {
           alert('用户名或密码错误');
         }
         else{
-          this.props.history.push("/home/main")
+          this.props.history.push(path)
         }
       }).catch((reson)=>{
         console.log(reson)
@@ -32,6 +36,9 @@ class LoginFrom extends React.Component{
      
       
     };
+    goBack = () =>{
+      this.props.history.goBack();
+   }
 
     render(){
         return <div  style={{textAlign:"center",marginTop:"10%"}}>
@@ -73,6 +80,9 @@ class LoginFrom extends React.Component{
         <Button type="primary" htmlType="submit" className="login-form-button">
       登录
         </Button>
+        <Button style={{marginLeft:"20px"}} onClick={this.goBack}>
+            返回
+          </Button>
       </Form.Item>
     </Form>
     </div>
