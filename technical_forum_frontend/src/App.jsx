@@ -39,7 +39,7 @@ class App extends React.Component{
           <Route exact path='/home/myinfo' component={MyInfo}></Route>
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>上海杉达学院 ©2020 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>上海杉达学院 测试 ©2020 Created by Ant UED</Footer>
       </Layout>
       </Switch>
     </HashRouter>
