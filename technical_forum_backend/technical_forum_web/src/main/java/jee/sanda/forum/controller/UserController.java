@@ -25,7 +25,7 @@ public class UserController {
         User loginUser = userService.login(user.getUsername(), user.getPassword());
         Map<String,Object> response = new HashMap<>();
         if(loginUser == null){
-           response.put("message","用户名或w密码错误");
+           response.put("message","用户名或密码错误");
         }else{
             response.put("user",loginUser);
         }
