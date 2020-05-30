@@ -1,0 +1,39 @@
+server:
+  servlet:
+    context-path: /forum
+  port: 8000
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://175.24.54.96:3306/technical_forum?serverTimezone=UTC
+    username: jee
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+##邮件信息,暂不使用
+  mail:
+    host: smtp.qq.com
+    username: 2253815332@qq.com
+    password: vgoxkioqnvwjdiee
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timout: 25000
+    from: 2253815332@qq.com
+    ##jpa配置信息
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    jee: DEBUG
+    test: DEBUG

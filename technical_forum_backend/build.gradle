@@ -1,0 +1,43 @@
+plugins {
+    //定义各种插件
+    id 'java'
+    id 'org.springframework.boot'  version '2.2.4.RELEASE'
+    id "io.spring.dependency-management"  version '1.0.9.RELEASE'
+}
+
+group 'jee.sandau'
+version '1.0'
+
+
+//allprojects为项目配置通用配置
+allprojects {
+  
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        mavenCentral()
+    }
+    //JDK版本声明
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    
+
+}
+
+//subprojects为所有子项目配置通用配置
+subprojects{
+    //应用头上定义的插件
+    apply plugin: "java"
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
+    dependencies {
+        implementation  group: 'org.springframework.boot', name: 'spring-boot', version: '2.2.4.RELEASE'
+        testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.4.RELEASE'
+    }
+    //指定项目编码
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}
+
+

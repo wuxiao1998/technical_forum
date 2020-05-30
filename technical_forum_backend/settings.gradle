@@ -1,0 +1,5 @@
+rootProject.name = 'technical_forum_backend'
+include 'technical_forum_web'
+include 'technical_forum_service'
+include 'technical_forum_utils'
+
