@@ -10,7 +10,7 @@ spring:
     username: jee
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
-##邮件信息,暂不使用
+
   mail:
     host: smtp.qq.com
     username: 2253815332@qq.com

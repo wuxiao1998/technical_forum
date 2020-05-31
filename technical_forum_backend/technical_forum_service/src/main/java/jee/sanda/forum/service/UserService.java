@@ -17,7 +17,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    Long register(User user);
+    void register(User user);
 
 
     /***

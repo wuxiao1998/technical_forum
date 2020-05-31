@@ -19,6 +19,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String email;
+    private String nickname;
     private String phone;
     private Integer gender;
     private Integer experience=0;
@@ -26,6 +27,8 @@ public class User implements Serializable {
     private String designation="萌新上路";
     private Integer status=0;
     private Integer role=1;
+    @Transient
+    private String code;
     @CreatedDate
     private java.util.Date createtime;
     @LastModifiedDate
