@@ -10,6 +10,7 @@ import UserInfo from './components/home/UserInfo'
 import MyHeader from './components/home/MyHeader'
 import NoLogin from './components/authentication/NoLogin'
 import EmailCheck from './components/authentication/EmailCheck'
+
 import { Layout, Menu, Breadcrumb } from 'antd';
 const {  Content, Footer } = Layout;
 class App extends React.Component{

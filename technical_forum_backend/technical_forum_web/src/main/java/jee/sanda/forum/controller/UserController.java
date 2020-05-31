@@ -5,6 +5,7 @@ import jee.sanda.forum.entity.User;
 import jee.sanda.forum.service.MailService;
 import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,7 +66,7 @@ public class UserController {
                 userService.register(user);
                 return ResponseEntity.ok("注册成功");
             } else {
-                return ResponseEntity.ok("验证码错误,验证失败");
+                return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("验证码错误");
             }
         }else{
             return ResponseEntity.badRequest().body("注册失败");

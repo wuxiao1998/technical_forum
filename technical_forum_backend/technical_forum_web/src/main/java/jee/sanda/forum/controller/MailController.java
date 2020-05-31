@@ -17,8 +17,11 @@ public class MailController {
     private MailService mailService;
     @PostMapping("/sendCode")
     public ResponseEntity<String> sendCode(@RequestBody Map<String,String> email, HttpServletRequest request){
-        String email1 = email.get("email");
-        String code = mailService.sendSimpleMail(email1);
+        String em = email.get("email");
+        if(email == null || !em.contains("@")){
+            return ResponseEntity.badRequest().body("邮箱错误!!!");
+        }
+        String code = mailService.sendSimpleMail(em);
         HttpSession session = request.getSession();
         ////将邮箱验证码存入session域
         session.setAttribute("code",code);

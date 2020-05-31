@@ -6,9 +6,13 @@ import {
   Checkbox,
   Button,
   Radio,
-  AutoComplete,
+  Row,
+  Col
 } from 'antd';
 import Axios from 'axios';
+import LoadingButton from '../utils/LoadingButton'
+
+
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {
@@ -36,7 +40,6 @@ const tailFormItemLayout = {
 
 class Register extends React.Component{
 
-
     constructor(props){
         super(props)
         this.state = {
@@ -52,12 +55,18 @@ class Register extends React.Component{
             username:values.username,
             password:values.password,
             email:values.email,
-            gender:values.gender
+            gender:values.gender,
+            code:values.code,
+            nickname:values.nickname,
+            phone:values.phone
         }).then(res=>{
             console.log(res);
-            this.props.history.push('/success');
-        }).catch(response=>{
-            console.log(response);
+           
+              this.props.history.push('/success')
+            
+        }).catch(res=>{
+          if(res.response.status == 401)
+            alert('验证码错误!!!')
         })
       };
 
@@ -70,8 +79,22 @@ class Register extends React.Component{
           value: e.target.value,
         });
       };
+
+      sendCode = ()=>{
+        let email = this.refs.email.state.value;
+        Axios.post('http://localhost:8000/forum/mail/sendCode',{
+          email:email
+        }).then(res=>{
+          console.log(res);
+         
+        }).catch(res=>{
+         console.log(res)
+        })
+      }
+     
     render(){
-        return <div style={{marginTop:"10%"}}>
+      
+        return <div style={{marginTop:"6%"}}>
         <h1 style={{textAlign:"center"}}>技术论坛注册</h1>
         <Form
         {...formItemLayout}
@@ -130,6 +153,19 @@ class Register extends React.Component{
         >
           <Input.Password />
         </Form.Item>
+        <Form.Item
+          name="nickname"
+          label="昵称"
+          rules={[
+            {
+              required: true,
+              message: '请输入昵称',
+            },
+          ]}
+          hasFeedback
+        >
+          <Input />
+        </Form.Item>
         <Form.Item name="gender" label="性别"
          rules={[
             {
@@ -143,6 +179,18 @@ class Register extends React.Component{
           <Radio value={2}>女</Radio>
         </Radio.Group>
       </Form.Item>
+      <Form.Item
+          name="phone"
+          label="手机"
+          rules={[
+            {
+              required: true,
+              message: '请输入手机',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
         <Form.Item
           name="email"
           label="邮箱"
@@ -157,8 +205,38 @@ class Register extends React.Component{
             },
           ]}
         >
-          <Input />
+          <Input  ref="email"/>
         </Form.Item>
+        <Form.Item
+          name="code"
+          label="验证码"
+        >
+          <Row gutter={10}>
+          <Col span={4}>
+        <Form.Item
+          name="code"
+          label=""
+          rules={[
+            {
+              required: true,
+              message: '请输入验证码',
+            },
+          ]}
+        >
+          <Input style={{width:"100px",marginRight:"20px"}}/>
+        </Form.Item>
+        </Col>
+        <Col span={4}>
+        <LoadingButton
+                    onClick={
+                    this.sendCode
+        }// 点击按钮的回调
+                    text="发送"// 按钮文字
+                    waitTime={30}// 等待时间
+                />
+              </Col>
+          </Row>
+         </Form.Item>
         <Form.Item
           name="agreement"
           valuePropName="checked"
