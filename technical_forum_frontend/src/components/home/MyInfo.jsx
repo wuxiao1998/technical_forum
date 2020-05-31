@@ -9,6 +9,12 @@ class MyInfo extends React.Component{
         }
     }
     
+    componentWillMount(){
+        if(!sessionStorage.getItem("user")){
+            this.props.history.push('/nologin');
+        }
+    }
+    
     goLogin=()=>{
         this.props.history.push('/');
     }

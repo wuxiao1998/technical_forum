@@ -1,7 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import { Layout, Menu, Breadcrumb } from 'antd';
-const { Header, Content, Footer } = Layout;
+import { Popconfirm } from 'antd';
+import { Layout, Menu} from 'antd';
+const { Header} = Layout;
 
 class MyHeader extends React.Component{
     constructor(props){
@@ -18,6 +19,12 @@ class MyHeader extends React.Component{
         })
     }
 
+    distoryUser =()=>{
+        sessionStorage.removeItem("user");
+        this.setState({
+            login:null
+        })
+    }
     render(){
         console.log(this.props,1234)
         return   <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -26,8 +33,9 @@ class MyHeader extends React.Component{
           <Menu.Item key="1"><Link to='/home/main'>首页</Link></Menu.Item>
           <Menu.Item key="2"><Link to='/home/myinfo'>我的贴子</Link></Menu.Item>
           <Menu.Item key="3"><Link to='/home/UserInfo' >用户信息</Link></Menu.Item>
-          <Menu.Item key="4" style={{float:"right"}}><Link to='/register'>注册</Link></Menu.Item>
-          <Menu.Item key="5" style={{float:"right"}}><Link to={this.state.login?'/home/UserInfo':'/login'}>{this.state.login?'欢迎您,'+this.state.login.username:'登录'}</Link></Menu.Item>
+          <Menu.Item key="4" style={{float:"right"}} onClick={this.distoryUser}>{this.state.login?'注销':''}</Menu.Item>
+          <Menu.Item key="5" style={{float:"right"}}><Link to='/register'>注册</Link></Menu.Item>
+          <Menu.Item key="6" style={{float:"right"}}><Link to={this.state.login?'/home/UserInfo':'/login'}>{this.state.login?'欢迎您,'+this.state.login.username:'登录'}</Link></Menu.Item>
         
         </Menu>
       </Header>

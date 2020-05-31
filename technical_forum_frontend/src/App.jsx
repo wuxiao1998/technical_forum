@@ -8,8 +8,9 @@ import Success from './components/authentication/Success'
 import MyInfo from './components/home/MyInfo'
 import UserInfo from './components/home/UserInfo'
 import MyHeader from './components/home/MyHeader'
+import NoLogin from './components/authentication/NoLogin'
 import { Layout, Menu, Breadcrumb } from 'antd';
-const { Header, Content, Footer } = Layout;
+const {  Content, Footer } = Layout;
 class App extends React.Component{
 
     constructor(props){
@@ -30,6 +31,7 @@ class App extends React.Component{
           <Route exact path='/login' component={LoginForm}></Route>
           <Route exact path='/register' component={Register}></Route>
           <Route exact path='/success' component={Success}></Route>
+         
           <Layout>
           <MyHeader></MyHeader>
         <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
@@ -38,9 +40,10 @@ class App extends React.Component{
           <Route exact path='/home/main' component={Main}></Route>
           <Route exact path='/home/myinfo' component={MyInfo}></Route>
           <Route exact path='/home/UserInfo'  component={UserInfo}></Route>
+          <Route exact path='/nologin' component={NoLogin}></Route>
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>上海杉达学院 测试 ©2020 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>上海杉达学院  ©2020 Created by Ant UED</Footer>
       </Layout>
       
       </Switch>

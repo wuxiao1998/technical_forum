@@ -45,7 +45,12 @@ class UserInfo extends React.Component{
     }
 
 
-    c
+    componentWillMount(){
+      if(!sessionStorage.getItem("user")){
+          this.props.history.push('/nologin');
+      }
+  }
+  
 
     onFinish = values => {
         console.log('Received values of form: ', values);
