@@ -6,6 +6,7 @@ import Main from './components/home/Main'
 import Register from './components/authentication/Register'
 import Success from './components/authentication/Success'
 import MyInfo from './components/home/MyInfo'
+import UserInfo from './components/home/UserInfo'
 import { Layout, Menu, Breadcrumb } from 'antd';
 const { Header, Content, Footer } = Layout;
 class App extends React.Component{
@@ -21,7 +22,8 @@ class App extends React.Component{
     render(){
         return <HashRouter>
           <Switch>
-          <Route exact path='/' component={LoginForm}></Route>
+          
+          <Route exact path='/login' component={LoginForm}></Route>
           <Route exact path='/register' component={Register}></Route>
           <Route exact path='/success' component={Success}></Route>
           <Layout>
@@ -30,17 +32,21 @@ class App extends React.Component{
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
             <Menu.Item key="1"><Link to='/home/main'>首页</Link></Menu.Item>
             <Menu.Item key="2"><Link to='/home/myinfo'>我的贴子</Link></Menu.Item>
-            <Menu.Item key="3">用户信息</Menu.Item>
+            <Menu.Item key="3"><Link to='/home/UserInfo' >用户信息</Link></Menu.Item>
+            <Menu.Item key="4"><Link to='/login'>登录</Link></Menu.Item>
           </Menu>
         </Header>
         <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
           <div className="site-layout-background" style={{ padding: 24, minHeight: 380,height:'800px' }}>
+          <Route exact path='/' component={Main}></Route>
           <Route exact path='/home/main' component={Main}></Route>
           <Route exact path='/home/myinfo' component={MyInfo}></Route>
+          <Route exact path='/home/UserInfo'  component={UserInfo}></Route>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>上海杉达学院 测试 ©2020 Created by Ant UED</Footer>
       </Layout>
+      
       </Switch>
     </HashRouter>
 
