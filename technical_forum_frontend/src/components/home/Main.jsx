@@ -1,23 +1,118 @@
 import React from 'react'
+import Axios from 'axios'
+import { Layout, Menu } from 'antd';
+
+import {
+    DesktopOutlined,
+    PieChartOutlined,
+    FileOutlined,
+    TeamOutlined,
+    UserOutlined,
+  } from '@ant-design/icons';
+const { SubMenu } = Menu;
 
 
+const { Header, Content, Footer, Sider } = Layout;
 class Main extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-
+            plateList:[],
+         
         }
     }
 
-    buttonClick=()=>{
-console.log("调用")
+    componentWillMount(){
+        Axios.get('http://localhost:8000/forum/plate/findAll').then(res=>{
+            console.log(res);
+            this.setState({
+                plateList:res.data
+            })
+        })
     }
+
+    getKey = (item)=>{
+      console.log(item.key)
+    }
+
+
     render(){
-        console.log(this.props,1234)
-        return <div>
-          这是主页
-         
-        </div>
+        
+        return   <Layout style={{ minHeight: '100vh' ,marginTop:"63px"}}>
+        <Sider 
+        width="194"
+       >
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onSelect={this.getKey}>
+            {this.state.plateList.map(item=>{
+                return <Menu.Item key={item.id} >
+              {item.name}
+              </Menu.Item>
+            })}
+            
+          </Menu>
+        </Sider>
+        <Layout className="site-layout">
+          <Content style={{ margin: '0 16px' }}>
+            <div className="site-layout-background" style={{
+               padding: 24,
+                minHeight: 360,
+               
+               }}>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/> Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              Bill is a cat.<br/>
+              
+            </div>
+          </Content>
+
+        </Layout>
+      </Layout>
+     
     }
 }
 

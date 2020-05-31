@@ -2,6 +2,7 @@
 .idea
 *.iml
 out
+build
 gen
 /.apt_generated/
 /.classpath

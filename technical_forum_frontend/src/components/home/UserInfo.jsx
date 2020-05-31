@@ -76,7 +76,7 @@ class UserInfo extends React.Component{
       };
     render(){
       console.log(this.state.user)
-        return <div style={{marginTop:"10%"}}>
+        return <div >
         <h1 style={{textAlign:"center"}}>个人信息</h1>
         <Form
         {...formItemLayout}

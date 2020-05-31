@@ -1,9 +1,8 @@
 package jee.sanda.forum.service.impl;
 
 import jee.sanda.forum.entity.User;
-import jee.sanda.forum.form.UpdateUserForm;
+import jee.sanda.forum.entity.UpdateUserForm;
 import jee.sanda.forum.repository.UserRepository;
-import jee.sanda.forum.service.MailService;
 import jee.sanda.forum.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +70,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         User user = userOptional.get();
-        user.setUsername(password);
+        user.setPassword(password);
         userRepository.save(user);
         return true;
     }
