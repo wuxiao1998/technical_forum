@@ -21,24 +21,32 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-//test
+
+    /***
+     * 用户登录接口
+     * @param user
+     * @param request
+     * @return
+     */
     @PostMapping("/login")
-    public ResponseEntity<Map<String,Object>> login(@RequestBody User user, HttpServletRequest request){
+    public ResponseEntity<Object> login(@RequestBody User user, HttpServletRequest request){
         User loginUser = userService.login(user.getUsername(), user.getPassword());
-        Map<String,Object> response = new HashMap<>();
         if(loginUser == null){
-           response.put("message","用户名或密码错误");
+           return ResponseEntity.ok("用户名或密码错误");
         }else{
-            response.put("user",loginUser);
             HttpSession session = request.getSession();
+            //将userId存入session域
             session.setAttribute("userId",loginUser.getId());
+            return ResponseEntity.ok(loginUser);
         }
-        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user){
-        userService.register(user);
+    public ResponseEntity<String> register(@RequestBody User user,HttpServletRequest request){
+        Long userId = userService.register(user);
+        HttpSession session = request.getSession();
+        //注册成功,返回自增主键将userId存入session域
+        session.setAttribute("userId",userId);
         return  ResponseEntity.ok("注册成功");
     }
 

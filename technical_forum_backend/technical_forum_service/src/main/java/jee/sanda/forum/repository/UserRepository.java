@@ -10,10 +10,19 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User,Long>, JpaSpecificationExecutor<User> {
 
+   /***
+    * 登录验证
+    * @param username
+    * @param password
+    * @return
+    */
    User findByUsernameAndPassword(String username, String password);
 
+   /***
+    * 修改用户状态为已激活
+    * @param userId
+    */
    @Modifying
-   @Query(value = "insert into user(username,password,email,phone,gender)" +
-           " values(:#{#user.username},:#{#user.password},:#{#user.email},:#{#user.phone},:#{#user.gender})",nativeQuery = true)
-   void saveUser(@Param("user") User user);
+   @Query("update User  set status = 1 where id = ?1")
+   void updateStatus(Long userId);
 }

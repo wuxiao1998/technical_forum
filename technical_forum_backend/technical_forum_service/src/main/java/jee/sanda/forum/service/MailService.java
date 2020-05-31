@@ -11,7 +11,10 @@ public interface  MailService {
 
 
     /***
-     * 邮箱验证码校验,校验成功就修改校验值
+     * 验证码校验
+     * @param sessionCode
+     * @param Code
+     * @return
      */
     boolean validateCode(String sessionCode,String Code);
 }

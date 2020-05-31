@@ -13,21 +13,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private MailService mailService;
     @Override
     public User login(String username, String password) {
-        return userRepository.findByUsernameAndPassword(username,password);
+        User loginUser = userRepository.findByUsernameAndPassword(username, password);
+
+        return loginUser;
     }
 
     @Override
-    public void register(User user) {
-        userRepository.saveUser(user);
+    public Long register(User user) {
+        user = userRepository.save(user);
+        return user.getId();
     }
 
-
-
-
+    @Override
+    public void updateStatus(Long userId) {
+        userRepository.updateStatus(userId);
+    }
 
 
 }
