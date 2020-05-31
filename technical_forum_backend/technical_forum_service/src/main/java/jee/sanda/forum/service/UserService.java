@@ -2,6 +2,7 @@ package jee.sanda.forum.service;
 
 
 import jee.sanda.forum.entity.User;
+import jee.sanda.forum.form.UpdateUserForm;
 
 public interface UserService {
     /***
@@ -17,7 +18,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    void register(User user);
+    boolean register(User user);
 
 
     /***
@@ -26,5 +27,25 @@ public interface UserService {
      */
     void updateStatus(Long userId);
 
+    /***
+     * 检查用户名是否重名
+     * @param username
+     */
+    boolean checkUserName(String username);
 
+    /**
+     * 更新用户信息
+     * @param userId
+     * @param updateUserForm
+     * @return
+     */
+    boolean updateUser(Long userId, UpdateUserForm updateUserForm);
+
+    /***
+     * 更改密码
+     * @param userId
+     * @param password
+     * @return
+     */
+    boolean updatePassword(Long userId,String password);
 }

@@ -30,6 +30,11 @@ subprojects{
     apply plugin: "io.spring.dependency-management"
     dependencies {
         testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+        compileOnly 'org.projectlombok:lombok:1.18.12'
+        annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.12'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
     }
     //指定项目编码
     tasks.withType(JavaCompile) {

@@ -2,11 +2,13 @@ package jee.sanda.forum.controller;
 
 
 import jee.sanda.forum.entity.User;
+import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.service.MailService;
 import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,14 +65,29 @@ public class UserController {
             if (flag) {
                 //验证码正确
                 session.removeAttribute("code");
-                userService.register(user);
-                return ResponseEntity.ok("注册成功");
+                if(userService.register(user))
+                    return ResponseEntity.ok("注册成功");
+                else
+                    return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("用户名重复");
             } else {
                 return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("验证码错误");
             }
         }else{
             return ResponseEntity.badRequest().body("注册失败");
         }
+    }
+    @PostMapping("/updateUser")
+    public ResponseEntity<String> updateUser(@RequestBody UpdateUserForm updateUserForm, HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Long userId=(Long)session.getAttribute("userId");
+        if(userId==null){
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("请重新登录");
+        }
+        boolean result=userService.updateUser(userId,updateUserForm);
+        if (result==false){
+            return ResponseEntity.badRequest().body("更新失败");
+        }
+        return ResponseEntity.ok("更新成功");
     }
 }
 

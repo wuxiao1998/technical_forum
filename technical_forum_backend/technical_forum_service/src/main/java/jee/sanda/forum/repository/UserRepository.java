@@ -18,6 +18,13 @@ public interface UserRepository extends JpaRepository<User,Long>, JpaSpecificati
     */
    User findByUsernameAndPassword(String username, String password);
 
+   /**
+    *用户名查重
+    * @param userName
+    * @return
+    */
+   User findByUsername(String userName);
+
    /***
     * 修改用户状态为已激活
     * @param userId
