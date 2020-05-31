@@ -9,6 +9,7 @@ import MyInfo from './components/home/MyInfo'
 import UserInfo from './components/home/UserInfo'
 import MyHeader from './components/home/MyHeader'
 import NoLogin from './components/authentication/NoLogin'
+import EmailCheck from './components/authentication/EmailCheck'
 import { Layout, Menu, Breadcrumb } from 'antd';
 const {  Content, Footer } = Layout;
 class App extends React.Component{
@@ -31,6 +32,7 @@ class App extends React.Component{
           <Route exact path='/login' component={LoginForm}></Route>
           <Route exact path='/register' component={Register}></Route>
           <Route exact path='/success' component={Success}></Route>
+          <Route exact path='/emailcheck' component={EmailCheck}></Route>
          
           <Layout>
           <MyHeader></MyHeader>
