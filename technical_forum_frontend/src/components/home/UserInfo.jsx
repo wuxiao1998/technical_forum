@@ -40,12 +40,12 @@ class UserInfo extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            //username:this.props.data.user.username,
-            //gender:this.props.data.user.gender
+          user:JSON.parse(sessionStorage.getItem("user"))
         }
     }
 
 
+    c
 
     onFinish = values => {
         console.log('Received values of form: ', values);
@@ -70,7 +70,7 @@ class UserInfo extends React.Component{
         });
       };
     render(){
-      console.log(this.props,'123456')
+      console.log(this.state.user)
         return <div style={{marginTop:"10%"}}>
         <h1 style={{textAlign:"center"}}>个人信息</h1>
         <Form
