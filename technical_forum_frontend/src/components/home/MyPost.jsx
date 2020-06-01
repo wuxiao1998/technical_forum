@@ -1,17 +1,21 @@
 import React from 'react';
 import { Result, Button } from 'antd';
+import NoLogin from '../authentication/NoLogin'
 class MyPost extends React.Component{
 
     constructor(props){
         super(props)
         this.state = {
-           
+           loginin:true
         }
     }
     
     componentWillMount(){
         if(!sessionStorage.getItem("user")){
-            this.props.history.push('/nologin');
+
+            this.setState({
+                loginin:false
+            })
         }
     }
     
@@ -20,7 +24,15 @@ class MyPost extends React.Component{
     }
 
     render(){
-        return <div style={{minHeight: '80vh',marginTop:"5%"}}>我的信息</div>
+        let element;
+        if(this.state.loginin){
+            element=<div>我的帖子</div>
+        }else{
+            element=<NoLogin history={this.props.history}></NoLogin>
+        }
+        return <div style={{minHeight: '80vh',marginTop:"5%"}}>
+            {element}
+            </div>
     }
 }
 

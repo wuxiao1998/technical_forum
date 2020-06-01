@@ -7,7 +7,7 @@ class HomePage extends React.Component{
         super(props)
         this.state = {
             plateList:[],
-         
+            plateKey:'',
         }
     }
 
@@ -15,15 +15,21 @@ class HomePage extends React.Component{
       Axios.get('/plate/findAll').then(res=>{
             console.log(res);
             this.setState({
-                plateList:res.data
+                plateList:res.data,
+                plateKey:res.data[0].id.toString(),
             })
+           
         })
+  
         
        
     }
 
     getKey = (item)=>{
       console.log(item.key)
+      this.setState({
+        plateKey:item.key
+      })
     }
 
 
@@ -33,7 +39,8 @@ class HomePage extends React.Component{
         <Sider 
         width="194"
        >
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onSelect={this.getKey}>
+         {console.log(this.state.plateKey)}
+          <Menu theme="dark" selectedKeys={[this.state.plateKey]} mode="inline" onSelect={this.getKey}>
             {this.state.plateList.map(item=>{
                 return <Menu.Item key={item.id} >
               {item.name}
@@ -51,6 +58,7 @@ class HomePage extends React.Component{
                }}>
               Bill is a cat.<br/>
               Bill is a cat.<br/>
+              {console.log(window)}
               
             </div>
           </Content>
