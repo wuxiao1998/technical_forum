@@ -48,4 +48,10 @@ public interface UserService {
      * @return
      */
     boolean updatePassword(Long userId,String password);
+
+    /***
+     * 初始化用户bean
+     * @param user
+     */
+    void initializeUser(User user);
 }

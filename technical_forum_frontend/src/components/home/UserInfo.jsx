@@ -61,7 +61,7 @@ class UserInfo extends React.Component{
 
     onFinish = values => {
         console.log('Received values of form: ', values);
-        Axios.post('http://localhost:8000/forum/user/UserInfo',{
+        Axios.post('/user/UserInfo',{
             nickname:values.nickname,
             gender:values.gender,
             phone:values.phone,
@@ -97,7 +97,7 @@ class UserInfo extends React.Component{
     
     render(){
       console.log(this.state.user)
-        return <div style={{marginTop:"5%"}}>
+        return <div style={{marginTop:"5%",minHeight: '80vh'}}>
           {this.state.user && <div>
           <Modal
           title="提醒"

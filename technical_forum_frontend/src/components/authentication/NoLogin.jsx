@@ -17,7 +17,7 @@ class NoLogin extends React.Component{
         return <Result
         title="抱歉,您还未登录,无法使用该功能!!!"
         style={{marginTop:"10%",
-    
+        minHeight: '75vh'
       }}
         extra={[
           <Button type="primary" key="console" onClick={this.goLogin}>

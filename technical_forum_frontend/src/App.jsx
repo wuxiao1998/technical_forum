@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import {HashRouter,Route,Link,Switch} from 'react-router-dom'
+import {HashRouter,Route,Link,Switch } from 'react-router-dom'
 import './css/App.css'
 import LoginForm from './components/authentication/LoginForm'
 import Main from './components/home/Main'

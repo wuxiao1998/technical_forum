@@ -2,7 +2,9 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import { Popconfirm } from 'antd';
 import { Layout, Menu} from 'antd';
+import { withRouter } from 'react-router';
 const { Header} = Layout;
+
 
 class MyHeader extends React.Component{
     constructor(props){
@@ -24,12 +26,13 @@ class MyHeader extends React.Component{
         this.setState({
             login:null
         })
+        console.log(this)
+        this.props.history.push('/');
     }
     render(){
-        console.log(this.props,1234)
         return   <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
         <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} >
           <Menu.Item key="1"><Link to='/home/main'>首页</Link></Menu.Item>
           <Menu.Item key="2"><Link to='/home/myinfo'>我的贴子</Link></Menu.Item>
           <Menu.Item key="3"><Link to='/home/UserInfo' >用户信息</Link></Menu.Item>
@@ -42,4 +45,4 @@ class MyHeader extends React.Component{
     }
 }
 
-export default MyHeader
+export default withRouter(MyHeader)

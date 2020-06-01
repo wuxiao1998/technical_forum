@@ -18,7 +18,7 @@ public class MailController {
     @PostMapping("/sendCode")
     public ResponseEntity<String> sendCode(@RequestBody Map<String,String> email, HttpServletRequest request){
         String em = email.get("email");
-        if(email == null || !em.contains("@")){
+        if(em == null || !em.contains("@")){
             return ResponseEntity.badRequest().body("邮箱错误!!!");
         }
         String code = mailService.sendSimpleMail(em);

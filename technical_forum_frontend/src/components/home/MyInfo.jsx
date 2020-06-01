@@ -20,7 +20,7 @@ class MyInfo extends React.Component{
     }
 
     render(){
-        return <div>我的信息</div>
+        return <div style={{minHeight: '80vh',marginTop:"5%"}}>我的信息</div>
     }
 }
 

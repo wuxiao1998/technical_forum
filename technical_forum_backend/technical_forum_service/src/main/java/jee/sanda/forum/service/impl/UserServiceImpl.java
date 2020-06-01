@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
         if (!checkUserName(username)){
             return false;
         }
+        initializeUser(user);
         userRepository.save(user);
         return true;
     }
@@ -73,6 +74,20 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
         userRepository.save(user);
         return true;
+    }
+
+    @Override
+    public void initializeUser(User user) {
+        //设置初始经验值为0
+        user.setExperience(0);
+        //设置初始等级为1
+        user.setLevel(1);
+        //设置初始称号
+        user.setDesignation("萌新上路");
+        //设置初始状态为激活
+        user.setStatus(1);
+        //初始角色为普通用户
+        user.setRole(1);
     }
 
 

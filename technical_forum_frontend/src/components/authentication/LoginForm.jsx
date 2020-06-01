@@ -13,16 +13,17 @@ class LoginFrom extends React.Component{
 
     onFinish = values => {
       console.log('Received values of form: ', values);
-      axios.post("http://localhost:8000/forum/user/login",{
+      axios.post("/user/login",{
         username:values.username,
         password:values.password
       }).then((response)=>{
+        console.log(response)
         var path={
           pathname:'/',
           state:response.data
         } 
         console.log(response)
-        if(response.data.message==='用户名或密码错误')
+        if(response.data==='用户名或密码错误')
         {
           alert('用户名或密码错误');
         }

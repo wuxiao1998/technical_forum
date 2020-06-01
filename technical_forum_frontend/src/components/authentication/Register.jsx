@@ -51,7 +51,7 @@ class Register extends React.Component{
 
     onFinish = values => {
         console.log('Received values of form: ', values);
-        Axios.post('http://localhost:8000/forum/user/register',{
+        Axios.post('/user/register',{
             username:values.username,
             password:values.password,
             email:values.email,
@@ -82,7 +82,7 @@ class Register extends React.Component{
 
       sendCode = ()=>{
         let email = this.refs.email.state.value;
-        Axios.post('http://localhost:8000/forum/mail/sendCode',{
+        Axios.post('/mail/sendCode',{
           email:email
         }).then(res=>{
           console.log(res);

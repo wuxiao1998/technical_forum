@@ -22,11 +22,11 @@ public class User implements Serializable {
     private String nickname;
     private String phone;
     private Integer gender;
-    private Integer experience=0;
-    private Integer level=1;
-    private String designation="萌新上路";
-    private Integer status=1;
-    private Integer role=1;
+    private Integer experience;
+    private Integer level;
+    private String designation;
+    private Integer status;
+    private Integer role;
     @Transient
     private String code;
     @CreatedDate

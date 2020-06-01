@@ -1,7 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
 import { Layout, Menu } from 'antd';
-
 import {
     DesktopOutlined,
     PieChartOutlined,
@@ -23,12 +22,14 @@ class Main extends React.Component{
     }
 
     componentWillMount(){
-        Axios.get('http://localhost:8000/forum/plate/findAll').then(res=>{
+      Axios.get('/plate/findAll').then(res=>{
             console.log(res);
             this.setState({
                 plateList:res.data
             })
         })
+        
+       
     }
 
     getKey = (item)=>{
@@ -38,7 +39,7 @@ class Main extends React.Component{
 
     render(){
         
-        return   <Layout style={{ minHeight: '100vh' ,marginTop:"63px"}}>
+        return   <Layout style={{ minHeight: '85vh' ,marginTop:"63px"}}>
         <Sider 
         width="194"
        >
@@ -60,8 +61,6 @@ class Main extends React.Component{
                }}>
               Bill is a cat.<br/>
               Bill is a cat.<br/>
-         
-           
               
             </div>
           </Content>
