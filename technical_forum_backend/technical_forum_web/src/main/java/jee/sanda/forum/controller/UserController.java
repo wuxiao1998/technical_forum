@@ -2,7 +2,7 @@ package jee.sanda.forum.controller;
 
 
 import jee.sanda.forum.entity.User;
-import jee.sanda.forum.entity.UpdateUserForm;
+import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.service.MailService;
 import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

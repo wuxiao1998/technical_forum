@@ -2,7 +2,7 @@ package jee.sanda.forum.service;
 
 
 import jee.sanda.forum.entity.User;
-import jee.sanda.forum.entity.UpdateUserForm;
+import jee.sanda.forum.form.UpdateUserForm;
 
 public interface UserService {
     /***

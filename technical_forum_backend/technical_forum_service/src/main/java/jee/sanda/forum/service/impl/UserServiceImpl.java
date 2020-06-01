@@ -1,7 +1,7 @@
 package jee.sanda.forum.service.impl;
 
 import jee.sanda.forum.entity.User;
-import jee.sanda.forum.entity.UpdateUserForm;
+import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.repository.UserRepository;
 import jee.sanda.forum.service.UserService;
 import lombok.extern.slf4j.Slf4j;

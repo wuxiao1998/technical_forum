@@ -1,4 +1,4 @@
-package jee.sanda.forum.entity;
+package jee.sanda.forum.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
