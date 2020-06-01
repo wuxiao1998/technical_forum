@@ -2,12 +2,12 @@ import React, { Fragment } from 'react'
 import {HashRouter,Route,Link,Switch } from 'react-router-dom'
 import './css/App.css'
 import LoginForm from './components/authentication/LoginForm'
-import Main from './components/home/Main'
+import HomePage from './components/home/HomePage'
 import Register from './components/authentication/Register'
 import Success from './components/authentication/Success'
-import MyInfo from './components/home/MyInfo'
+import MyPost from './components/home/MyPost'
 import UserInfo from './components/home/UserInfo'
-import MyHeader from './components/home/MyHeader'
+import MyHeader from './components/Layout/MyHeader'
 import NoLogin from './components/authentication/NoLogin'
 import EmailCheck from './components/authentication/EmailCheck'
 
@@ -40,10 +40,10 @@ class App extends React.Component{
         <Content className="site-layout" >
           <div className="site-layout-background" style={{minHeight: 380,height:'620px',
         }}>
-          <Route exact path='/' component={Main}></Route>
-          <Route exact path='/home/main' component={Main}></Route>
-          <Route exact path='/home/myinfo' component={MyInfo}></Route>
-          <Route exact path='/home/UserInfo'  component={UserInfo}></Route>
+          <Route exact path='/' component={HomePage}></Route>
+          <Route exact path='/home/homepage' component={HomePage}></Route>
+          <Route exact path='/home/mypost' component={MyPost}></Route>
+          <Route exact path='/home/userinfo'  component={UserInfo}></Route>
           <Route exact path='/nologin' component={NoLogin}></Route>
           <Footer style={{ textAlign: 'center',background:"#001529",color:"#ffffff"}}>上海杉达学院  ©2020 Created by Ant UED</Footer>
           </div>

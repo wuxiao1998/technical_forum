@@ -67,7 +67,7 @@ class UserInfo extends React.Component{
             phone:values.phone,
         }).then(res=>{
             console.log(res,11111111111);
-            this.props.history.push('/home/main');
+            this.props.history.push('/home/homepage');
         }).catch(response=>{
             console.log(response);
         })

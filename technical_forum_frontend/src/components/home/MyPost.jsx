@@ -1,6 +1,6 @@
 import React from 'react';
 import { Result, Button } from 'antd';
-class MyInfo extends React.Component{
+class MyPost extends React.Component{
 
     constructor(props){
         super(props)
@@ -24,4 +24,4 @@ class MyInfo extends React.Component{
     }
 }
 
- export default MyInfo
+ export default MyPost

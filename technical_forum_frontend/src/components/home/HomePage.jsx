@@ -1,18 +1,8 @@
 import React from 'react'
 import Axios from 'axios'
 import { Layout, Menu } from 'antd';
-import {
-    DesktopOutlined,
-    PieChartOutlined,
-    FileOutlined,
-    TeamOutlined,
-    UserOutlined,
-  } from '@ant-design/icons';
-const { SubMenu } = Menu;
-
-
 const { Header, Content, Footer, Sider } = Layout;
-class Main extends React.Component{
+class HomePage extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -71,4 +61,4 @@ class Main extends React.Component{
     }
 }
 
-export default Main
+export default HomePage

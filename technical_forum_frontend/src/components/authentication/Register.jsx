@@ -113,6 +113,16 @@ class Register extends React.Component{
               required: true,
               message: '请输入用户名',
             },
+            // ({ getFieldValue }) => ({
+            //   validator(rule, value) {
+            //    Axios.post('/mail/sendCode',{
+            //      email:value
+            //    }).then(res=>{
+            //     return Promise.resolve();
+            //    })
+            //    return Promise.reject('该用户名已被使用!!!');
+            //   },
+            // }),
           ]}
         >
           <Input />
