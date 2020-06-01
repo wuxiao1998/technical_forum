@@ -12,6 +12,7 @@ import {
   Modal
 } from 'antd';
 import Axios from 'axios';
+import NoLogin from '../authentication/NoLogin'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 const { Option } = Select;
 const formItemLayout = {
@@ -46,6 +47,7 @@ class UserInfo extends React.Component{
         this.state = {
           user:JSON.parse(sessionStorage.getItem("user")),
           visible:false,
+          loginin:true,
           nickname:JSON.parse(sessionStorage.getItem("user"))!==null?JSON.parse(sessionStorage.getItem("user")).nickname:"",
           phone:JSON.parse(sessionStorage.getItem("user"))!==null?JSON.parse(sessionStorage.getItem("user")).phone:"",
           gender:JSON.parse(sessionStorage.getItem("user"))!==null?JSON.parse(sessionStorage.getItem("user")).gender:"",
@@ -59,7 +61,9 @@ class UserInfo extends React.Component{
 
     componentWillMount(){
       if(!sessionStorage.getItem("user")){
-          this.props.history.push('/nologin');
+        this.setState({
+          loginin:false
+         })
       }
   }
   
@@ -125,8 +129,9 @@ class UserInfo extends React.Component{
     render(){
       console.log(this.state.user)
       console.log(this.state.gender)
-        return <div style={{marginTop:"5%",minHeight: '80vh'}}>
-          {this.state.user && <div>
+      let element;
+      if(this.state.loginin){
+          element=<div>
           <Modal
           title="提醒"
           visible={this.state.visible}
@@ -159,15 +164,20 @@ class UserInfo extends React.Component{
           </Button>
           <Button style={{marginLeft:"20px"}} onClick={this.goBack}>
             返回
-          </Button>
-          </div>
+          </Button></div>
+        </div>
+      }else{
+          element=<NoLogin history={this.props.history}></NoLogin>
+      }
+        return <div style={{marginTop:"5%",minHeight: '80vh'}}>
+          {element}
           </div>
     }
 
 
 
 
-        {/* <Form
+        /* <Form
         {...formItemLayout}
         name="UserInfo"
         style={{marginRight:"300px",marginTop:"50px"}}
@@ -212,9 +222,9 @@ class UserInfo extends React.Component{
             返回
           </Button>
         </Form.Item>
-      </Form> */}
-      </div> 
-    }
+      </Form> */
+
+    
 
 }
 
