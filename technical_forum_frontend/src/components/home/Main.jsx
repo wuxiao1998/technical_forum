@@ -60,52 +60,8 @@ class Main extends React.Component{
                }}>
               Bill is a cat.<br/>
               Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/> Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
+         
+           
               
             </div>
           </Content>

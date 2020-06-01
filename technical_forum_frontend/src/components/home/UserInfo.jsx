@@ -98,6 +98,7 @@ class UserInfo extends React.Component{
     render(){
       console.log(this.state.user)
         return <div style={{marginTop:"5%"}}>
+          {this.state.user && <div>
           <Modal
           title="提醒"
           visible={this.state.visible}
@@ -132,7 +133,8 @@ class UserInfo extends React.Component{
             返回
           </Button>
           </div>
-
+          </div>
+    }
 
 
 

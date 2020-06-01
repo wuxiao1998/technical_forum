@@ -45,7 +45,7 @@ class App extends React.Component{
           <Route exact path='/home/myinfo' component={MyInfo}></Route>
           <Route exact path='/home/UserInfo'  component={UserInfo}></Route>
           <Route exact path='/nologin' component={NoLogin}></Route>
-          <Footer style={{ textAlign: 'center',background:"#666666"}}>上海杉达学院  ©2020 Created by Ant UED</Footer>
+          <Footer style={{ textAlign: 'center',background:"#001529",color:"#ffffff"}}>上海杉达学院  ©2020 Created by Ant UED</Footer>
           </div>
         </Content>
       </Layout>
