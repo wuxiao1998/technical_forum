@@ -12,8 +12,7 @@ import {
   Modal
 } from 'antd';
 import Axios from 'axios';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-const { Option } = Select;
+import NoLogin from '../authentication/NoLogin'
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -45,7 +44,8 @@ class UserInfo extends React.Component{
         super(props)
         this.state = {
           user:JSON.parse(sessionStorage.getItem("user")),
-          visible:false
+          visible:false,
+          loginin:true,
         }
         this.showModa=this.showModa.bind(this);
         this.hideModal=this.hideModal.bind(this);
@@ -54,7 +54,9 @@ class UserInfo extends React.Component{
 
     componentWillMount(){
       if(!sessionStorage.getItem("user")){
-          this.props.history.push('/nologin');
+         this.setState({
+          loginin:false
+         })
       }
   }
   
@@ -96,10 +98,10 @@ class UserInfo extends React.Component{
       };
     
     render(){
-      console.log(this.state.user)
-        return <div style={{marginTop:"5%",minHeight: '80vh'}}>
-          {this.state.user && <div>
-          <Modal
+      let element;
+      if(this.state.loginin){
+          element=<div>
+            <Modal
           title="提醒"
           visible={this.state.visible}
           onOk={this.hideModal}//这里之后要传值
@@ -131,62 +133,21 @@ class UserInfo extends React.Component{
           </Button>
           <Button style={{marginLeft:"20px"}} onClick={this.goBack}>
             返回
-          </Button>
-          </div>
+          </Button></div>
+        </div>
+      }else{
+          element=<NoLogin history={this.props.history}></NoLogin>
+      }
+        return <div style={{marginTop:"5%",minHeight: '80vh'}}>
+          {element}
           </div>
     }
 
 
 
 
-        {/* <Form
-        {...formItemLayout}
-        name="UserInfo"
-        style={{marginRight:"300px",marginTop:"50px"}}
-        onFinish={this.onFinish}
-        scrollToFirstError
-        initialValues={{
-          }}
-      >
-        <Form.Item
-          name="username"
-          label="用户名"
-          rules={[
-            {
-              required: true,
-              message: '请输入用户名',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+       
 
-        <Form.Item name="gender" label="性别"
-         rules={[
-            {
-              required: true,
-              message: '请选择性别',
-            },
-          ]}
-        >
-        <Radio.Group > 
-          <Radio value={1}>男</Radio>
-          <Radio value={2}>女</Radio>
-        </Radio.Group>
-      </Form.Item>
-        <Form.Item {...tailFormItemLayout}
-         style={{textAlign:"center"}}
-        >
-          <Button type="primary" htmlType="submit">
-            保存
-          </Button>
-          <Button style={{marginLeft:"20px"}} onClick={this.goBack}>
-            返回
-          </Button>
-        </Form.Item>
-      </Form> */}
-      </div> 
-    }
 
 }
 
