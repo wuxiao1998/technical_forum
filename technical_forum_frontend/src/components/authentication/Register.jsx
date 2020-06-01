@@ -94,12 +94,12 @@ class Register extends React.Component{
      
     render(){
       
-        return <div style={{marginTop:"6%"}}>
+        return <div>
         <h1 style={{textAlign:"center"}}>技术论坛注册</h1>
         <Form
         {...formItemLayout}
         name="register"
-        style={{marginRight:"300px",marginTop:"50px"}}
+        style={{marginRight:"300px",marginTop:"30px"}}
         onFinish={this.onFinish}
         scrollToFirstError
         initialValues={{
