@@ -1,6 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
 import { Layout, Menu } from 'antd';
+import {Link } from 'react-router-dom'
 const { Header, Content, Footer, Sider } = Layout;
 class HomePage extends React.Component{
     constructor(props){
@@ -8,6 +9,7 @@ class HomePage extends React.Component{
         this.state = {
             plateList:[],
             plateKey:'',
+            url:'/home/homepage'
         }
     }
 
@@ -40,10 +42,11 @@ class HomePage extends React.Component{
         width="194"
        >
          {console.log(this.state.plateKey)}
-          <Menu theme="dark" selectedKeys={[this.state.plateKey]} mode="inline" onSelect={this.getKey}>
+          <Menu theme="dark" selectedKeys={[window.location.hash.split('/')[3]]} mode="inline" onSelect={this.getKey}>
             {this.state.plateList.map(item=>{
                 return <Menu.Item key={item.id} >
-              {item.name}
+              <Link to={this.state.url+'/'+item.id}>
+              {item.name}</Link>
               </Menu.Item>
             })}
             

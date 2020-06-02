@@ -23,14 +23,15 @@ class HomeRouter extends React.Component{
 
     render(){
         return  <Layout>
-          <MyHeader></MyHeader>
+          {console.log(window.location.hash.split('/')[3])}
+          <MyHeader slideId={window.location.hash.split('/')[3]}></MyHeader>
         <Content className="site-layout" >
           <div className="site-layout-background" style={{minHeight: 380,height:'620px'}}>
           <Switch>
           <Route   exact path='/' component={HomePage}></Route>
-          <Route  exact path='/home/homepage' component={HomePage}></Route>
-          <Route exact  path='/home/mypost' component={MyPost}></Route>
-          <Route  exact path='/home/userinfo'  component={UserInfo}></Route>
+          <Route   path='/home/homepage/:id' component={HomePage}></Route>
+          <Route   path='/home/mypost' component={MyPost}></Route>
+          <Route   path='/home/userinfo'  component={UserInfo}></Route>
           </Switch>
           <MyFooter></MyFooter>
           </div>

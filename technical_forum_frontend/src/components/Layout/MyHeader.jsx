@@ -11,7 +11,6 @@ class MyHeader extends React.Component{
         super(props)
         this.state = {
             login:{},
-            url:{}
         }
     }
 
@@ -19,6 +18,7 @@ class MyHeader extends React.Component{
         this.setState({
             login:JSON.parse(sessionStorage.getItem("user"))
         })
+
     }
 
     distoryUser =()=>{
@@ -27,13 +27,13 @@ class MyHeader extends React.Component{
             login:null
         })
         console.log(this)
-        this.props.history.push('/');
+        this.props.history.push('/home/homepage/1');
     }
     render(){
         return   <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
         <div className="logo" />
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[window.location.hash.split('/')[2]]} >
-          <Menu.Item key="homepage"><Link to='/home/homepage'>首页</Link></Menu.Item>
+          <Menu.Item key="homepage"><Link to='/home/homepage/1'>首页</Link></Menu.Item>
           <Menu.Item key="mypost"><Link to='/home/mypost'>我的贴子</Link></Menu.Item>
           <Menu.Item key="userinfo"><Link to='/home/userinfo' >用户信息</Link></Menu.Item>
           <Menu.Item key="4" style={{float:"right"}} onClick={this.distoryUser}>{this.state.login?'注销':''}</Menu.Item>
