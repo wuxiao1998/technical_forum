@@ -29,9 +29,9 @@ class HomeRouter extends React.Component{
           <div className="site-layout-background" style={{minHeight: 380,height:'620px'}}>
           <Switch>
           <Route   exact path='/' component={HomePage}></Route>
-          <Route   path='/home/homepage/:id' component={HomePage}></Route>
-          <Route   path='/home/mypost' component={MyPost}></Route>
-          <Route   path='/home/userinfo'  component={UserInfo}></Route>
+          <Route   exact path='/home/homepage/:id' component={HomePage}></Route>
+          <Route   exact path='/home/mypost' component={MyPost}></Route>
+          <Route   exact path='/home/userinfo'  component={UserInfo}></Route>
           </Switch>
           <MyFooter></MyFooter>
           </div>
