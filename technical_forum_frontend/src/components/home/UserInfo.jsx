@@ -9,7 +9,8 @@ import {
   Button,
   Radio,
   AutoComplete,
-  Modal
+  Modal,
+  message
 } from 'antd';
 import Axios from 'axios';
 import NoLogin from '../authentication/NoLogin'
@@ -74,34 +75,22 @@ class UserInfo extends React.Component{
       });
         console.log('Received values of form: ', values);
         Axios.post('/user/updateUser',{
-            nickname:document.getElementById("nickname").value,
+            nickname:this.state.nickname,
             gender:this.state.gender,
-            phone:document.getElementById("phone").value,
+            phone:this.state.phone,
         }).then(res=>{
-            console.log(res,11111111111);
-            
+            message.success('更新成功!!!');
             //this.props.history.push('/home/homepage');
         }).catch(response=>{
             console.log(response);
         })
-        sessionStorage.removeItem("user");
-        this.setState({
-            login:null
-        })
-        console.log(this)
-        this.props.history.push('/login');
-        // Axios.post("/user/login",{                        信息更新后页面显示信息不更新，无法解决，让用户更新完强制重新登陆
-        //   username:this.state.user.username,
-        //   password:this.state.user.password
-        // }).then((response)=>{
-        //   this.setState({
-        //     nickname: response.data.nickname,
-        //     gender:response.data.gender,
-        //     phone:response.data.phone,
-        //   })
-        //   console.log(response,"12345")
-        //   console.log(this.state,'更新后的值')
-        // })
+        let user = JSON.parse(sessionStorage.getItem("user"));
+        user.gender = this.state.gender;
+        user.nickname = this.state.nickname;
+        user.phone = this.state.phone;
+        sessionStorage.setItem("user",JSON.stringify(user));
+        
+        
       };
 
     goBack = () =>{
@@ -126,6 +115,18 @@ class UserInfo extends React.Component{
         });
       };
     
+      changeNickName = (e)=>{
+console.log(e.target.value)
+this.setState({
+  nickname:e.target.value
+})
+      }
+      changePhone = (e)=>{
+        console.log(e.target.value)
+        this.setState({
+          phone:e.target.value
+        })
+              }
     render(){
       console.log(this.state.user)
       console.log(this.state.gender)
@@ -140,23 +141,23 @@ class UserInfo extends React.Component{
           okText="确认"
           cancelText="取消"
         >
-          <p>修改后需要重新登录，是否确认修改</p>
+          <p>是否确认修改?</p>
         </Modal>
         <h1 style={{textAlign:"center"}}>个人信息</h1>
         <Descriptions   bordered style={{backgroundColor:"white"}}>
     <Descriptions.Item label="用户名"  span={3}>{this.state.user.username}</Descriptions.Item >
     <Descriptions.Item label="邮箱" span={3}>{this.state.user.email}</Descriptions.Item>
-    <Descriptions.Item label="昵称"  span={3}><Input id="nickname" defaultValue={this.state.nickname} style={{width:"300px"}}></Input></Descriptions.Item>
+    <Descriptions.Item label="昵称"  span={3}><Input id="nickname" value={this.state.nickname} style={{width:"300px"}} onChange={this.changeNickName}></Input></Descriptions.Item>
     <Descriptions.Item label="经验">{this.state.user.experience}</Descriptions.Item>
     <Descriptions.Item label="等级">{this.state.user.level}</Descriptions.Item>
     <Descriptions.Item label="称号">{this.state.user.designation}</Descriptions.Item>
     <Descriptions.Item label="性别" span={3}>
-        <Radio.Group name="gender" defaultValue={this.state.gender}> 
+        <Radio.Group name="gender" value={this.state.gender}> 
           <Radio value={1}  onChange={(e)=>this.getValue(e)} >男</Radio>
           <Radio value={2}  onChange={(e)=>this.getValue(e)} >女</Radio>
         </Radio.Group>
     </Descriptions.Item>
-    <Descriptions.Item label="手机号" ><Input  id="phone" defaultValue={this.state.phone} style={{width:"300px"}}></Input></Descriptions.Item>
+    <Descriptions.Item label="手机号" ><Input  id="phone" value={this.state.phone} style={{width:"300px"}} onChange={this.changePhone}></Input></Descriptions.Item>
   </Descriptions>
   <div style={{textAlign:"center"}}>
   <Button type="primary" onClick={this.showModa.bind(this)}>

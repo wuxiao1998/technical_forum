@@ -23,8 +23,8 @@ class HomeRouter extends React.Component{
 
     render(){
         return  <Layout>
-          {console.log(window.location.hash.split('/')[3])}
-          <MyHeader slideId={window.location.hash.split('/')[3]}></MyHeader>
+  
+          <MyHeader></MyHeader>
         <Content className="site-layout" >
           <div className="site-layout-background" style={{minHeight: 380,height:'620px'}}>
           <Switch>
