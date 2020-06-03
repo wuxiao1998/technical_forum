@@ -175,56 +175,6 @@ this.setState({
           </div>
     }
 
-
-
-
-        /* <Form
-        {...formItemLayout}
-        name="UserInfo"
-        style={{marginRight:"300px",marginTop:"50px"}}
-        onFinish={this.onFinish}
-        scrollToFirstError
-        initialValues={{
-          }}
-      >
-        <Form.Item
-          name="username"
-          label="用户名"
-          rules={[
-            {
-              required: true,
-              message: '请输入用户名',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item name="gender" label="性别"
-         rules={[
-            {
-              required: true,
-              message: '请选择性别',
-            },
-          ]}
-        >
-        <Radio.Group > 
-          <Radio value={1}>男</Radio>
-          <Radio value={2}>女</Radio>
-        </Radio.Group>
-      </Form.Item>
-        <Form.Item {...tailFormItemLayout}
-         style={{textAlign:"center"}}
-        >
-          <Button type="primary" htmlType="submit">
-            保存
-          </Button>
-          <Button style={{marginLeft:"20px"}} onClick={this.goBack}>
-            返回
-          </Button>
-        </Form.Item>
-      </Form> */
-
     
 
 }
