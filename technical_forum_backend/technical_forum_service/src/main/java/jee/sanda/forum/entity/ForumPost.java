@@ -18,7 +18,13 @@ import java.util.Date;
 public class ForumPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /***
+     * 主键
+     */
     private Long id;
+    /***
+     * 帖子标题
+     */
     private String title;
     private String description;
     private Integer count;
