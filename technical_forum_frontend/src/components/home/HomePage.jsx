@@ -2,6 +2,7 @@ import React from 'react'
 import Axios from 'axios'
 import { Layout, Menu } from 'antd';
 import {Link } from 'react-router-dom'
+import PostList from './forumpost/PostList'
 const { Header, Content, Footer, Sider } = Layout;
 class HomePage extends React.Component{
     constructor(props){
@@ -14,15 +15,19 @@ class HomePage extends React.Component{
     }
 
     componentWillMount(){
+      console.log('1111',sessionStorage.getItem("plateKey"))
+    
       Axios.get('/plate/findAll').then(res=>{
             console.log(res);
             this.setState({
                 plateList:res.data,
-                plateKey:res.data[0].id.toString(),
+                plateKey: sessionStorage.getItem("plateKey")?sessionStorage.getItem("plateKey"):res.data[0].id.toString(),
             })
-           
+            if(!sessionStorage.getItem("plateKey")){
+              sessionStorage.setItem("plateKey",res.data[0].id.toString());
+            }
         })
-  
+        
         
        
     }
@@ -32,6 +37,7 @@ class HomePage extends React.Component{
       this.setState({
         plateKey:item.key
       })
+      sessionStorage.setItem("plateKey",item.key)
     }
 
 
@@ -59,10 +65,7 @@ class HomePage extends React.Component{
                 minHeight: 360,
                
                }}>
-              Bill is a cat.<br/>
-              Bill is a cat.<br/>
-              {console.log(window)}
-              
+                <PostList platekey={this.state.plateKey}></PostList>
             </div>
           </Content>
 

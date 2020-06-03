@@ -15,8 +15,10 @@ import java.util.Map;
 public class MailController {
     @Autowired
     private MailService mailService;
+    @Autowired
+    private HttpServletRequest request;
     @PostMapping("/sendCode")
-    public ResponseEntity<String> sendCode(@RequestBody Map<String,String> email, HttpServletRequest request){
+    public ResponseEntity<String> sendCode(@RequestBody Map<String,String> email){
         String em = email.get("email");
         if(em == null || !em.contains("@")){
             return ResponseEntity.badRequest().body("邮箱错误!!!");

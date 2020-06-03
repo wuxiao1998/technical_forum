@@ -18,11 +18,12 @@ import java.util.Date;
 public class ForumPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String title;
     private String description;
     private Integer count;
-    private Integer plate_id;
+    @Column(name = "plate_id")
+    private Integer plateId;
     private Integer type;
     @CreatedDate
     private Date createtime;

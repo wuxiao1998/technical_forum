@@ -26,14 +26,15 @@ public class UserController {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private HttpServletRequest request;
     /***
      * 用户登录接口
      * @param user
-     * @param request
      * @return
      */
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody User user, HttpServletRequest request) {
+    public ResponseEntity<Object> login(@RequestBody User user) {
         User loginUser = userService.login(user.getUsername(), user.getPassword());
         if (loginUser == null) {
             return ResponseEntity.ok("用户名或密码错误");
@@ -48,11 +49,10 @@ public class UserController {
     /***
      * 注册接口
      * @param user
-     * @param request
      * @return
      */
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user, HttpServletRequest request) {
+    public ResponseEntity<String> register(@RequestBody User user) {
         HttpSession session = request.getSession();
         String validateCode = user.getCode();
         String sessionCode = (String) session.getAttribute("code");
@@ -74,7 +74,7 @@ public class UserController {
         }
     }
     @PostMapping("/updateUser")
-    public ResponseEntity<String> updateUser(@RequestBody UpdateUserForm updateUserForm, HttpServletRequest request){
+    public ResponseEntity<String> updateUser(@RequestBody UpdateUserForm updateUserForm){
         HttpSession session=request.getSession();
         Long userId=(Long)session.getAttribute("userId");
         if(userId==null){
