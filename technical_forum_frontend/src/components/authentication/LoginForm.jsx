@@ -19,7 +19,7 @@ class LoginFrom extends React.Component{
       }).then((response)=>{
         console.log(response)
         var path={
-          pathname:'/home/homepage/1',
+          pathname:'/home/homepage/'+sessionStorage.getItem("plateKey"),
           state:response.data
         } 
         console.log(response)
