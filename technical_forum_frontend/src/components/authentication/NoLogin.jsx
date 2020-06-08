@@ -18,9 +18,11 @@ class NoLogin extends React.Component{
         title="抱歉,您还未登录,无法使用该功能!!!"
         style={{marginTop:"5%",minHeight: '80vh'}}
         extra={[
-          <Button type="primary" key="console" onClick={this.goLogin}>
+          <div>
+          <Button type="primary" key="login" onClick={this.goLogin}>
            立即登录
           </Button>
+          </div>
         ]}
       />
     }

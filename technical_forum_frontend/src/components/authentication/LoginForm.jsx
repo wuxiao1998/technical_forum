@@ -27,8 +27,6 @@ class LoginFrom extends React.Component{
           console.log(JSON.parse(sessionStorage.getItem("user")))
           this.props.history.push(path)
       })
-     
-      
     };
     goBack = () =>{
       this.props.history.goBack();

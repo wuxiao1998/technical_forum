@@ -23,5 +23,11 @@ public class ForumPostController {
         }
         return ResponseEntity.ok(forumPostService.findByPlateId(id));
     }
+
+    @PostMapping("/addPost")
+    public ResponseEntity<Object> addPost(@RequestBody ForumPost forumPost){
+        forumPostService.saveForumPost(forumPost);
+        return ResponseEntity.ok("success");
+    }
 }
 

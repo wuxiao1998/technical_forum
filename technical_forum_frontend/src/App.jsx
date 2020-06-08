@@ -7,6 +7,7 @@ import Register from './components/authentication/Register'
 import Success from './components/authentication/Success'
 import EmailCheck from './components/authentication/EmailCheck'
 import HomeRouter from './components/home/HomeRouter'
+import AddPost from './components/home/forumpost/AddPost'
 import { Layout, Menu, Breadcrumb } from 'antd';
 const {  Content, Footer } = Layout;
 class App extends React.Component{
@@ -32,6 +33,7 @@ class App extends React.Component{
           <Route exact path='/emailcheck' component={EmailCheck}></Route>
           <Route exact path='/' component={HomeRouter}></Route>
           <Route  path='/home' component={HomeRouter}></Route>
+          <Route  path='/forumpost/add/:id' component={AddPost}></Route>
       
 {/*         
           <Layout>

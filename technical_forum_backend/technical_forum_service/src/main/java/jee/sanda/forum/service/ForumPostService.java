@@ -8,4 +8,5 @@ import java.util.List;
 public interface ForumPostService {
 
     List<ForumPost> findByPlateId(Integer plateId);
+    void saveForumPost(ForumPost forumPost);
 }

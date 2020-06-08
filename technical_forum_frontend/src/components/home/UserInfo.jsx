@@ -126,8 +126,6 @@ this.setState({
         })
               }
     render(){
-      console.log(this.state.user)
-      console.log(this.state.gender)
       let element;
       if(this.state.loginin){
           element=<div>

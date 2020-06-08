@@ -116,6 +116,7 @@ class Register extends React.Component{
             //    return Promise.reject('该用户名已被使用!!!');
             //   },
             // }),
+          
           ]}
         >
           <Input />

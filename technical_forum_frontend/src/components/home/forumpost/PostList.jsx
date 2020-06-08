@@ -1,5 +1,6 @@
 import React from 'react';
 import { List, Avatar, Space,Button,Pagination,Typography } from 'antd';
+import {Link} from 'react-router-dom'
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import Axios from 'axios';
 const { Text } = Typography;
@@ -27,7 +28,11 @@ class PostList extends React.Component{
     
  
     componentWillReceiveProps(nextProps){
+     
       this.loadingData(nextProps.platekey)
+      this.setState({
+        platekey:nextProps.platekey
+      })
 
   }
     
@@ -58,7 +63,7 @@ class PostList extends React.Component{
         header={
           <div>
             <h2 style={{display:"inline"}}>帖子信息</h2>
-            <Button style={{float:"right"}}>去发帖</Button>
+            <Button style={{float:"right"}}><Link to={"/forumpost/add/"+this.state.platekey}>去发帖</Link></Button>
           </div>
         }
         footer={<div style={{textAlign:"center"}}><Pagination defaultCurrent={6} total={500} /></div>}
@@ -76,7 +81,8 @@ class PostList extends React.Component{
             <List.Item.Meta
               title={<a href={item.href}>{item.title}</a>}
             />
-            <Text type="secondary">作者:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}</Text> 
+            <Text type="secondary">作者:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
+            </Text> 
           </List.Item>
         )}
       />

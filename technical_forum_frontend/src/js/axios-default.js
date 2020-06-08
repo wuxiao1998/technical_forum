@@ -8,6 +8,7 @@ Axios.interceptors.response.use(
         return Promise.resolve(response);      
     },
     error => {
+      if(error.response)
         alert(error.response.data)
       return Promise.reject(error.response)   // 返回接口返回的错误信息
     });

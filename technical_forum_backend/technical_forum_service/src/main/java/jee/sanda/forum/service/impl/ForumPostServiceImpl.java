@@ -24,4 +24,9 @@ public class ForumPostServiceImpl implements ForumPostService {
         List<ForumPost> forumPosts = forumPostRepository.findByPlateId(plateId);
         return forumPosts;
     }
+
+    @Override
+    public void saveForumPost(ForumPost forumPost) {
+        forumPostRepository.save(forumPost);
+    }
 }

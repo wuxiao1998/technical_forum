@@ -31,10 +31,9 @@ public class ForumPost {
     @Column(name = "plate_id")
     private Integer plateId;
     private Integer type;
-
     @CreatedDate
     private Date createtime;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name="createby")
     private User user;
 }
