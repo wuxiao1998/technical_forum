@@ -81,8 +81,6 @@ class UserInfo extends React.Component{
         }).then(res=>{
             message.success('更新成功!!!');
             //this.props.history.push('/home/homepage');
-        }).catch(response=>{
-            console.log(response);
         })
         let user = JSON.parse(sessionStorage.getItem("user"));
         user.gender = this.state.gender;

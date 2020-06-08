@@ -1,9 +1,8 @@
 import React from 'react';
-import { List, Avatar, Space } from 'antd';
+import { List, Avatar, Space,Button,Pagination,Typography } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import Axios from 'axios';
-
-
+const { Text } = Typography;
 const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}
@@ -56,13 +55,19 @@ class PostList extends React.Component{
     render(){ 
     
         return <List
-        header={<div>Header</div>}
-        footer={<div>Footer</div>}
+        header={
+          <div>
+            <h2 style={{display:"inline"}}>帖子信息</h2>
+            <Button style={{float:"right"}}>去发帖</Button>
+          </div>
+        }
+        footer={<div style={{textAlign:"center"}}><Pagination defaultCurrent={6} total={500} /></div>}
         bordered
         dataSource={this.state.listData}
         renderItem={item => (
             <List.Item
             key={item.title}
+            style={{marginTop:"10px"}}
             actions={[
               <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
               <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
@@ -71,8 +76,7 @@ class PostList extends React.Component{
             <List.Item.Meta
               title={<a href={item.href}>{item.title}</a>}
             />
-                {console.log(this.state.listData)}
-            {item.title}
+            <Text type="secondary">作者:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}</Text> 
           </List.Item>
         )}
       />

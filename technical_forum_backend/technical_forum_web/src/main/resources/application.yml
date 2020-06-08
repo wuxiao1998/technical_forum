@@ -10,7 +10,7 @@ spring:
     username: jee
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
-
+  ##邮件服务配置信息
   mail:
     host: smtp.qq.com
     username: 2253815332@qq.com
@@ -32,8 +32,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
+    ##时间格式统一配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    ##配置日志等级
 logging:
   level:
     jee: DEBUG
     test: DEBUG
+

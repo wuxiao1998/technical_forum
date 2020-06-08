@@ -37,7 +37,7 @@ public class UserController {
     public ResponseEntity<Object> login(@RequestBody User user) {
         User loginUser = userService.login(user.getUsername(), user.getPassword());
         if (loginUser == null) {
-            return ResponseEntity.ok("用户名或密码错误");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("用户名或密码错误");
         } else {
             HttpSession session = request.getSession();
             //将userId存入session域
@@ -67,7 +67,7 @@ public class UserController {
                 else
                     return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("用户名重复");
             } else {
-                return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("验证码错误");
+                return  ResponseEntity.badRequest().body("验证码错误");
             }
         }else{
             return ResponseEntity.badRequest().body("注册失败");

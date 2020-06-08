@@ -61,12 +61,8 @@ class Register extends React.Component{
             phone:values.phone
         }).then(res=>{
             console.log(res);
-           
               this.props.history.push('/success')
             
-        }).catch(res=>{
-          if(res.response.status == 401)
-            alert('验证码错误!!!')
         })
       };
 
@@ -86,9 +82,6 @@ class Register extends React.Component{
           email:email
         }).then(res=>{
           console.log(res);
-         
-        }).catch(res=>{
-         console.log(res)
         })
       }
      

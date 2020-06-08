@@ -1,5 +1,7 @@
 package jee.sanda.forum.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,6 +19,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String email;
     private String nickname;
@@ -32,6 +35,7 @@ public class User implements Serializable {
     @CreatedDate
     private java.util.Date createtime;
     @LastModifiedDate
+    @JsonIgnore
     private java.util.Date updatetime;
 
     public Long getId() {
@@ -49,7 +53,7 @@ public class User implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
-
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

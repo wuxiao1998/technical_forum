@@ -23,18 +23,9 @@ class LoginFrom extends React.Component{
           state:response.data
         } 
         console.log(response)
-        if(response.data==='用户名或密码错误')
-        {
-          alert('用户名或密码错误');
-        }
-        else{
           sessionStorage.setItem("user",JSON.stringify(response.data))
           console.log(JSON.parse(sessionStorage.getItem("user")))
           this.props.history.push(path)
-        }
-      }).catch((reson)=>{
-        console.log(reson)
-
       })
      
       
