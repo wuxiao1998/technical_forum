@@ -1,7 +1,7 @@
 import Axios from 'axios'
 Axios.defaults.withCredentials=true
 Axios.defaults.baseURL='http://localhost:8000/forum'
-Axios.defaults.timeout=10000
+Axios.defaults.timeout=20000
 
 Axios.interceptors.response.use(
     response => {

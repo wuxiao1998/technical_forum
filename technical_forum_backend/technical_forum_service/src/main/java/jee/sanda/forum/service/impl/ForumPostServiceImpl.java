@@ -1,15 +1,17 @@
 package jee.sanda.forum.service.impl;
 
 import jee.sanda.forum.entity.ForumPost;
-import jee.sanda.forum.entity.Plate;
 import jee.sanda.forum.repository.ForumPostRepository;
-import jee.sanda.forum.repository.PlateRepository;
 import jee.sanda.forum.service.ForumPostService;
-import jee.sanda.forum.service.PlateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.*;
 import java.util.List;
 
 @Service
@@ -20,8 +22,18 @@ public class ForumPostServiceImpl implements ForumPostService {
     private ForumPostRepository forumPostRepository;
 
     @Override
-    public List<ForumPost> findByPlateId(Integer plateId) {
-        List<ForumPost> forumPosts = forumPostRepository.findByPlateId(plateId);
+    public Page<ForumPost> findByPlateId(Integer plateId,Integer pageNo,Integer pageSize) {
+
+        Specification<ForumPost> spec = new Specification<ForumPost>() {
+            @Override
+            public Predicate toPredicate(Root<ForumPost> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Path<Object> plate = root.get("plateId");
+                Predicate p1 = criteriaBuilder.equal(plate, plateId);
+                return p1;
+            }
+        };
+        Pageable pageable = PageRequest.of(pageNo - 1,pageSize);
+        Page<ForumPost> forumPosts = forumPostRepository.findAll(spec, pageable);
         return forumPosts;
     }
 

@@ -16,12 +16,12 @@ public class ForumPostController {
     @Autowired
     private ForumPostService forumPostService;
     @GetMapping("/findByPlateId")
-    public ResponseEntity<Object> findByPlateId(@RequestParam Integer id){
-        if(id == null)
+    public ResponseEntity<Object> findByPlateId(@RequestParam("plateId") Integer plateId,@RequestParam("pageNo") Integer pageNo,@RequestParam("pageSize") Integer pageSize){
+        if(plateId == null)
         {
             return ResponseEntity.badRequest().body("参数错误");
         }
-        return ResponseEntity.ok(forumPostService.findByPlateId(id));
+        return ResponseEntity.ok(forumPostService.findByPlateId(plateId,pageNo,pageSize));
     }
 
     @PostMapping("/addPost")

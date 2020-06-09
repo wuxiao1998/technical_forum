@@ -17,7 +17,10 @@ class PostList extends React.Component{
         this.state = {
            loginin:true,
            platekey:'',
-           listData:[]
+           listData:[],
+           pageNo:1,
+           pageSize:8,
+           totalPage:0,
         }
     }
     
@@ -31,7 +34,8 @@ class PostList extends React.Component{
      
       this.loadingData(nextProps.platekey)
       this.setState({
-        platekey:nextProps.platekey
+        platekey:nextProps.platekey,
+        pageNo:1
       })
 
   }
@@ -41,16 +45,34 @@ class PostList extends React.Component{
     if(!platekey){
       platekey = 1;
     }
-
-    Axios.get('/forumPost/findByPlateId?id='+platekey
+    let pageNo;
+    if(platekey != this.props.platekey){
+      pageNo = 1;
+    }else{
+      pageNo = this.state.pageNo;
+    }
+    Axios.get('/forumPost/findByPlateId?plateId='+platekey+'&pageNo='+pageNo+'&pageSize='+this.state.pageSize
       ).then(res=>{
         console.log(res.data)
       this.setState({
-        listData:res.data
+        listData:res.data.content,
+        totalPage:res.data.totalElements,
       })
     })
 
+  }
+  pageChange = (page)=>{
 
+    console.log('swd',page)
+    Axios.get('/forumPost/findByPlateId?plateId='+this.state.platekey+'&pageNo='+page+'&pageSize='+this.state.pageSize
+    ).then(res=>{
+      console.log(res.data)
+    this.setState({
+      listData:res.data.content,
+      totalPage:res.data.totalElements,
+      pageNo:page
+    })
+  })
 
   }
     goLogin=()=>{
@@ -66,7 +88,9 @@ class PostList extends React.Component{
             <Button style={{float:"right"}}><Link to={"/forumpost/add/"+this.state.platekey}>去发帖</Link></Button>
           </div>
         }
-        footer={<div style={{textAlign:"center"}}><Pagination defaultCurrent={6} total={500} /></div>}
+        footer={<div style={{textAlign:"center"}}><Pagination 
+        current={this.state.pageNo} pageSize={this.state.pageSize} total={this.state.totalPage}
+         showSizeChanger={false} onChange={this.pageChange}/></div>}
         bordered
         dataSource={this.state.listData}
         renderItem={item => (
