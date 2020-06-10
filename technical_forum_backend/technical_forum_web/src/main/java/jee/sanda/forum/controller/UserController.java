@@ -86,5 +86,30 @@ public class UserController {
         }
         return ResponseEntity.ok("更新成功");
     }
+    @PostMapping("/checkUsername")
+    public ResponseEntity<Object> checkUsername(@RequestParam("username") String username){
+        if(userService.checkUserName(username)) {
+            return ResponseEntity.ok("用户名可使用");
+        }
+        return  ResponseEntity.badRequest().body("用户名重复");
+    }
+    @PostMapping("/checkPassword")
+    public ResponseEntity<Object> checkPassword(@RequestParam("password") String password){
+        HttpSession session=request.getSession();
+        Long userId=(Long)session.getAttribute("userId");
+        if(userService.checkPassword(userId,password)){
+            return ResponseEntity.ok("密码正确");
+        }
+        return  ResponseEntity.badRequest().body("密码错误");
+    }
+    @PostMapping("/updatePassword")
+    public ResponseEntity<Object> updatePassword(@RequestParam("password") String password){
+        HttpSession session=request.getSession();
+        Long userId=(Long)session.getAttribute("userId");
+        if(userService.updatePassword(userId,password)){
+            return ResponseEntity.ok("密码修改成功");
+        }
+        return  ResponseEntity.badRequest().body("密码修改失败");
+    }
 }
 

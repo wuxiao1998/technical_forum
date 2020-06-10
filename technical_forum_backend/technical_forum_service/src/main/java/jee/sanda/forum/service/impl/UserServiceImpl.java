@@ -90,5 +90,18 @@ public class UserServiceImpl implements UserService {
         user.setRole(1);
     }
 
+    @Override
+    public boolean checkPassword(Long userId, String password) {
+        Optional<User> userOptional=userRepository.findById(userId);
+        if(!userOptional.isPresent()){
+            return false;
+        }
+        User user = userOptional.get();
+        if(user.getPassword()==password){
+            return true;
+        }
+        return false;
+    }
+
 
 }

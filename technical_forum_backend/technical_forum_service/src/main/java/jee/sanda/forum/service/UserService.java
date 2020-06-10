@@ -54,4 +54,12 @@ public interface UserService {
      * @param user
      */
     void initializeUser(User user);
+
+    /**
+     * 检查密码
+     * @param userId
+     * @param password
+     * @return
+     */
+    boolean checkPassword(Long userId,String password);
 }
