@@ -90,6 +90,16 @@ class UserInfo extends React.Component{
         
         
       };
+      updatePassword = values => {
+          console.log('Received values of form: ', values);
+          Axios.post('/user/updateUser',{
+              nickname:this.state.nickname,
+              gender:this.state.gender,
+              phone:this.state.phone,
+          }).then(res=>{
+              this.props.history.push('/oldpwcheck');
+          })
+        };
 
     goBack = () =>{
        this.props.history.goBack();
@@ -155,6 +165,9 @@ this.setState({
     </Descriptions.Item>
     <Descriptions.Item label="手机号" ><Input  id="phone" value={this.state.phone} style={{width:"300px"}} onChange={this.changePhone}></Input></Descriptions.Item>
   </Descriptions>
+  <div style={{textAlign:"center"}}>
+  <a onClick={this.updatePassword} >修改密码</a>
+  </div>
   <div style={{textAlign:"center"}}>
   <Button type="primary" onClick={this.showModa.bind(this)}>
             修改

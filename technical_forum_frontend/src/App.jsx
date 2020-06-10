@@ -8,6 +8,8 @@ import Success from './components/authentication/Success'
 import EmailCheck from './components/authentication/EmailCheck'
 import HomeRouter from './components/home/HomeRouter'
 import AddPost from './components/home/forumpost/AddPost'
+import OldPwCheck from './components/authentication/OldPwCheck'
+import NewPwUpdate from './components/authentication/NewPwUpdate'
 import { Layout, Menu, Breadcrumb } from 'antd';
 const {  Content, Footer } = Layout;
 class App extends React.Component{
@@ -34,6 +36,8 @@ class App extends React.Component{
           <Route exact path='/' component={HomeRouter}></Route>
           <Route  path='/home' component={HomeRouter}></Route>
           <Route  path='/forumpost/add/:id' component={AddPost}></Route>
+          <Route   path='/oldpwcheck' component={OldPwCheck}></Route>
+          <Route   path='/newpwupdate' component={NewPwUpdate}></Route>
       
 {/*         
           <Layout>
