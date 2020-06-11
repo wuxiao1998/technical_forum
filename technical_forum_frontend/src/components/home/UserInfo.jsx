@@ -10,11 +10,12 @@ import {
   Radio,
   AutoComplete,
   Modal,
-  message
+  message,
+  Upload
 } from 'antd';
 import Axios from 'axios';
 import NoLogin from '../authentication/NoLogin'
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 //用户个人信息组件
 const { Option } = Select;
 const formItemLayout = {
@@ -53,6 +54,19 @@ class UserInfo extends React.Component {
       nickname: JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).nickname : "",
       phone: JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).phone : "",
       gender: JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).gender : "",
+      previewVisible: false,
+      previewImage: '',
+      previewTitle: '',
+      uploadfile:'',
+      fileobj:'',
+      fileList: [
+        {
+          uid: '-1',
+          name: JSON.parse(sessionStorage.getItem("user")).id+'.jpg',
+          status: 'done',
+          url: 'http://localhost:8000/forum/image/'+JSON.parse(sessionStorage.getItem("user")).id+'.jpg',
+        },
+      ]
     }
     this.showModa = this.showModa.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -80,6 +94,16 @@ class UserInfo extends React.Component {
       gender: this.state.gender,
       phone: this.state.phone,
     }).then(res => {
+      let config = {
+        headers: {
+
+          "Content-Type": "multipart/form-data"
+        }
+      };
+      let formData = new FormData();
+      console.log(this.state.fileobj,'fileobj')
+      formData.append("file", this.state.fileobj);
+      Axios.post('/user/upload', formData, config)
       message.success('更新成功!!!');
       //this.props.history.push('/home/homepage');
     })
@@ -91,6 +115,38 @@ class UserInfo extends React.Component {
 
 
   };
+
+  getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
+
+  beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('请上传 jpeg或者png格式的图片!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('图片大小不准超过 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  }
+
+  handleChange = info => {
+    if (!info.file.originFileObj) {
+      message.error('请上传图片!');
+      return;
+    }
+    this.getBase64(info.file.originFileObj, imageUrl =>
+      this.setState({
+        imageUrl,
+        loading: false,
+        fileobj:info.file.originFileObj
+      }),
+    );
+  }
   updatePassword = values => {
     console.log('Received values of form: ', values);
     Axios.post('/user/updateUser', {
@@ -137,6 +193,13 @@ class UserInfo extends React.Component {
     })
   }
   render() {
+    const uploadButton = (
+      <div>
+        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    const { imageUrl } = this.state;
     let element;
     if (this.state.loginin) {
       element = <div>
@@ -157,6 +220,21 @@ class UserInfo extends React.Component {
 
         <Descriptions bordered style={{ backgroundColor: "white" }}>
           <Descriptions.Item label="用户名" span={3}>{this.state.user.username}</Descriptions.Item >
+          <Descriptions.Item label="头像" span={3}>
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="#"
+              beforeUpload={this.beforeUpload}
+              onChange={this.handleChange}
+              fileList={this.state.fileList}
+              value={this.state.uploadfile}
+            >
+              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>
+          </Descriptions.Item >
           <Descriptions.Item label="邮箱" span={3}>{this.state.user.email}</Descriptions.Item>
           <Descriptions.Item label="昵称" span={3}><Input id="nickname" value={this.state.nickname} style={{ width: "300px" }} onChange={this.changeNickName}></Input></Descriptions.Item>
           <Descriptions.Item label="经验">{this.state.user.experience}</Descriptions.Item>
