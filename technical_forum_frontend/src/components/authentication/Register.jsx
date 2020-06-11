@@ -73,7 +73,7 @@ class Register extends React.Component {
       };
       let formData = new FormData();
       formData.append("file", values.image.file.originFileObj);
-      Axios.post('/test/upload', formData, config)
+      Axios.post('/user/upload', formData, config)
       this.props.history.push('/success')
     })
 

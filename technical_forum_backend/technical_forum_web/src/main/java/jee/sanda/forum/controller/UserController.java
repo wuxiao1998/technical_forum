@@ -147,7 +147,7 @@ public class UserController {
      * @throws IOException
      */
     @PostMapping("/upload")
-    public String testUpload(MultipartFile file) throws IOException {
+    public String testUpload(MultipartFile file,@RequestParam("uploadType")String uploadType) throws IOException {
         HttpSession session = request.getSession();
         File upload = new File(ResourceUtils.getURL("classpath:").getPath() + "/upload/");
         if (!upload.exists()) {
@@ -155,6 +155,9 @@ public class UserController {
         }
         Long userId=(Long)session.getAttribute("userId");
         file.transferTo(new File(upload, userId+".jpg"));
+        if(uploadType=="register"){
+            session.removeAttribute("userId");
+        }
         return "success";
     }
 }
