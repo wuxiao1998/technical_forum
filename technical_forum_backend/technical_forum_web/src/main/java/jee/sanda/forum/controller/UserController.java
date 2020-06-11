@@ -8,10 +8,14 @@ import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 
 /***
  * 用户接口
@@ -62,7 +66,8 @@ public class UserController {
             boolean flag = mailService.validateCode(sessionCode, validateCode);
             if (flag) {
                 //验证码正确
-                userService.register(user);
+                Long userId=userService.register(user);
+                session.setAttribute("userId",userId);
                 session.removeAttribute("code");
                 return ResponseEntity.ok("注册成功");
 
@@ -134,6 +139,23 @@ public class UserController {
             return ResponseEntity.ok("密码修改成功");
         }
         return ResponseEntity.badRequest().body("密码修改失败");
+    }
+    /***
+     * 头像上传
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/upload")
+    public String testUpload(MultipartFile file) throws IOException {
+        HttpSession session = request.getSession();
+        File upload = new File(ResourceUtils.getURL("classpath:").getPath() + "/upload/");
+        if (!upload.exists()) {
+            upload.mkdirs();
+        }
+        Long userId=(Long)session.getAttribute("userId");
+        file.transferTo(new File(upload, userId+".jpg"));
+        return "success";
     }
 }
 

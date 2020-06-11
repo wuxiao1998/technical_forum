@@ -26,14 +26,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean register(User user) {
+    public Long register(User user) {
         String username = user.getUsername();
         if (!checkUserName(username)) {
-            return false;
+            return 0L;
         }
         initializeUser(user);
-        userRepository.save(user);
-        return true;
+        User user1=userRepository.save(user);
+        Long userId=user1.getId();
+        return userId;
     }
 
     @Override
