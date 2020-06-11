@@ -16,6 +16,7 @@ public class MailServiceImpl implements MailService {
     private JavaMailSender mailSender;
     @Value("${spring.mail.from}")
     private String from;
+
     @Override
     public String sendSimpleMail(String email) {
         String code = RandomUtils.getCode();
@@ -28,14 +29,14 @@ public class MailServiceImpl implements MailService {
         //邮件主题
         message.setSubject("技术论坛系统");
         //邮件内容
-        message.setText("欢迎注册技术论坛系统,此次注册验证码是:"+code);
+        message.setText("欢迎注册技术论坛系统,此次注册验证码是:" + code);
         //发送邮件
         mailSender.send(message);
         return code;
     }
 
     @Override
-    public boolean validateCode(String sessionCode,String code) {
+    public boolean validateCode(String sessionCode, String code) {
         return sessionCode.equalsIgnoreCase(code);
     }
 }

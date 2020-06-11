@@ -1,39 +1,40 @@
 import React from 'react';
 import { Result, Button } from 'antd';
 import NoLogin from '../authentication/NoLogin'
-class MyPost extends React.Component{
+//我的帖子组件
+class MyPost extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-           loginin:true
+            loginin: true
         }
     }
-    
-    componentWillMount(){
-        if(!sessionStorage.getItem("user")){
+
+    componentWillMount() {
+        if (!sessionStorage.getItem("user")) {
 
             this.setState({
-                loginin:false
+                loginin: false
             })
         }
     }
-    
-    goLogin=()=>{
+
+    goLogin = () => {
         this.props.history.push('/');
     }
 
-    render(){
+    render() {
         let element;
-        if(this.state.loginin){
-            element=<div>我的帖子</div>
-        }else{
-            element=<NoLogin history={this.props.history}></NoLogin>
+        if (this.state.loginin) {
+            element = <div>我的帖子</div>
+        } else {
+            element = <NoLogin history={this.props.history}></NoLogin>
         }
-        return <div style={{minHeight: '80vh',marginTop:"5%"}}>
+        return <div style={{ minHeight: '80vh', marginTop: "5%" }}>
             {element}
-            </div>
+        </div>
     }
 }
 
- export default MyPost
+export default MyPost

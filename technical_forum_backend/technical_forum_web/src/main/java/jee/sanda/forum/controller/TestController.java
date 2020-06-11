@@ -12,20 +12,29 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+/***
+ * 测试专用接口类
+ */
 @RestController
 @RequestMapping("/test")
 public class TestController {
     @Autowired
     HttpServletRequest request;
-    //文件上传测试接口
+
+    /***
+     * 头像上传接口测试
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/upload")
     public String testUpload(MultipartFile file) throws IOException {
 
-        File upload = new File(ResourceUtils.getURL("classpath:").getPath()+"/upload/");
-        if(!upload.exists()){
+        File upload = new File(ResourceUtils.getURL("classpath:").getPath() + "/upload/");
+        if (!upload.exists()) {
             upload.mkdirs();
         }
-        file.transferTo(new File(upload,file.getOriginalFilename()));
+        file.transferTo(new File(upload, file.getOriginalFilename()));
         return "success";
     }
 }

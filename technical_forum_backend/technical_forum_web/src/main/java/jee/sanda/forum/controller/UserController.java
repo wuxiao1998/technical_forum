@@ -28,6 +28,7 @@ public class UserController {
 
     @Autowired
     private HttpServletRequest request;
+
     /***
      * 用户登录接口
      * @param user
@@ -66,49 +67,73 @@ public class UserController {
                 return ResponseEntity.ok("注册成功");
 
             } else {
-                return  ResponseEntity.badRequest().body("验证码错误");
+                return ResponseEntity.badRequest().body("验证码错误");
             }
-        }else{
+        } else {
             return ResponseEntity.badRequest().body("注册失败");
         }
     }
+
+    /***
+     * 更新用户信息
+     * @param updateUserForm
+     * @return
+     */
     @PostMapping("/updateUser")
-    public ResponseEntity<String> updateUser(@RequestBody UpdateUserForm updateUserForm){
-        HttpSession session=request.getSession();
-        Long userId=(Long)session.getAttribute("userId");
-        if(userId==null){
-            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("请重新登录");
+    public ResponseEntity<String> updateUser(@RequestBody UpdateUserForm updateUserForm) {
+        HttpSession session = request.getSession();
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("请重新登录");
         }
-        boolean result=userService.updateUser(userId,updateUserForm);
-        if (result==false){
+        boolean result = userService.updateUser(userId, updateUserForm);
+        if (result == false) {
             return ResponseEntity.badRequest().body("更新失败");
         }
         return ResponseEntity.ok("更新成功");
     }
+
+    /***
+     * 检查用户名是否重名
+     * @param user
+     * @return
+     */
     @PostMapping("/checkUsername")
-    public ResponseEntity<Object> checkUsername(@RequestBody User user){
-        if(userService.checkUserName(user.getUsername())) {
+    public ResponseEntity<Object> checkUsername(@RequestBody User user) {
+        if (userService.checkUserName(user.getUsername())) {
             return ResponseEntity.ok("用户名可使用");
         }
-        return  ResponseEntity.ok("用户名重复");
+        return ResponseEntity.ok("用户名重复");
     }
+
+    /***
+     * 检查用户修改密码时旧密码是否正确
+     * @param user
+     * @return
+     */
     @PostMapping("/checkPassword")
-    public ResponseEntity<Object> checkPassword(@RequestParam("password") String password){
-        HttpSession session=request.getSession();
-        Long userId=(Long)session.getAttribute("userId");
-        if(userService.checkPassword(userId,password)){
+    public ResponseEntity<Object> checkPassword(@RequestBody User user) {
+        HttpSession session = request.getSession();
+        Long userId = (Long) session.getAttribute("userId");
+        if (userService.checkPassword(userId, user.getPassword())) {
             return ResponseEntity.ok("密码正确");
         }
-        return  ResponseEntity.badRequest().body("密码错误");
+        return ResponseEntity.badRequest().body("密码错误");
     }
+
+    /***
+     * 修改密码
+     * @param user
+     * @return
+     */
     @PostMapping("/updatePassword")
-    public ResponseEntity<Object> updatePassword(@RequestParam("password") String password){
-        HttpSession session=request.getSession();
-        Long userId=(Long)session.getAttribute("userId");
-        if(userService.updatePassword(userId,password)){
+    public ResponseEntity<Object> updatePassword(@RequestBody User user) {
+        HttpSession session = request.getSession();
+        Long userId = (Long) session.getAttribute("userId");
+        if (userService.updatePassword(userId, user.getPassword())) {
             return ResponseEntity.ok("密码修改成功");
         }
-        return  ResponseEntity.badRequest().body("密码修改失败");
+        return ResponseEntity.badRequest().body("密码修改失败");
     }
 }
 

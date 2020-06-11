@@ -35,6 +35,7 @@ public interface UserService {
 
     /**
      * 更新用户信息
+     *
      * @param userId
      * @param updateUserForm
      * @return
@@ -47,7 +48,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    boolean updatePassword(Long userId,String password);
+    boolean updatePassword(Long userId, String password);
 
     /***
      * 初始化用户bean
@@ -57,9 +58,10 @@ public interface UserService {
 
     /**
      * 检查密码
+     *
      * @param userId
      * @param password
      * @return
      */
-    boolean checkPassword(Long userId,String password);
+    boolean checkPassword(Long userId, String password);
 }

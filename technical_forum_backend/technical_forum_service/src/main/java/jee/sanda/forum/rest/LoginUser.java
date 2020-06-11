@@ -1,6 +1,7 @@
 package jee.sanda.forum.rest;
 
 import lombok.Data;
+
 @Data
 public class LoginUser {
     private Long id;

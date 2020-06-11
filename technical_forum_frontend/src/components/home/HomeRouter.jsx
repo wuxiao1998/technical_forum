@@ -1,47 +1,49 @@
 import React, { Fragment } from 'react'
-import {Route,Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import HomePage from './HomePage'
 import MyPost from './MyPost'
 import UserInfo from './UserInfo'
 import MyHeader from '../Layout/MyHeader'
 import MyFooter from '../Layout/MyFooter'
-import { Layout, Menu, Breadcrumb } from 'antd';
-const {  Content, Footer } = Layout;
-class HomeRouter extends React.Component{
+import { Layout } from 'antd';
+//主页子路由配置
+const { Content, Footer } = Layout;
+class HomeRouter extends React.Component {
 
-    constructor(props){
-        super(props)
-        this.state = {
-          login:"登录",
-        
-        }
+  constructor(props) {
+    super(props)
+    this.state = {
+      login: "登录",
+
     }
-    componentWillMount(){
-      console.log("wddw")
-    }
+  }
+  componentWillMount() {
+    console.log("wddw")
+  }
 
 
-    render(){
-        return  <Layout>
-  
-          <MyHeader></MyHeader>
-        <Content className="site-layout" >
-          <div className="site-layout-background" style={{minHeight: 380,height:'620px'}}>
+  render() {
+    return <Layout>
+
+      <MyHeader></MyHeader>
+      <Content className="site-layout" >
+        <div className="site-layout-background" style={{ minHeight: 380, height: '620px' }}>
           <Switch>
-          <Route   exact path='/' component={HomePage}></Route>
-          <Route   exact path='/home/homepage/:id' component={HomePage}></Route>
-          <Route   exact path='/home/mypost' component={MyPost}></Route>
-          <Route   exact path='/home/userinfo'  component={UserInfo}></Route>
+            {/*这里配置主页的子路由信息,组件会被渲染中主页的中间部分,保留头部和底部*/}
+            <Route exact path='/' component={HomePage}></Route>
+            <Route exact path='/home/homepage/:id' component={HomePage}></Route>
+            <Route exact path='/home/mypost' component={MyPost}></Route>
+            <Route exact path='/home/userinfo' component={UserInfo}></Route>
           </Switch>
           <MyFooter></MyFooter>
-          </div>
-        </Content>
-      </Layout>
- 
+        </div>
+      </Content>
+    </Layout>
 
 
-    }
+
+  }
 
 }
 
-    export default HomeRouter
+export default HomeRouter

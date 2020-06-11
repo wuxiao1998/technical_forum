@@ -17,6 +17,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
     @Override
     public User login(String username, String password) {
         User loginUser = userRepository.findByUsernameAndPassword(username, password);
@@ -26,8 +27,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean register(User user) {
-        String username=user.getUsername();
-        if (!checkUserName(username)){
+        String username = user.getUsername();
+        if (!checkUserName(username)) {
             return false;
         }
         initializeUser(user);
@@ -42,21 +43,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUserName(String username) {
-        User result=userRepository.findByUsername(username);
-        if(result == null){
+        User result = userRepository.findByUsername(username);
+        if (result == null) {
             return true;
         }
-        log.info("checkUserName:{}",result);
+        log.info("checkUserName:{}", result);
         return false;
     }
 
     @Override
     public boolean updateUser(Long userId, UpdateUserForm updateUserForm) {
-        Optional<User> userOptional=userRepository.findById(userId);
-        if(!userOptional.isPresent()){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
             return false;
         }
-        User user=userOptional.get();
+        User user = userOptional.get();
         user.setNickname(updateUserForm.getNickname());
         user.setGender(updateUserForm.getGender());
         user.setPhone(updateUserForm.getPhone());
@@ -66,8 +67,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updatePassword(Long userId, String password) {
-        Optional<User> userOptional=userRepository.findById(userId);
-        if(!userOptional.isPresent()){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
             return false;
         }
         User user = userOptional.get();
@@ -92,12 +93,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkPassword(Long userId, String password) {
-        Optional<User> userOptional=userRepository.findById(userId);
-        if(!userOptional.isPresent()){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
             return false;
         }
         User user = userOptional.get();
-        if(user.getPassword()==password){
+        if (user.getPassword().equals(password)) {
             return true;
         }
         return false;

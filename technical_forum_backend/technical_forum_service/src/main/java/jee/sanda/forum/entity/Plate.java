@@ -2,13 +2,17 @@ package jee.sanda.forum.entity;
 
 import javax.persistence.*;
 
+/***
+ * 板块实体类
+ */
 @Entity
-@Table(name="plate")
+@Table(name = "plate")
 public class Plate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
     public Integer getId() {
         return id;
     }

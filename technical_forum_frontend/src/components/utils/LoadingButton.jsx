@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Button } from 'antd'
-
+//邮箱验证码发送按钮
 class LoadingButton extends PureComponent {
     buttonWidth = {
         width: '120px',
@@ -45,7 +45,7 @@ class LoadingButton extends PureComponent {
         const { loading, count } = this.state
         const { text } = this.props
         return (
-        loading ? <Button style={this.buttonWidth} disabled >({count}s)后再次发送</Button> : <Button style={this.buttonWidth} type="primary" onClick={this.buttonCallback}>{text}</Button>
+            loading ? <Button style={this.buttonWidth} disabled >({count}s)后再次发送</Button> : <Button style={this.buttonWidth} type="primary" onClick={this.buttonCallback}>{text}</Button>
         )
     }
 }

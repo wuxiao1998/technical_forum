@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
+/***
+ * 邮件服务接口
+ */
 @RestController
 @RequestMapping("/mail")
 public class MailController {
@@ -17,16 +20,22 @@ public class MailController {
     private MailService mailService;
     @Autowired
     private HttpServletRequest request;
+
+    /***
+     * 发送邮箱验证码
+     * @param email
+     * @return
+     */
     @PostMapping("/sendCode")
-    public ResponseEntity<String> sendCode(@RequestBody Map<String,String> email){
+    public ResponseEntity<String> sendCode(@RequestBody Map<String, String> email) {
         String em = email.get("email");
-        if(em == null || !em.contains("@")){
+        if (em == null || !em.contains("@")) {
             return ResponseEntity.badRequest().body("邮箱错误!!!");
         }
         String code = mailService.sendSimpleMail(em);
         HttpSession session = request.getSession();
         ////将邮箱验证码存入session域
-        session.setAttribute("code",code);
+        session.setAttribute("code", code);
         return ResponseEntity.ok("success");
     }
 }

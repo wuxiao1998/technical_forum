@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/***
+ * 用于接收用户的修改信息
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

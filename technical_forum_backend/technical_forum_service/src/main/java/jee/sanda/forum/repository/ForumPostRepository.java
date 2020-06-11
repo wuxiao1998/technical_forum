@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
-public interface ForumPostRepository extends JpaRepository<ForumPost,Long>, JpaSpecificationExecutor<ForumPost> {
+public interface ForumPostRepository extends JpaRepository<ForumPost, Long>, JpaSpecificationExecutor<ForumPost> {
+    //根据板块查找帖子
     List<ForumPost> findByPlateId(Integer plateId);
 }

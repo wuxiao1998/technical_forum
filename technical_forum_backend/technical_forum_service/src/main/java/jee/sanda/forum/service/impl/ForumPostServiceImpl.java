@@ -22,7 +22,7 @@ public class ForumPostServiceImpl implements ForumPostService {
     private ForumPostRepository forumPostRepository;
 
     @Override
-    public Page<ForumPost> findByPlateId(Integer plateId,Integer pageNo,Integer pageSize) {
+    public Page<ForumPost> findByPlateId(Integer plateId, Integer pageNo, Integer pageSize) {
 
         Specification<ForumPost> spec = new Specification<ForumPost>() {
             @Override
@@ -32,7 +32,7 @@ public class ForumPostServiceImpl implements ForumPostService {
                 return p1;
             }
         };
-        Pageable pageable = PageRequest.of(pageNo - 1,pageSize);
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         Page<ForumPost> forumPosts = forumPostRepository.findAll(spec, pageable);
         return forumPosts;
     }

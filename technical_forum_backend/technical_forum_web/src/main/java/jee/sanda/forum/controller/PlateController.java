@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/***
+ * 板块接口
+ */
 @RestController
 @RequestMapping("/plate")
 public class PlateController {
@@ -17,8 +20,12 @@ public class PlateController {
     @Autowired
     private PlateService plateService;
 
+    /***
+     * 查询所有板块信息
+     * @return
+     */
     @GetMapping("/findAll")
-    public ResponseEntity<List<Plate>> findAll(){
+    public ResponseEntity<List<Plate>> findAll() {
         return ResponseEntity.ok(plateService.findAll());
     }
 }

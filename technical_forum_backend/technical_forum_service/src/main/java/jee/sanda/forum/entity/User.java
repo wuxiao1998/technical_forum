@@ -10,9 +10,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-
+/***
+ * 用户实体类
+ */
 @Entity
-@Table(name="user")
+@Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable {
     @Id
@@ -53,6 +55,7 @@ public class User implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+
     @JsonIgnore
     public String getPassword() {
         return password;

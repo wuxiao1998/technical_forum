@@ -1,6 +1,6 @@
 package jee.sanda.forum.service;
 
-public interface  MailService {
+public interface MailService {
 
     /***
      * 发送邮箱验证码
@@ -16,5 +16,5 @@ public interface  MailService {
      * @param Code
      * @return
      */
-    boolean validateCode(String sessionCode,String Code);
+    boolean validateCode(String sessionCode, String Code);
 }

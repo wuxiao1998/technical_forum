@@ -34,6 +34,6 @@ public class ForumPost {
     @CreatedDate
     private Date createtime;
     @OneToOne
-    @JoinColumn(name="createby")
+    @JoinColumn(name = "createby")
     private User user;
 }
