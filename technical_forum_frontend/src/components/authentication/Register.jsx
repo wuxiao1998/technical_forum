@@ -7,12 +7,13 @@ import {
   Button,
   Radio,
   Row,
-  Col
+  Col,
+  Upload,
+  message
 } from 'antd';
 import Axios from 'axios';
 import LoadingButton from '../utils/LoadingButton'
-
-
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {
@@ -43,13 +44,15 @@ class Register extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            gender:1
+            gender:1,
+            loading: false,
         }
     }
 
 
 
     onFinish = values => {
+    
         console.log('Received values of form: ', values);
         Axios.post('/user/register',{
             username:values.username,
@@ -61,10 +64,20 @@ class Register extends React.Component{
             phone:values.phone
         }).then(res=>{
             console.log(res);
+            let config = {
+              headers: {
+    
+                  "Content-Type": "multipart/form-data"
+              }
+          };
+          let formData = new FormData();
+          formData.append("file", values.image.file.originFileObj);
+            Axios.post('/test/upload',formData,config)
               this.props.history.push('/success')
-            
         })
-      };
+      
+    }
+       
 
     goBack = () =>{
        this.props.history.goBack();
@@ -85,8 +98,49 @@ class Register extends React.Component{
         })
       }
      
-    render(){
       
+    getBase64 = (img, callback)=> {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => callback(reader.result));
+      reader.readAsDataURL(img);
+    }
+    
+    beforeUpload=(file)=> {
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJpgOrPng) {
+        message.error('请上车 jpeg或者png格式的图片!');
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error('图片大小不准超过 2MB!');
+      }
+      return isJpgOrPng && isLt2M;
+    }
+    
+    handleChange = info => {
+      if(!info.file.originFileObj){
+        message.error('请上传图片!');
+        return;
+      }
+      this.getBase64(info.file.originFileObj, imageUrl =>
+         this.setState({
+           imageUrl,
+           loading: false,
+         }),
+       );
+      }
+     
+    
+
+
+    render(){
+      const uploadButton = (
+        <div>
+          {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
+          <div className="ant-upload-text">Upload</div>
+        </div>
+      );
+      const { imageUrl } = this.state;
         return <div>
         <h1 style={{textAlign:"center"}}>技术论坛注册</h1>
         <Form
@@ -105,21 +159,49 @@ class Register extends React.Component{
             {
               required: true,
               message: '请输入用户名',
-            },
-            // ({ getFieldValue }) => ({
-            //   validator(rule, value) {
-            //    Axios.post('/mail/sendCode',{
-            //      email:value
-            //    }).then(res=>{
-            //     return Promise.resolve();
-            //    })
-            //    return Promise.reject('该用户名已被使用!!!');
-            //   },
-            // }),
-          
+            }, 
+            ({ getFieldValue }) => ({
+              async validator(rule, value) {
+                let data;
+                await  Axios.post('/user/checkUsername',{
+                  username:value
+                 }).then(res=>{
+                   console.log(res)
+                   data = res.data
+                 })
+                 if(data == '用户名可使用'){              
+                  return Promise.resolve();
+                 }else if(data == '用户名重复'){
+                  return Promise.reject("用户名已经被使用,请更换");
+                 }
+                }
+            })
           ]}
+          hasFeedback
         >
           <Input />
+        </Form.Item>
+        <Form.Item
+          name="image"
+          label="头像"
+          rules={[
+            {
+              required: true,
+              message: '请上传头像',
+            }
+          ]}
+        >
+          <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="#"
+                beforeUpload={this.beforeUpload}
+                onChange={this.handleChange}
+              >
+                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+              </Upload>
         </Form.Item>
         <Form.Item
           name="password"
@@ -143,7 +225,7 @@ class Register extends React.Component{
           rules={[
             {
               required: true,
-              message: 'Please confirm your password!',
+              message: '两次密码不一致!!!',
             },
             ({ getFieldValue }) => ({
               validator(rule, value) {

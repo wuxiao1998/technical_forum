@@ -61,11 +61,10 @@ public class UserController {
             boolean flag = mailService.validateCode(sessionCode, validateCode);
             if (flag) {
                 //验证码正确
+                userService.register(user);
                 session.removeAttribute("code");
-                if(userService.register(user))
-                    return ResponseEntity.ok("注册成功");
-                else
-                    return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("用户名重复");
+                return ResponseEntity.ok("注册成功");
+
             } else {
                 return  ResponseEntity.badRequest().body("验证码错误");
             }
@@ -87,11 +86,11 @@ public class UserController {
         return ResponseEntity.ok("更新成功");
     }
     @PostMapping("/checkUsername")
-    public ResponseEntity<Object> checkUsername(@RequestParam("username") String username){
-        if(userService.checkUserName(username)) {
+    public ResponseEntity<Object> checkUsername(@RequestBody User user){
+        if(userService.checkUserName(user.getUsername())) {
             return ResponseEntity.ok("用户名可使用");
         }
-        return  ResponseEntity.badRequest().body("用户名重复");
+        return  ResponseEntity.ok("用户名重复");
     }
     @PostMapping("/checkPassword")
     public ResponseEntity<Object> checkPassword(@RequestParam("password") String password){

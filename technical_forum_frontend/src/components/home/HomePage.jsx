@@ -15,8 +15,6 @@ class HomePage extends React.Component{
     }
 
     componentWillMount(){
-      console.log('1111',sessionStorage.getItem("plateKey"))
-    
       Axios.get('/plate/findAll').then(res=>{
             console.log(res);
             this.setState({
@@ -47,7 +45,6 @@ class HomePage extends React.Component{
         <Sider 
         width="194"
        >
-         {console.log(this.state.plateKey)}
           <Menu theme="dark" selectedKeys={[window.location.hash.split('/')[3]]} mode="inline" onSelect={this.getKey}>
             {this.state.plateList.map(item=>{
                 return <Menu.Item key={item.id} >
