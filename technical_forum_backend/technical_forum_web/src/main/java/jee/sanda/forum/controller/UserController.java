@@ -142,7 +142,7 @@ public class UserController {
     }
     /***
      * 头像上传
-     * @param file
+     * @param file,uploadType
      * @return
      * @throws IOException
      */
