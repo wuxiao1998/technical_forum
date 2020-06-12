@@ -58,19 +58,12 @@ class UserInfo extends React.Component {
       previewImage: '',
       previewTitle: '',
       uploadfile:'',
+      imageUrl:"http://localhost:8000/forum/image/",
       fileobj:'',
-      fileList: [
-        {
-          uid: '-1',
-          name: JSON.parse(sessionStorage.getItem("user")).id+'.jpg',
-          status: 'done',
-          url: 'http://localhost:8000/forum/image/'+JSON.parse(sessionStorage.getItem("user")).id+'.jpg',
-        },
-      ]
+    
     }
     this.showModa = this.showModa.bind(this);
     this.hideModal = this.hideModal.bind(this);
-    console.log(this.state)
   }
 
 
@@ -80,16 +73,22 @@ class UserInfo extends React.Component {
       this.setState({
         loginin: false
       })
+    }else{
+      let userImage = JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).id + '.jpg': "";
+      this.setState({
+        imageUrl:this.state.imageUrl+userImage
+      })
     }
+
   }
 
 
-  onFinish = values => {
+  onFinish =  async values => {
     this.setState({
       visible: false,
     });
     console.log('Received values of form: ', values);
-    Axios.post('/user/updateUser', {
+    await Axios.post('/user/updateUser', {
       nickname: this.state.nickname,
       gender: this.state.gender,
       phone: this.state.phone,
@@ -103,15 +102,18 @@ class UserInfo extends React.Component {
       let formData = new FormData();
       console.log(this.state.fileobj,'fileobj')
       formData.append("file", this.state.fileobj);
-      Axios.post('/user/upload', formData, config)
+      Axios.post('/user/upload?uploadType=update', formData, config)
+      let user = JSON.parse(sessionStorage.getItem("user"));
+      user.gender = this.state.gender;
+      user.nickname = this.state.nickname;
+      user.phone = this.state.phone;
+      sessionStorage.setItem("user", JSON.stringify(user));
       message.success('更新成功!!!');
-      //this.props.history.push('/home/homepage');
+      //刷新页面
+      window.location.reload();
     })
-    let user = JSON.parse(sessionStorage.getItem("user"));
-    user.gender = this.state.gender;
-    user.nickname = this.state.nickname;
-    user.phone = this.state.phone;
-    sessionStorage.setItem("user", JSON.stringify(user));
+    
+  
 
 
   };
@@ -232,7 +234,7 @@ class UserInfo extends React.Component {
               fileList={this.state.fileList}
               value={this.state.uploadfile}
             >
-              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+              <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> 
             </Upload>
           </Descriptions.Item >
           <Descriptions.Item label="邮箱" span={3}>{this.state.user.email}</Descriptions.Item>
