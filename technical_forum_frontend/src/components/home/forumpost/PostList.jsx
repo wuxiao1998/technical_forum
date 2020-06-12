@@ -1,9 +1,11 @@
 import React from 'react';
-import { List, Avatar, Space, Button, Pagination, Typography } from 'antd';
+import { List, Avatar, Space, Button, Pagination, Typography,Input  } from 'antd';
 import { Link } from 'react-router-dom'
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import Axios from 'axios';
+import '../../../css/App.css'
 //帖子查询组件
+const { Search } = Input;
 const { Text } = Typography;
 const IconText = ({ icon, text }) => (
   <Space>
@@ -20,8 +22,9 @@ class PostList extends React.Component {
       platekey: '',
       listData: [],
       pageNo: 1,
-      pageSize: 8,
+      pageSize: 6,
       totalPage: 0,
+      searchCondtion:''
     }
   }
 
@@ -42,7 +45,7 @@ class PostList extends React.Component {
   }
 
 
-  loadingData = (platekey) => {
+  loadingData =  (platekey) => {
     if (!platekey) {
       platekey = 1;
     }
@@ -53,7 +56,8 @@ class PostList extends React.Component {
     } else {
       pageNo = this.state.pageNo;
     }
-    Axios.get('/forumPost/findByPlateId?plateId=' + platekey + '&pageNo=' + pageNo + '&pageSize=' + this.state.pageSize
+    Axios.get('/forumPost/findByPlateId?plateId=' + platekey + '&pageNo=' + pageNo + '&pageSize=' + 
+    this.state.pageSize+'&searchCondtion='+this.state.searchCondtion
     ).then(res => {
       console.log(res.data)
       this.setState({
@@ -65,6 +69,7 @@ class PostList extends React.Component {
   }
   pageChange = (page) => {
     Axios.get('/forumPost/findByPlateId?plateId=' + this.state.platekey + '&pageNo=' + page + '&pageSize=' + this.state.pageSize
+    +'&searchCondtion='+this.state.searchCondtion
     ).then(res => {
       console.log(res.data)
       this.setState({
@@ -79,12 +84,34 @@ class PostList extends React.Component {
     this.props.history.push('/');
   }
 
+  searchCondtion = value => {
+    Axios.get('/forumPost/findByPlateId?plateId=' + this.state.platekey + '&pageNo=1&pageSize=' + 
+    this.state.pageSize+'&searchCondtion='+value
+    ).then(res => {
+      console.log(res.data)
+      this.setState({
+        listData: res.data.content,
+        totalPage: res.data.totalElements,
+        searchCondtion:value,
+        pageNo:1
+      })
+    })
+    
+  }
   render() {
 
     return <List
       header={
         <div>
           <h2 style={{ display: "inline" }}>帖子信息</h2>
+          <Search
+      placeholder="查找标题"
+      enterButton="Search"
+      onSearch={
+        this.searchCondtion
+      }
+      style={{ width: 200,marginLeft:'30px'}}
+    />
           <Button style={{ float: "right" }}><Link to={"/forumpost/add/" + this.state.platekey}>去发帖</Link></Button>
         </div>
       }
@@ -103,10 +130,20 @@ class PostList extends React.Component {
           ]}
         >
           <List.Item.Meta
-            title={<a href={item.href}>{item.title}</a>}
+            title={<a href={item.href} style={{fontSize:'16px',fontWeight:700}}>{item.title}</a>}
+            description={<div><span style={{display:'inline-block',marginTop:'10px'}} className="product-buyer-name">
+              {item.description}</span>
+              <div style={{marginTop:'10px'}}>
+                <Avatar style={{marginRight:'10px'}} 
+              src={"http://localhost:8000/forum/image/"+item.user.id+".jpg"} />
+            <Text type="secondary" className="product-buyer-name">
+              作者:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
+            </Text>
+            </div>
+            </div>
+          }
           />
-          <Text type="secondary">作者:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
-          </Text>
+
         </List.Item>
       )}
     />

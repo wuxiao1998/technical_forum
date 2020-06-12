@@ -1,13 +1,11 @@
 package jee.sanda.forum.controller;
 
 import jee.sanda.forum.entity.ForumPost;
-import jee.sanda.forum.entity.Plate;
 import jee.sanda.forum.service.ForumPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /***
  * 帖子接口
@@ -27,11 +25,13 @@ public class ForumPostController {
      * @return
      */
     @GetMapping("/findByPlateId")
-    public ResponseEntity<Object> findByPlateId(@RequestParam("plateId") Integer plateId, @RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize) {
+    public ResponseEntity<Object> findByPlateId(@RequestParam("plateId") Integer plateId, @RequestParam("pageNo") Integer pageNo,
+                                                @RequestParam("pageSize") Integer pageSize, @RequestParam("searchCondtion") String searchCondition) {
         if (plateId == null) {
             return ResponseEntity.badRequest().body("参数错误");
         }
-        return ResponseEntity.ok(forumPostService.findByPlateId(plateId, pageNo, pageSize));
+        Page<ForumPost> forumPosts = forumPostService.findByPlateId(plateId, pageNo, pageSize,searchCondition);
+        return ResponseEntity.ok(forumPosts);
     }
 
     /***

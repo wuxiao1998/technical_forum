@@ -29,8 +29,12 @@ class MyHeader extends React.Component {
         this.props.history.push('/home/homepage/' + sessionStorage.getItem("plateKey"));
     }
     render() {
-        return <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-            <div className="logo" />
+        return <Header style={{ position: 'fixed', zIndex: 1, width: '100%'}}>
+            <div class="logo" style={{backgroundColor:'transparent',marginTop:'1px'}}>
+                <span style={{color:'white',fontWeight:700,fontSize:'20px'}}>
+                IT技术论坛
+                </span>
+                </div>
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[window.location.hash.split('/')[2]]} >
                 <Menu.Item key="homepage"><Link to={'/home/homepage/' + sessionStorage.getItem("plateKey")}>首页</Link></Menu.Item>
                 <Menu.Item key="mypost"><Link to='/home/mypost'>我的贴子</Link></Menu.Item>

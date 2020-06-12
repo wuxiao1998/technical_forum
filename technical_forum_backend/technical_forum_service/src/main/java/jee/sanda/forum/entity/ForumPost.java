@@ -1,6 +1,7 @@
 package jee.sanda.forum.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -32,6 +33,7 @@ public class ForumPost {
     private Integer plateId;
     private Integer type;
     @CreatedDate
+    @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createtime;
     @OneToOne
     @JoinColumn(name = "createby")
