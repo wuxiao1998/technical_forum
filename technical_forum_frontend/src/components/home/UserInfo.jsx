@@ -150,19 +150,9 @@ class UserInfo extends React.Component {
     );
   }
   updatePassword = values => {
-    console.log('Received values of form: ', values);
-    Axios.post('/user/updateUser', {
-      nickname: this.state.nickname,
-      gender: this.state.gender,
-      phone: this.state.phone,
-    }).then(res => {
       this.props.history.push('/oldpwcheck');
-    })
   };
 
-  goBack = () => {
-    this.props.history.goBack();
-  }
   getValue = e => {
     console.log('radio checked', e.target.value);
     this.setState({
@@ -195,12 +185,6 @@ class UserInfo extends React.Component {
     })
   }
   render() {
-    const uploadButton = (
-      <div>
-        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
     const { imageUrl } = this.state;
     let element;
     if (this.state.loginin) {
@@ -257,9 +241,7 @@ class UserInfo extends React.Component {
           <Button type="primary" onClick={this.showModa.bind(this)}>
             修改
           </Button>
-          <Button style={{ marginLeft: "20px" }} onClick={this.goBack}>
-            返回
-          </Button></div>
+         </div>
       </div>
     } else {
       element = <NoLogin history={this.props.history}></NoLogin>

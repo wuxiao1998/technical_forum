@@ -58,13 +58,28 @@ class AddPost extends React.Component {
                 required: true,
                 message: '请输入标题内容',
               },
+              {
+                max:15,
+                message:'标题最多不超过15个字!!!'
+              }
             ]}
           >
             <Input />
           </Form.Item>
 
-          <Form.Item name="description" label="详细描述">
-            <Input.TextArea />
+          <Form.Item name="description" label="详细描述"
+          rules={[
+            {
+              required: true,
+              message: '请输入标题内容',
+            },
+            {
+              max:100,
+              message:'详细描述最多不超过100字!!!'
+            }
+          ]}
+          >
+            <Input.TextArea style={{height:'150px'}}/>
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 7 }}>
             <Button type="primary" htmlType="submit">
