@@ -148,6 +148,9 @@ public class UserController {
      */
     @PostMapping("/upload")
     public String testUpload(MultipartFile file,@RequestParam("uploadType")String uploadType) throws IOException {
+        if(file == null){
+            return "";
+        }
         HttpSession session = request.getSession();
         File upload = new File(ResourceUtils.getURL("classpath:").getPath() + "/upload/");
         if (!upload.exists()) {
@@ -155,7 +158,7 @@ public class UserController {
         }
         Long userId=(Long)session.getAttribute("userId");
         file.transferTo(new File(upload, userId+".jpg"));
-        if(uploadType=="register"){
+        if("register".equals(uploadType)){
             session.removeAttribute("userId");
         }
         return "success";

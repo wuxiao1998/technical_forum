@@ -10,3 +10,9 @@
     margin: 16px 24px 16px 0;
     float: left;
   }
+  .product-buyer-name {
+    max-width: 1050px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    }

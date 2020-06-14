@@ -10,11 +10,12 @@ import {
   Radio,
   AutoComplete,
   Modal,
-  message
+  message,
+  Upload
 } from 'antd';
 import Axios from 'axios';
 import NoLogin from '../authentication/NoLogin'
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 //用户个人信息组件
 const { Option } = Select;
 const formItemLayout = {
@@ -53,10 +54,16 @@ class UserInfo extends React.Component {
       nickname: JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).nickname : "",
       phone: JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).phone : "",
       gender: JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).gender : "",
+      previewVisible: false,
+      previewImage: '',
+      previewTitle: '',
+      uploadfile:'',
+      imageUrl:"http://localhost:8000/forum/image/",
+      fileobj:'',
+    
     }
     this.showModa = this.showModa.bind(this);
     this.hideModal = this.hideModal.bind(this);
-    console.log(this.state)
   }
 
 
@@ -66,45 +73,86 @@ class UserInfo extends React.Component {
       this.setState({
         loginin: false
       })
+    }else{
+      let userImage = JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).id + '.jpg': "";
+      this.setState({
+        imageUrl:this.state.imageUrl+userImage
+      })
     }
+
   }
 
 
-  onFinish = values => {
+  onFinish =  async values => {
     this.setState({
       visible: false,
     });
     console.log('Received values of form: ', values);
-    Axios.post('/user/updateUser', {
+    await Axios.post('/user/updateUser', {
       nickname: this.state.nickname,
       gender: this.state.gender,
       phone: this.state.phone,
     }).then(res => {
+      let config = {
+        headers: {
+
+          "Content-Type": "multipart/form-data"
+        }
+      };
+      let formData = new FormData();
+      console.log(this.state.fileobj,'fileobj')
+      formData.append("file", this.state.fileobj);
+      Axios.post('/user/upload?uploadType=update', formData, config)
+      let user = JSON.parse(sessionStorage.getItem("user"));
+      user.gender = this.state.gender;
+      user.nickname = this.state.nickname;
+      user.phone = this.state.phone;
+      sessionStorage.setItem("user", JSON.stringify(user));
       message.success('更新成功!!!');
-      //this.props.history.push('/home/homepage');
+      //刷新页面
+      window.location.reload();
     })
-    let user = JSON.parse(sessionStorage.getItem("user"));
-    user.gender = this.state.gender;
-    user.nickname = this.state.nickname;
-    user.phone = this.state.phone;
-    sessionStorage.setItem("user", JSON.stringify(user));
+    
+  
 
 
   };
-  updatePassword = values => {
-    console.log('Received values of form: ', values);
-    Axios.post('/user/updateUser', {
-      nickname: this.state.nickname,
-      gender: this.state.gender,
-      phone: this.state.phone,
-    }).then(res => {
-      this.props.history.push('/oldpwcheck');
-    })
-  };
 
-  goBack = () => {
-    this.props.history.goBack();
+  getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
   }
+
+  beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('请上传 jpeg或者png格式的图片!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('图片大小不准超过 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  }
+
+  handleChange = info => {
+    if (!info.file.originFileObj) {
+      message.error('请上传图片!');
+      return;
+    }
+    this.getBase64(info.file.originFileObj, imageUrl =>
+      this.setState({
+        imageUrl,
+        loading: false,
+        fileobj:info.file.originFileObj
+      }),
+    );
+  }
+  updatePassword = values => {
+      this.props.history.push('/oldpwcheck');
+  };
+
   getValue = e => {
     console.log('radio checked', e.target.value);
     this.setState({
@@ -137,6 +185,7 @@ class UserInfo extends React.Component {
     })
   }
   render() {
+    const { imageUrl } = this.state;
     let element;
     if (this.state.loginin) {
       element = <div>
@@ -157,6 +206,22 @@ class UserInfo extends React.Component {
 
         <Descriptions bordered style={{ backgroundColor: "white" }}>
           <Descriptions.Item label="用户名" span={3}>{this.state.user.username}</Descriptions.Item >
+          <Descriptions.Item label="头像" span={3}>
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="#"
+              beforeUpload={this.beforeUpload}
+              onChange={this.handleChange}
+              fileList={this.state.fileList}
+              value={this.state.uploadfile}
+            >
+                         {console.log('242id',this.state.imageUrl)}
+              <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> 
+            </Upload>
+          </Descriptions.Item >
           <Descriptions.Item label="邮箱" span={3}>{this.state.user.email}</Descriptions.Item>
           <Descriptions.Item label="昵称" span={3}><Input id="nickname" value={this.state.nickname} style={{ width: "300px" }} onChange={this.changeNickName}></Input></Descriptions.Item>
           <Descriptions.Item label="经验">{this.state.user.experience}</Descriptions.Item>
@@ -177,9 +242,7 @@ class UserInfo extends React.Component {
           <Button type="primary" onClick={this.showModa.bind(this)}>
             修改
           </Button>
-          <Button style={{ marginLeft: "20px" }} onClick={this.goBack}>
-            返回
-          </Button></div>
+         </div>
       </div>
     } else {
       element = <NoLogin history={this.props.history}></NoLogin>

@@ -1,7 +1,6 @@
 package jee.sanda.forum.controller;
 
 import jee.sanda.forum.service.MailService;
-import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

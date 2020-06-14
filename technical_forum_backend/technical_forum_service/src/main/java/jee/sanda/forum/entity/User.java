@@ -17,25 +17,70 @@ import java.util.Date;
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable {
+    /***
+     * 主键id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /***
+     * 用户名
+     */
     private String username;
+    /***
+     * 密码
+     */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+    /***
+     * 邮箱
+     */
     private String email;
+    /***
+     * 昵称
+     */
     private String nickname;
+    /***
+     * 电话
+     */
     private String phone;
+    /***
+     * 性别
+     */
     private Integer gender;
+    /***
+     * 经验值
+     */
     private Integer experience;
+    /***
+     * 等级
+     */
     private Integer level;
+    /***
+     * 称号
+     */
     private String designation;
+    /***
+     * 状态(封号,可用)
+     */
     private Integer status;
+    /***
+     * 权限
+     */
     private Integer role;
+    /***
+     * 接收邮箱验证码
+     */
     @Transient
     private String code;
+    /***
+     * 创建时间
+     */
     @CreatedDate
     private java.util.Date createtime;
+    /***
+     * 最后更新时间
+     */
     @LastModifiedDate
     @JsonIgnore
     private java.util.Date updatetime;

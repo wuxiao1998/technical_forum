@@ -2,6 +2,9 @@ package jee.sanda.forum.rest;
 
 import lombok.Data;
 
+/***
+ * 登录实体
+ */
 @Data
 public class LoginUser {
     private Long id;
