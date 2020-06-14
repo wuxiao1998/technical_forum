@@ -35,6 +35,18 @@ public class ForumPostController {
     }
 
     /***
+     * 通过帖子主表id查询帖子的所有信息
+     * @param postId
+     * @return
+     */
+    @PostMapping("/findPostDetails")
+    public ResponseEntity<Object> findAllByPostId(@RequestParam("postId") Long postId) {
+        ForumPost forumPost = forumPostService.findAllByPostId(postId);
+        return  ResponseEntity.ok(forumPost);
+    }
+
+
+    /***
      * 添加新帖
      * @param forumPost
      * @return

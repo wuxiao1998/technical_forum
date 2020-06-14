@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import javax.persistence.criteria.*;
-
+import java.util.Optional;
 
 
 @Service
@@ -52,5 +52,15 @@ public class ForumPostServiceImpl implements ForumPostService {
     @Override
     public void saveForumPost(ForumPost forumPost) {
         forumPostRepository.save(forumPost);
+    }
+
+    @Override
+    public ForumPost findAllByPostId(Long postId) {
+        Optional<ForumPost> optionalForumPost = forumPostRepository.findById(postId);
+        if(!optionalForumPost.isPresent()){
+            return null;
+        }
+        ForumPost forumPost = optionalForumPost.get();
+        return forumPost;
     }
 }

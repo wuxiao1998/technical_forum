@@ -19,4 +19,6 @@ public interface ForumPostService {
      * @param forumPost
      */
     void saveForumPost(ForumPost forumPost);
+
+    ForumPost findAllByPostId(Long postId);
 }

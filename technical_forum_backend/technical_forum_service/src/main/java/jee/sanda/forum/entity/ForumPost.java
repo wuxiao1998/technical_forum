@@ -1,6 +1,5 @@
 package jee.sanda.forum.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /***
  * 论坛帖子实体类
@@ -38,4 +38,8 @@ public class ForumPost {
     @OneToOne
     @JoinColumn(name = "createby")
     private User user;
+    @OneToMany(cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
+    @JoinColumn(name="forum_post_id")
+    private List<ForumPostDetail> forumPostDetails;
+
 }
