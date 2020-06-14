@@ -9,6 +9,7 @@ import HomeRouter from './components/home/HomeRouter'
 import AddPost from './components/home/forumpost/AddPost'
 import OldPwCheck from './components/authentication/OldPwCheck'
 import NewPwUpdate from './components/authentication/NewPwUpdate'
+import PostDetailList from './components/home/forumpost/PostDetailList'
 class App extends React.Component {
 
   constructor(props) {
@@ -33,9 +34,10 @@ class App extends React.Component {
         <Route exact path='/emailcheck' component={EmailCheck}></Route>
         <Route exact path='/' component={HomeRouter}></Route>
         <Route path='/home' component={HomeRouter}></Route>
-        <Route path='/forumpost/add/:id' component={AddPost}></Route>
+        <Route path='/forumpost/add/:plateid' component={AddPost}></Route>
         <Route path='/oldpwcheck' component={OldPwCheck}></Route>
         <Route path='/newpwupdate' component={NewPwUpdate}></Route>
+        <Route path='/forumpost/detail/:postid' component={PostDetailList}></Route>
       </Switch>
     </HashRouter>
 

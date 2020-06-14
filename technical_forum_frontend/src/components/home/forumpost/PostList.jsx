@@ -24,7 +24,7 @@ class PostList extends React.Component {
       pageNo: 1,
       pageSize: 6,
       totalPage: 0,
-      searchCondtion:''
+      searchCondition:''
     }
   }
 
@@ -57,7 +57,7 @@ class PostList extends React.Component {
       pageNo = this.state.pageNo;
     }
     Axios.get('/forumPost/findByPlateId?plateId=' + platekey + '&pageNo=' + pageNo + '&pageSize=' + 
-    this.state.pageSize+'&searchCondtion='+this.state.searchCondtion
+    this.state.pageSize+'&searchCondition='+this.state.searchCondition
     ).then(res => {
       console.log(res.data)
       this.setState({
@@ -69,7 +69,7 @@ class PostList extends React.Component {
   }
   pageChange = (page) => {
     Axios.get('/forumPost/findByPlateId?plateId=' + this.state.platekey + '&pageNo=' + page + '&pageSize=' + this.state.pageSize
-    +'&searchCondtion='+this.state.searchCondtion
+    +'&searchCondition='+this.state.searchCondition
     ).then(res => {
       console.log(res.data)
       this.setState({
@@ -84,15 +84,15 @@ class PostList extends React.Component {
     this.props.history.push('/');
   }
 
-  searchCondtion = value => {
+  searchCondition = value => {
     Axios.get('/forumPost/findByPlateId?plateId=' + this.state.platekey + '&pageNo=1&pageSize=' + 
-    this.state.pageSize+'&searchCondtion='+value
+    this.state.pageSize+'&searchCondition='+value
     ).then(res => {
       console.log(res.data)
       this.setState({
         listData: res.data.content,
         totalPage: res.data.totalElements,
-        searchCondtion:value,
+        searchCondition:value,
         pageNo:1
       })
     })
@@ -108,7 +108,7 @@ class PostList extends React.Component {
       placeholder="查找标题"
       enterButton="Search"
       onSearch={
-        this.searchCondtion
+        this.searchCondition
       }
       style={{ width: 200,marginLeft:'30px'}}
     />
@@ -130,7 +130,7 @@ class PostList extends React.Component {
           ]}
         >
           <List.Item.Meta
-            title={<a href={item.href} style={{fontSize:'16px',fontWeight:700}}>{item.title}</a>}
+            title={<Link to={'/forumpost/detail/'+item.id} style={{fontSize:'16px',fontWeight:700}}>{item.title}</Link>}
             description={<div><span style={{display:'inline-block',marginTop:'10px'}} className="product-buyer-name">
               {item.description}</span>
               <div style={{marginTop:'10px'}}>

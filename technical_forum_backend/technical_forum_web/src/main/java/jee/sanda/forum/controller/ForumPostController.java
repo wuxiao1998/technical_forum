@@ -26,7 +26,7 @@ public class ForumPostController {
      */
     @GetMapping("/findByPlateId")
     public ResponseEntity<Object> findByPlateId(@RequestParam("plateId") Integer plateId, @RequestParam("pageNo") Integer pageNo,
-                                                @RequestParam("pageSize") Integer pageSize, @RequestParam("searchCondtion") String searchCondition) {
+                                                @RequestParam("pageSize") Integer pageSize, @RequestParam("searchCondition") String searchCondition) {
         if (plateId == null) {
             return ResponseEntity.badRequest().body("参数错误");
         }

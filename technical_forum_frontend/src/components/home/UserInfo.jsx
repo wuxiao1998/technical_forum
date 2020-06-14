@@ -218,6 +218,7 @@ class UserInfo extends React.Component {
               fileList={this.state.fileList}
               value={this.state.uploadfile}
             >
+                         {console.log('242id',this.state.imageUrl)}
               <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> 
             </Upload>
           </Descriptions.Item >

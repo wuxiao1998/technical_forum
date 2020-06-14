@@ -16,7 +16,7 @@ class AddPost extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      plateId: this.props.match.params.id,
+      plateId: this.props.match.params.plateid,
       loginin: true
     }
   }
@@ -31,7 +31,7 @@ class AddPost extends React.Component {
     console.log('Received values of form: ', values);
     axios.post('/forumPost/addPost', {
       title: values.title,
-      description: values.title,
+      description: values.description,
       count: 0,
       plateId: this.state.plateId,
       type: 1,
