@@ -13,7 +13,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UpdateUserForm {
+    /***
+     * 用户昵称
+     */
     private String nickname;
+    /***
+     * 用户电话
+     */
     private String phone;
+    /***
+     * 用户性别
+     */
     private Integer gender;
 }

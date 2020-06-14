@@ -16,15 +16,30 @@ import java.util.List;
 @Table(name = "forum_post_detail")
 @EntityListeners(AuditingEntityListener.class)
 public class ForumPostDetail {
+    /***
+     * 主键
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /***
+     * 回帖内容
+     */
     private String content;
+    /***
+     * 回帖人信息
+     */
     @OneToOne
     @JoinColumn(name = "createby")
     private User user;
+    /***
+     * 回帖时间
+     */
     @CreatedDate
     private Date createtime;
+    /***
+     * 评论信息
+     */
     @OneToMany(cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
     @JoinColumn(name="forum_post_detail_id")
     private List<ForumPostReply> ForumPostReply;

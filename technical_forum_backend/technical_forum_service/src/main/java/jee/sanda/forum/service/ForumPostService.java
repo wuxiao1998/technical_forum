@@ -20,5 +20,10 @@ public interface ForumPostService {
      */
     void saveForumPost(ForumPost forumPost);
 
+    /***
+     * 根据帖子主表的id,查询帖子所有内容,包括回帖,评论
+     * @param postId
+     * @return
+     */
     ForumPost findAllByPostId(Long postId);
 }
