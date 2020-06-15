@@ -44,4 +44,13 @@ public interface ForumPostService {
      * @return
      */
     boolean comment(Long userId,Long forumPostId,String content);
+
+    /**
+     * 评论功能
+     * @param userId
+     * @param forumPostDetailId
+     * @param content
+     * @return
+     */
+    boolean reply(Long userId,Long forumPostDetailId,String content);
 }

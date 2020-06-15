@@ -14,4 +14,7 @@ public interface ForumPostRepository extends JpaRepository<ForumPost, Long>, Jpa
     @Query(value="insert into forum_post_detail(createby,forum_post_id,content) values(?1,?2,?3)",nativeQuery=true)
     @Modifying
     int insertForum_Post_detail(Long userId,Long forumPostId,String Content);
+    @Query(value="insert into forum_post_reply(createby,forum_post_detail_id,content) values(?1,?2,?3)",nativeQuery=true)
+    @Modifying
+    int insertForum_Post_reply(Long userId,Long forumPostDetailId,String Content);
 }

@@ -91,4 +91,13 @@ public class ForumPostServiceImpl implements ForumPostService {
         }
         return false;
     }
+
+    @Override
+    public boolean reply(Long userId, Long forumPostDetailId, String content) {
+        if(forumPostRepository.insertForum_Post_reply(userId,forumPostDetailId,content)>0)
+        {
+            return true;
+        }
+        return false;
+    }
 }

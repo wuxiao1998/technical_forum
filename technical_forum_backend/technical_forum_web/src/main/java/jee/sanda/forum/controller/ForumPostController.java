@@ -2,6 +2,7 @@ package jee.sanda.forum.controller;
 
 import jee.sanda.forum.entity.ForumPost;
 import jee.sanda.forum.form.Comment;
+import jee.sanda.forum.form.Reply;
 import jee.sanda.forum.service.ForumPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -87,6 +88,16 @@ public class ForumPostController {
             return ResponseEntity.ok("回帖成功");
         }
         return ResponseEntity.badRequest().body("回帖失败");
+    }
+    public ResponseEntity<Object>reply(@RequestBody Reply reply){
+        HttpSession session=request.getSession();
+        Long userId=(Long)session.getAttribute("userId");
+        Long forumPostDetailId=reply.getForumPostDetailId();
+        String content=reply.getContent();
+        if(forumPostService.comment(userId,forumPostDetailId,content)){
+            return ResponseEntity.ok("评论成功");
+        }
+        return ResponseEntity.badRequest().body("评论失败");
     }
 }
 
