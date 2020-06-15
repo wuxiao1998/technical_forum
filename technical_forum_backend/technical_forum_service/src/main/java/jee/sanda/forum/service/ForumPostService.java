@@ -26,4 +26,13 @@ public interface ForumPostService {
      * @return
      */
     ForumPost findAllByPostId(Long postId);
+
+    /**
+     * 根据userId查询所有帖子
+     * @param userId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    Page<ForumPost>findByUserId(Long userId, Integer pageNo, Integer pageSize);
 }

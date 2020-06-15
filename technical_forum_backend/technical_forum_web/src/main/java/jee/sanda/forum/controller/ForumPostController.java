@@ -56,5 +56,21 @@ public class ForumPostController {
         forumPostService.saveForumPost(forumPost);
         return ResponseEntity.ok("success");
     }
+
+    /**
+     * 查找我的帖子
+     * @param userId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/findByUserId")
+    public ResponseEntity<Object>addPost(@RequestParam("userId") Long userId,@RequestParam("pageNo") Integer pageNo,@RequestParam("pageSize") Integer pageSize){
+        if (userId == null) {
+            return ResponseEntity.badRequest().body("userId为空");
+        }
+        Page<ForumPost> forumPosts = forumPostService.findByUserId(userId, pageNo, pageSize);
+        return ResponseEntity.ok(forumPosts);
+    }
 }
 

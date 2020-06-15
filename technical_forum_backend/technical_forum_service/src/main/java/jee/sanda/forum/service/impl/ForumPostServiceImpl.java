@@ -27,19 +27,19 @@ public class ForumPostServiceImpl implements ForumPostService {
     public Page<ForumPost> findByPlateId(Integer plateId, Integer pageNo, Integer pageSize,String searchCondition) {
 
         Specification<ForumPost> spec = new Specification<ForumPost>() {
-            @Override
-            public Predicate toPredicate(Root<ForumPost> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                //获取实体类属性
-                Path<Object> plate = root.get("plateId");
-                Path<Object> title = root.get("title");
-                //where条件设置
-                Predicate p1 = criteriaBuilder.equal(plate, plateId);
-                if(!StringUtils.isEmpty(searchCondition)){
-                    Predicate p2 = criteriaBuilder.like(title.as(String.class), '%' + searchCondition + '%');
-                    return criteriaBuilder.and(p1,p2);
+                @Override
+                public Predicate toPredicate(Root<ForumPost> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                    //获取实体类属性
+                    Path<Object> plate = root.get("plateId");
+                    Path<Object> title = root.get("title");
+                    //where条件设置
+                    Predicate p1 = criteriaBuilder.equal(plate, plateId);
+                    if(!StringUtils.isEmpty(searchCondition)){
+                        Predicate p2 = criteriaBuilder.like(title.as(String.class), '%' + searchCondition + '%');
+                        return criteriaBuilder.and(p1,p2);
+                    }
+                    return p1;
                 }
-                return p1;
-            }
         };
         //增加排序字段
         Sort sortKey = Sort.by(Sort.Direction.DESC, "createtime");
@@ -62,5 +62,24 @@ public class ForumPostServiceImpl implements ForumPostService {
         }
         ForumPost forumPost = optionalForumPost.get();
         return forumPost;
+    }
+
+    @Override
+    public Page<ForumPost> findByUserId(Long userId, Integer pageNo, Integer pageSize) {
+        Specification<ForumPost> spec = new Specification<ForumPost>() {
+            @Override
+            public Predicate toPredicate(Root<ForumPost> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                //获取实体类属性
+                Path<Object> user = root.get("user");
+                //where条件设置
+                Predicate p1 = criteriaBuilder.equal(user, userId);
+                return p1;
+            }
+        };
+        Sort sortKey = Sort.by(Sort.Direction.DESC, "createtime");
+        //分页参数设置
+        Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
+        Page<ForumPost> forumPosts = forumPostRepository.findAll(spec, pageable);
+        return forumPosts;
     }
 }
