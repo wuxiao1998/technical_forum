@@ -35,4 +35,13 @@ public interface ForumPostService {
      * @return
      */
     Page<ForumPost>findByUserId(Long userId, Integer pageNo, Integer pageSize);
+
+    /**
+     * 回帖功能
+     * @param userId
+     * @param forumPostId
+     * @param content
+     * @return
+     */
+    boolean comment(Long userId,Long forumPostId,String content);
 }

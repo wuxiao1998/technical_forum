@@ -82,4 +82,13 @@ public class ForumPostServiceImpl implements ForumPostService {
         Page<ForumPost> forumPosts = forumPostRepository.findAll(spec, pageable);
         return forumPosts;
     }
+
+    @Override
+    public boolean comment(Long userId, Long forumPostId, String content) {
+        if(forumPostRepository.insertForum_Post_detail(userId,forumPostId,content)>0)
+        {
+            return true;
+        }
+        return false;
+    }
 }

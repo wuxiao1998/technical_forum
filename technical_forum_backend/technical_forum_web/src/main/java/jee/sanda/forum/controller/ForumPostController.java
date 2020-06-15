@@ -1,11 +1,15 @@
 package jee.sanda.forum.controller;
 
 import jee.sanda.forum.entity.ForumPost;
+import jee.sanda.forum.form.Comment;
 import jee.sanda.forum.service.ForumPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /***
  * 帖子接口
@@ -16,7 +20,8 @@ public class ForumPostController {
 
     @Autowired
     private ForumPostService forumPostService;
-
+    @Autowired
+    private HttpServletRequest request;
     /***
      * 根据板块id分页查询帖子信息
      * @param plateId
@@ -71,6 +76,17 @@ public class ForumPostController {
         }
         Page<ForumPost> forumPosts = forumPostService.findByUserId(userId, pageNo, pageSize);
         return ResponseEntity.ok(forumPosts);
+    }
+    @PostMapping("/comment")
+    public ResponseEntity<Object>comment(@RequestBody Comment comment){
+        HttpSession session=request.getSession();
+        Long userId=(Long)session.getAttribute("userId");
+        Long forumPostId=comment.getForumPostId();
+        String content=comment.getContent();
+        if(forumPostService.comment(userId,forumPostId,content)){
+            return ResponseEntity.ok("回帖成功");
+        }
+        return ResponseEntity.badRequest().body("回帖失败");
     }
 }
 
