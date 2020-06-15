@@ -45,7 +45,7 @@ public class ForumPostController {
      * @param postId
      * @return
      */
-    @PostMapping("/findPostDetails")
+    @GetMapping("/findPostDetails")
     public ResponseEntity<Object> findAllByPostId(@RequestParam("postId") Long postId) {
         ForumPost forumPost = forumPostService.findAllByPostId(postId);
         return  ResponseEntity.ok(forumPost);
