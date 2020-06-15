@@ -37,7 +37,7 @@ class MyHeader extends React.Component {
                 </div>
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[window.location.hash.split('/')[2]]} >
                 <Menu.Item key="homepage"><Link to={'/home/homepage/' + sessionStorage.getItem("plateKey")}>首页</Link></Menu.Item>
-                <Menu.Item key="mypost"><Link to='/home/mypost'>我的贴子</Link></Menu.Item>
+                <Menu.Item key="mypost"><Link to='/home/mypost'>我的论坛</Link></Menu.Item>
                 <Menu.Item key="userinfo"><Link to='/home/userinfo' >用户信息</Link></Menu.Item>
                 <Menu.Item key="4" style={{ float: "right" }} onClick={this.distoryUser}>{this.state.login ? '注销' : ''}</Menu.Item>
                 {!this.state.login &&<Menu.Item key="5" style={{ float: "right" }}><Link to='/register'>注册</Link></Menu.Item>}
