@@ -16,7 +16,7 @@ class PostDetailItem extends React.Component {
       render(){
           return  <div style={{marginTop:20}}>
           <div style={{float:'left',width:'100px',height:270,textAlign:'center'}}>
-            <img src={'http://localhost:8000/forum/image/'+this.props.id+".jpg"} width={60}/><br/><br/>
+            <img src={'http://localhost:8000/forum/image/'+this.props.id+".jpg"} width={60} height={60}/><br/><br/>
            <span>昵称:{this.props.username}</span><br/><br/>
            <span>等级:{this.props.level}</span><br/><br/>
            <span>称号:{this.props.designation}</span><br/><br/>

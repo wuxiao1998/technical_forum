@@ -24,7 +24,13 @@ class LoginFrom extends React.Component {
         state: response.data
       }
       sessionStorage.setItem("user", JSON.stringify(response.data))
-      this.props.history.push(path)
+      console.log('this.props',this.props)
+      if(this.props.location.search){
+        this.props.history.goBack();
+      }else{
+        this.props.history.push(path)
+      }
+    
     })
   };
   goBack = () => {
