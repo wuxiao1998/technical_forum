@@ -78,6 +78,12 @@ public class ForumPostController {
         Page<ForumPost> forumPosts = forumPostService.findByUserId(userId, pageNo, pageSize);
         return ResponseEntity.ok(forumPosts);
     }
+
+    /**
+     * 保存用户的回帖信息
+     * @param comment
+     * @return
+     */
     @PostMapping("/comment")
     public ResponseEntity<Object>comment(@RequestBody Comment comment){
         HttpSession session=request.getSession();
@@ -89,12 +95,19 @@ public class ForumPostController {
         }
         return ResponseEntity.badRequest().body("回帖失败");
     }
+
+    /**
+     * 保存用户的回复
+     * @param reply
+     * @return
+     */
+    @PostMapping("/reply")
     public ResponseEntity<Object>reply(@RequestBody Reply reply){
         HttpSession session=request.getSession();
         Long userId=(Long)session.getAttribute("userId");
         Long forumPostDetailId=reply.getForumPostDetailId();
         String content=reply.getContent();
-        if(forumPostService.comment(userId,forumPostDetailId,content)){
+        if(forumPostService.reply(userId,forumPostDetailId,content)){
             return ResponseEntity.ok("评论成功");
         }
         return ResponseEntity.badRequest().body("评论失败");

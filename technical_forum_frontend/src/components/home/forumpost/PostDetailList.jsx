@@ -37,6 +37,10 @@ class PostDetailList extends React.Component {
       }
 
     componentWillMount(){
+     this.loadingData();
+    }
+
+    loadingData = ()=>{
       Axios.get('/forumPost/findPostDetails?postId='+this.state.postId)
       .then(res=>{
         console.log(res)
@@ -47,9 +51,17 @@ class PostDetailList extends React.Component {
       })
     }
 
-    handleSubmit = (e) => {
-      console.log(e)
+    handleSubmit = () => {
+      console.log(this.state.value)
+      Axios.post('forumPost/comment',{
+        forumPostId:this.state.postId,
+        content:this.state.value
+      }).then(res=>{
+        this.loadingData();
+      })
     }
+
+
     handleChange = e => {
       this.setState({
         value: e.target.value,
