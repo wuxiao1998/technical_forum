@@ -1,6 +1,10 @@
 package jee.sanda.forum.service.impl;
 
 import jee.sanda.forum.entity.ForumPost;
+import jee.sanda.forum.entity.ForumPostDetail;
+import jee.sanda.forum.entity.ForumPostReply;
+import jee.sanda.forum.repository.ForumPostDetailRepository;
+import jee.sanda.forum.repository.ForumPostReplyRepository;
 import jee.sanda.forum.repository.ForumPostRepository;
 import jee.sanda.forum.service.ForumPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,11 @@ public class ForumPostServiceImpl implements ForumPostService {
     @Autowired
     private ForumPostRepository forumPostRepository;
 
+    @Autowired
+    private ForumPostDetailRepository forumPostDetailRepository;
+
+    @Autowired
+    private ForumPostReplyRepository forumPostReplyRepository;
     @Override
     public Page<ForumPost> findByPlateId(Integer plateId, Integer pageNo, Integer pageSize,String searchCondition) {
 
@@ -55,13 +64,11 @@ public class ForumPostServiceImpl implements ForumPostService {
     }
 
     @Override
-    public ForumPost findAllByPostId(Long postId) {
-        Optional<ForumPost> optionalForumPost = forumPostRepository.findById(postId);
-        if(!optionalForumPost.isPresent()){
-            return null;
-        }
-        ForumPost forumPost = optionalForumPost.get();
-        return forumPost;
+    public Page<ForumPostDetail> findDetailByPostId(Long postId,Integer pageNo,Integer pageSize) {
+        Sort sortKey = Sort.by(Sort.Direction.ASC, "createtime");
+        Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
+        Page<ForumPostDetail> pages = forumPostDetailRepository.findByPostId(postId, pageable);
+        return pages;
     }
 
     @Override
@@ -99,5 +106,22 @@ public class ForumPostServiceImpl implements ForumPostService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ForumPost findById(Long postId) {
+        Optional<ForumPost> forumPost = forumPostRepository.findById(postId);
+        if(!forumPost.isPresent()){
+            return null;
+        }
+        return forumPost.get();
+    }
+
+    @Override
+    public Page<ForumPostReply> findReplyByPostDetailId(Long postDetailId, Integer pageNo, Integer pageSize) {
+        Sort sortKey = Sort.by(Sort.Direction.ASC, "createtime");
+        Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
+        Page<ForumPostReply> pages = forumPostReplyRepository.findByPostDetailId(postDetailId, pageable);
+        return pages;
     }
 }

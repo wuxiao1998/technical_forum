@@ -18,13 +18,12 @@ class HomeRouter extends React.Component {
     }
   }
   componentWillMount() {
-    console.log("wddw")
   }
 
 
   render() {
     return <Layout>
-
+      {/** 导入页面头部*/}
       <MyHeader></MyHeader>
       <Content className="site-layout" >
         <div className="site-layout-background" style={{ minHeight: 380, height: '620px' }}>
@@ -35,6 +34,7 @@ class HomeRouter extends React.Component {
             <Route exact path='/home/mypost' component={MyPost}></Route>
             <Route exact path='/home/userinfo' component={UserInfo}></Route>
           </Switch>
+            {/** 导入页面底部*/}
           <MyFooter></MyFooter>
         </div>
       </Content>

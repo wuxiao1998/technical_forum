@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /***
  * 论坛帖子详情
@@ -42,9 +42,10 @@ public class ForumPostDetail {
     /***
      * 评论信息
      */
+    @OrderBy("createtime ASC ")
     @OneToMany(cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
     @JoinColumn(name="forum_post_detail_id")
-    private List<ForumPostReply> ForumPostReply;
+    private Set<ForumPostReply> ForumPostReply;
 
 
 }

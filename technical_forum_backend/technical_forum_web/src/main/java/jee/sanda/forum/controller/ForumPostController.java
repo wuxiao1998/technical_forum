@@ -1,6 +1,8 @@
 package jee.sanda.forum.controller;
 
 import jee.sanda.forum.entity.ForumPost;
+import jee.sanda.forum.entity.ForumPostDetail;
+import jee.sanda.forum.entity.ForumPostReply;
 import jee.sanda.forum.form.Comment;
 import jee.sanda.forum.form.Reply;
 import jee.sanda.forum.service.ForumPostService;
@@ -41,14 +43,29 @@ public class ForumPostController {
     }
 
     /***
-     * 通过帖子主表id查询帖子的所有信息
+     * 通过帖子主表id查询帖子的所有信息(回帖+评论,回帖为分页查询)
      * @param postId
      * @return
      */
     @GetMapping("/findPostDetails")
-    public ResponseEntity<Object> findAllByPostId(@RequestParam("postId") Long postId) {
-        ForumPost forumPost = forumPostService.findAllByPostId(postId);
+    public ResponseEntity<Object> findDetailByPostId(@RequestParam("postId") Long postId,
+                                                  @RequestParam("pageNo") Integer pageNo,
+                                                  @RequestParam("pageSize") Integer Size) {
+        Page<ForumPostDetail> forumPost = forumPostService.findDetailByPostId(postId,pageNo,Size);
         return  ResponseEntity.ok(forumPost);
+    }
+
+    /***
+     * 通过帖子主表id查询帖子的所有信息(暂不使用)
+     * @param postDetailId
+     * @return
+     */
+    @GetMapping("/findPostReply")
+    public ResponseEntity<Object> findReplyByPostDetailId(@RequestParam("postDetailId") Long postDetailId,
+                                                  @RequestParam("pageNo") Integer pageNo,
+                                                  @RequestParam("pageSize") Integer Size) {
+        Page<ForumPostReply> forumPostReplies = forumPostService.findReplyByPostDetailId(postDetailId,pageNo,Size);
+        return  ResponseEntity.ok(forumPostReplies);
     }
 
 
@@ -111,6 +128,21 @@ public class ForumPostController {
             return ResponseEntity.ok("评论成功");
         }
         return ResponseEntity.badRequest().body("评论失败");
+    }
+
+    /***
+     *
+     * @param postId
+     * @return
+     */
+    @GetMapping("/findById")
+    public ResponseEntity<Object> findById(@RequestParam("postId") Long postId){
+
+        ForumPost forumPost = forumPostService.findById(postId);
+        if(forumPost == null){
+            return ResponseEntity.badRequest().body("查询失败");
+        }
+        return ResponseEntity.ok(forumPost);
     }
 }
 

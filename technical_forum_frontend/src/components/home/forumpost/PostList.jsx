@@ -1,7 +1,7 @@
 import React from 'react';
-import { List, Avatar, Space, Button, Pagination, Typography,Input  } from 'antd';
+import { List, Avatar, Space, Button, Pagination, Typography, Input } from 'antd';
 import { Link } from 'react-router-dom'
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+import { MessageOutlined, LikeOutlined } from '@ant-design/icons';
 import Axios from 'axios';
 import '../../../css/App.css'
 //帖子查询组件
@@ -18,24 +18,24 @@ class PostList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loginin: true,
-      platekey: '',
-      listData: [],
-      pageNo: 1,
-      pageSize: 6,
-      totalPage: 0,
-      searchCondition:''
+      loginin: true,//判断用户是否登录
+      platekey: '',//板块id
+      listData: [],//帖子列表信息
+      pageNo: 1,//当前页码
+      pageSize: 6,//每页多少
+      totalPage: 0,//总管多少元素
+      searchCondition: ''//查询条件
     }
   }
 
   componentWillMount() {
-
+    //组件加载时,查询帖子(切换左边板块菜单不会再次调用此函数,会调用componentWillReceiveProps函数)
     this.loadingData(sessionStorage.getItem("platekey"))
   }
 
 
   componentWillReceiveProps(nextProps) {
-    //当父组件传入的platekey改变时,触发此生命周期函数
+    //当父组件传入的platekey改变时,即选中不同的板块时,触发此生命周期函数
     this.loadingData(nextProps.platekey)
     this.setState({
       platekey: nextProps.platekey,
@@ -45,7 +45,7 @@ class PostList extends React.Component {
   }
 
 
-  loadingData =  (platekey) => {
+  loadingData = (platekey) => {
     if (!platekey) {
       platekey = 1;
     }
@@ -56,8 +56,9 @@ class PostList extends React.Component {
     } else {
       pageNo = this.state.pageNo;
     }
-    Axios.get('/forumPost/findByPlateId?plateId=' + platekey + '&pageNo=' + pageNo + '&pageSize=' + 
-    this.state.pageSize+'&searchCondition='+this.state.searchCondition
+    //分页查询帖子信息
+    Axios.get('/forumPost/findByPlateId?plateId=' + platekey + '&pageNo=' + pageNo + '&pageSize=' +
+      this.state.pageSize + '&searchCondition=' + this.state.searchCondition
     ).then(res => {
       console.log(res.data)
       this.setState({
@@ -67,9 +68,10 @@ class PostList extends React.Component {
     })
 
   }
+  /* 当点击分页控件时，触发此函数*/
   pageChange = (page) => {
     Axios.get('/forumPost/findByPlateId?plateId=' + this.state.platekey + '&pageNo=' + page + '&pageSize=' + this.state.pageSize
-    +'&searchCondition='+this.state.searchCondition
+      + '&searchCondition=' + this.state.searchCondition
     ).then(res => {
       console.log(res.data)
       this.setState({
@@ -80,23 +82,25 @@ class PostList extends React.Component {
     })
 
   }
+  /*返回 */
   goLogin = () => {
     this.props.history.push('/');
   }
 
+  /*根据title模糊查询帖子 */
   searchCondition = value => {
-    Axios.get('/forumPost/findByPlateId?plateId=' + this.state.platekey + '&pageNo=1&pageSize=' + 
-    this.state.pageSize+'&searchCondition='+value
+    Axios.get('/forumPost/findByPlateId?plateId=' + this.state.platekey + '&pageNo=1&pageSize=' +
+      this.state.pageSize + '&searchCondition=' + value
     ).then(res => {
       console.log(res.data)
       this.setState({
         listData: res.data.content,
         totalPage: res.data.totalElements,
-        searchCondition:value,
-        pageNo:1
+        searchCondition: value,
+        pageNo: 1
       })
     })
-    
+
   }
   render() {
 
@@ -105,22 +109,27 @@ class PostList extends React.Component {
         <div>
           <h2 style={{ display: "inline" }}>帖子信息</h2>
           <Search
-      placeholder="查找标题"
-      enterButton="Search"
-      onSearch={
-        this.searchCondition
-      }
-      style={{ width: 200,marginLeft:'30px'}}
-    />
+            placeholder="查找标题"
+            enterButton="Search"
+            onSearch={
+              this.searchCondition
+            }
+            style={{ width: 200, marginLeft: '30px' }}
+          />
           <Button style={{ float: "right" }}><Link to={"/forumpost/add/" + this.state.platekey}>去发帖</Link></Button>
         </div>
       }
-      footer={<div style={{ textAlign: "center" }}><Pagination
+      footer={
+        /*在底部自定义分页组件*/ 
+      <div style={{ textAlign: "center" }}><Pagination
         current={this.state.pageNo} pageSize={this.state.pageSize} total={this.state.totalPage}
-        showSizeChanger={false} onChange={this.pageChange} /></div>}
+        showSizeChanger={false} onChange={this.pageChange} />
+        </div>
+      }
       bordered
       dataSource={this.state.listData}
       renderItem={item => (
+        /*渲染列表每一项,展示帖子信息*/
         <List.Item
           key={item.title}
           style={{ marginTop: "10px" }}
@@ -130,18 +139,18 @@ class PostList extends React.Component {
           ]}
         >
           <List.Item.Meta
-            title={<Link to={'/forumpost/detail/'+item.id} style={{fontSize:'16px',fontWeight:700}}>{item.title}</Link>}
-            description={<div><span style={{display:'inline-block',marginTop:'10px'}} className="product-buyer-name">
+            title={<Link to={'/forumpost/detail/' + item.id} style={{ fontSize: '16px', fontWeight: 700 }}>{item.title}</Link>}
+            description={<div><span style={{ display: 'inline-block', marginTop: '10px' }} className="product-buyer-name">
               {item.description}</span>
-              <div style={{marginTop:'10px'}}>
-                <Avatar style={{marginRight:'10px'}} 
-              src={"http://localhost:8000/forum/image/"+item.user.id+".jpg"} />
-            <Text type="secondary" className="product-buyer-name">
-              作者:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
-            </Text>
+              <div style={{ marginTop: '10px' }}>
+                <Avatar style={{ marginRight: '10px' }}
+                  src={"http://localhost:8000/forum/image/" + item.user.id + ".jpg"} />
+                <Text type="secondary" className="product-buyer-name">
+                  作者:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
+                </Text>
+              </div>
             </div>
-            </div>
-          }
+            }
           />
 
         </List.Item>

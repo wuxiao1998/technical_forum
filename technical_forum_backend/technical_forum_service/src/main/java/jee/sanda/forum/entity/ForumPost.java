@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /***
  * 论坛帖子实体类
@@ -56,11 +56,11 @@ public class ForumPost {
     @OneToOne
     @JoinColumn(name = "createby")
     private User user;
-    @OneToMany(cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
-    /***
-     * 帖子详细回帖内容
-     */
-    @JoinColumn(name="forum_post_id")
-    private List<ForumPostDetail> forumPostDetails;
+//    @OneToMany(cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
+//    /***
+//     * 帖子详细回帖内容
+//     */
+//    @JoinColumn(name="forum_post_id")
+//    private Set<ForumPostDetail> forumPostDetails;
 
 }
