@@ -1,8 +1,10 @@
 import React from 'react'
 import Axios from 'axios'
 import { Layout, Menu } from 'antd';
+import { Card,Row, Col } from 'antd';
 import { Link } from 'react-router-dom'
 import PostList from './forumpost/PostList'
+import SizeContext from 'antd/lib/config-provider/SizeContext';
 //主页组件
 const { Header, Content, Footer, Sider } = Layout;
 class HomePage extends React.Component {
@@ -28,8 +30,13 @@ class HomePage extends React.Component {
       }
     })
 
-
-
+    // Axios.get('/notice/searchByUser?plateId=null'+'&pageNo=' + 1 + '&pageSize=' +
+    // 6).then(res => {
+    //   this.setState({
+    //   })
+    //   console.log(res,'123456789')
+    // })
+    //查询全站公告，暂时还没数据
   }
 
   getKey = (item) => {
@@ -63,10 +70,32 @@ class HomePage extends React.Component {
           <div className="site-layout-background" style={{
             padding: 24,
             minHeight: 360,
-
           }}>
-            {/*板块id传入子组件*/}
-            <PostList platekey={this.state.plateKey}></PostList>
+            <div style={{ display: "inline" }}>
+              <Row>
+              {/* 用于布局，一行总数为24 */}
+                <Col span={16}>
+              <div style={{}}><PostList platekey={this.state.plateKey} ></PostList></div>
+              </Col>
+              <Col span={1}></Col>
+              <Col span={7}>
+              <div style={{}}><Card title="全站公告" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
+                <p>公告1balabalblablaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                <p>公告2balabalblabla</p>
+                <p>公告3balabalblabla</p>
+              </Card>
+                <br></br>
+                <br></br>
+                <br></br>
+                <Card title="热门帖子（暂定）" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
+                  <p>帖子1balabalblabla</p>
+                  <p>帖子2balabalblabla</p>
+                  <p>帖子3balabalblabla</p>
+                </Card>
+              </div>
+              </Col>
+              </Row>
+            </div>
           </div>
         </Content>
       </Layout>
