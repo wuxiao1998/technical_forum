@@ -1,5 +1,7 @@
 package jee.sanda.forum.form;
 
+import jee.sanda.forum.em.GenderEnum;
+import jee.sanda.forum.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +26,5 @@ public class UpdateUserForm {
     /***
      * 用户性别
      */
-    private Integer gender;
+    private GenderEnum gender;
 }

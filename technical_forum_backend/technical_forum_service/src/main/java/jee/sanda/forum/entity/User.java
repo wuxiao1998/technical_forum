@@ -2,6 +2,9 @@ package jee.sanda.forum.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jee.sanda.forum.em.GenderEnum;
+import jee.sanda.forum.em.RoleEnum;
+import jee.sanda.forum.em.StatusEnum;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -47,7 +50,8 @@ public class User implements Serializable {
     /***
      * 性别
      */
-    private Integer gender;
+    @Enumerated(EnumType.ORDINAL)
+    private GenderEnum gender;
     /***
      * 经验值
      */
@@ -63,11 +67,13 @@ public class User implements Serializable {
     /***
      * 状态(封号,可用)
      */
-    private Integer status;
+    @Enumerated(EnumType.ORDINAL)
+    private StatusEnum status;
     /***
      * 权限
      */
-    private Integer role;
+    @Enumerated(EnumType.ORDINAL)
+    private RoleEnum role;
     /***
      * 接收邮箱验证码
      */
@@ -133,15 +139,6 @@ public class User implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
     public Integer getExperience() {
         return experience;
     }
@@ -166,19 +163,27 @@ public class User implements Serializable {
         this.designation = designation;
     }
 
-    public Integer getStatus() {
+    public GenderEnum getGender() {
+        return gender;
+    }
+
+    public void setGender(GenderEnum gender) {
+        this.gender = gender;
+    }
+
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 
-    public Integer getRole() {
+    public RoleEnum getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(RoleEnum role) {
         this.role = role;
     }
 
@@ -205,4 +210,7 @@ public class User implements Serializable {
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
     }
+
+
+
 }

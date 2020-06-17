@@ -63,4 +63,5 @@ public class ForumPost {
 //    @JoinColumn(name="forum_post_id")
 //    private Set<ForumPostDetail> forumPostDetails;
 
+
 }

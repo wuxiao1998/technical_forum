@@ -1,5 +1,7 @@
 package jee.sanda.forum.service.impl;
 
+import jee.sanda.forum.em.RoleEnum;
+import jee.sanda.forum.em.StatusEnum;
 import jee.sanda.forum.entity.User;
 import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.repository.UserRepository;
@@ -87,9 +89,9 @@ public class UserServiceImpl implements UserService {
         //设置初始称号
         user.setDesignation("萌新上路");
         //设置初始状态为激活
-        user.setStatus(1);
+        user.setStatus(StatusEnum.正常);
         //初始角色为普通用户
-        user.setRole(1);
+        user.setRole(RoleEnum.普通用户);
     }
 
     @Override
