@@ -56,7 +56,7 @@ public class ForumPostServiceImpl implements ForumPostService {
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
         Page<ForumPost> forumPosts = forumPostRepository.findAll(spec, pageable);
         return forumPosts;
-    }
+}
 
     @Override
     public void saveForumPost(ForumPost forumPost) {
