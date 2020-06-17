@@ -230,8 +230,8 @@ class UserInfo extends React.Component {
           <Descriptions.Item label="称号">{this.state.user.designation}</Descriptions.Item>
           <Descriptions.Item label="性别" span={3}>
             <Radio.Group name="gender" value={this.state.gender}>
-              <Radio value={1} onChange={(e) => this.getValue(e)} >男</Radio>
-              <Radio value={2} onChange={(e) => this.getValue(e)} >女</Radio>
+              <Radio value='男' onChange={(e) => this.getValue(e)} >男</Radio>
+              <Radio value='女' onChange={(e) => this.getValue(e)} >女</Radio>
             </Radio.Group>
           </Descriptions.Item>
           <Descriptions.Item label="手机号" ><Input id="phone" value={this.state.phone} style={{ width: "300px" }} onChange={this.changePhone}></Input></Descriptions.Item>
