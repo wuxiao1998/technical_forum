@@ -131,7 +131,7 @@ public class ForumPostController {
     }
 
     /***
-     *
+     *通过帖子ID查找帖子详情
      * @param postId
      * @return
      */

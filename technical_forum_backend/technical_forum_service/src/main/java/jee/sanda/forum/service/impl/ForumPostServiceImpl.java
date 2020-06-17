@@ -57,7 +57,7 @@ public class ForumPostServiceImpl implements ForumPostService {
         Page<ForumPost> forumPosts = forumPostRepository.findAll(spec, pageable);
         forumPosts.getContent().forEach(item->{
             Long postId=item.getId();
-            Long quantity=countCommentQuantity(postId);
+            Integer quantity=countCommentQuantity(postId);
             item.setCommentQuantity(quantity);
         });
         return forumPosts;
@@ -133,8 +133,8 @@ public class ForumPostServiceImpl implements ForumPostService {
     }
 
     @Override
-    public Long countCommentQuantity(Long forumPostId) {
-        Long quantity=forumPostDetailRepository.countByPostId(forumPostId);
+    public Integer countCommentQuantity(Long forumPostId) {
+        Integer quantity=forumPostDetailRepository.countByPostId(forumPostId);
         return quantity;
     }
 }

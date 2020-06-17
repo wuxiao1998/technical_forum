@@ -84,6 +84,7 @@ public class NoticeController {
      * @param pageSize
      * @return
      */
+    @GetMapping("/searchByUser")
     public ResponseEntity<Object> searchByUser(@RequestParam("plateId") Integer plateId,@RequestParam("pageNo") Integer pageNo,@RequestParam("pageSize") Integer pageSize){
         if (plateId==null){
             return ResponseEntity.badRequest().body("plateId");

@@ -79,5 +79,5 @@ public interface ForumPostService {
      * @param forumPostId
      * @return
      */
-    Long countCommentQuantity(Long forumPostId);
+    Integer countCommentQuantity(Long forumPostId);
 }
