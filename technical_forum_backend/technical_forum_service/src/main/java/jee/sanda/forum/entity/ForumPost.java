@@ -63,5 +63,5 @@ public class ForumPost {
 //    @JoinColumn(name="forum_post_id")
 //    private Set<ForumPostDetail> forumPostDetails;
     @Transient
-    private Integer commentQuantity;
+    private Long commentQuantity;
 }
