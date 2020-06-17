@@ -11,7 +11,7 @@ class HomePage extends React.Component {
     this.state = {
       plateList: [],
       plateKey: '',
-      url: '/home/homepage'
+      url: '/home/homepage',
     }
   }
 
