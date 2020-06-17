@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 
@@ -15,5 +16,8 @@ public interface ForumPostDetailRepository extends JpaRepository<ForumPostDetail
             nativeQuery = true)
     Page<ForumPostDetail> findByPostId(Long PostId, Pageable pageable);
 
-
+    //计算回帖数量
+    @Query(value="SELECT count(*) FROM forum_post_detail WHERE forum_post_id=?1",nativeQuery = true)
+    @Modifying
+    Long countByPostId(Long PostId);
 }

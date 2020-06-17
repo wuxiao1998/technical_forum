@@ -55,6 +55,11 @@ public class ForumPostServiceImpl implements ForumPostService {
         //分页参数设置
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
         Page<ForumPost> forumPosts = forumPostRepository.findAll(spec, pageable);
+        forumPosts.getContent().forEach(item->{
+            Long postId=item.getId();
+            Long quantity=countCommentQuantity(postId);
+            item.setCommentQuantity(quantity);
+        });
         return forumPosts;
 }
 
@@ -125,5 +130,11 @@ public class ForumPostServiceImpl implements ForumPostService {
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
         Page<ForumPostReply> pages = forumPostReplyRepository.findByPostDetailId(postDetailId, pageable);
         return pages;
+    }
+
+    @Override
+    public Long countCommentQuantity(Long forumPostId) {
+        Long quantity=forumPostDetailRepository.countByPostId(forumPostId);
+        return quantity;
     }
 }

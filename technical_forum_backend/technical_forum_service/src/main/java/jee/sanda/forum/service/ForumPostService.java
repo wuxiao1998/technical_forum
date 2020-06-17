@@ -73,4 +73,11 @@ public interface ForumPostService {
      * @return
      */
     Page<ForumPostReply> findReplyByPostDetailId(Long postDetailId, Integer pageNo, Integer PageSize);
+
+    /**
+     * 计算回帖数量
+     * @param forumPostId
+     * @return
+     */
+    Long countCommentQuantity(Long forumPostId);
 }
