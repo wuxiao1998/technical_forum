@@ -36,6 +36,24 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    public String sendVerificationCode(String email) {
+        String code = RandomUtils.getCode();
+        //创建SimpleMailMessage对象
+        SimpleMailMessage message = new SimpleMailMessage();
+        //邮件发送人
+        message.setFrom(from);
+        //邮件接收人
+        message.setTo(email);
+        //邮件主题
+        message.setSubject("技术论坛系统");
+        //邮件内容
+        message.setText("此次用于重置新密码的验证码是:" + code);
+        //发送邮件
+        mailSender.send(message);
+        return code;
+    }
+
+    @Override
     public boolean validateCode(String sessionCode, String code) {
         return sessionCode.equalsIgnoreCase(code);
     }
