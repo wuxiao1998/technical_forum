@@ -74,7 +74,6 @@ class MyPostList extends React.Component {
   render() {
 
     return <List
-
       footer={<div style={{ textAlign: "center" }}><Pagination
         current={this.state.pageNo} pageSize={this.state.pageSize} total={this.state.totalPage}
         showSizeChanger={false} onChange={this.pageChange} /></div>}

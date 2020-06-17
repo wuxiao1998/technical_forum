@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  PageHeader, List, Typography, Comment, Pagination, Form, Button, Input
+  PageHeader, List, Typography, Comment, Pagination, Form, Button, Input,Modal,message
 } from 'antd';
 import { QuestionCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom'
@@ -22,6 +22,14 @@ const Editor = ({ onChange, onSubmit, value }) => (
   </>
 );
 
+//回复评论组件
+const Reply = ({ onChange, value }) => (
+  <>
+    <Form.Item style={{ marginLeft: '80px' }}>
+      <TextArea rows={4} onChange={onChange} value={value} />
+    </Form.Item>
+  </>
+);
 class PostDetailList extends React.Component {
   constructor(props) {
     super(props)
@@ -35,6 +43,10 @@ class PostDetailList extends React.Component {
       totalPage: 0,//总共多少
       value: '',//绑定用户回帖信息
       replyInfo: [],//每条帖子对应的评论信息
+      visible: false ,//用于控制弹窗的显示‘
+      replyId:'',//取每一条帖子详情的id
+      replyValue:'',//回复内容
+      userId: sessionStorage.getItem("user")? JSON.parse(sessionStorage.getItem("user")).id:null //当前登录用户的id
 
     }
   }
@@ -71,22 +83,60 @@ class PostDetailList extends React.Component {
       forumPostId: this.state.postId,
       content: this.state.value
     }).then(res => {
-      //操作成功后重新查询一次页面
+      //操作成功后重新查询一次页面,并清空文本域原来的值
+      this.setState({
+        value:''
+      })
+      message.success("发表成功!!!")
       this.loadingData();
     })
   }
-  //点击参与回复,发表回复
+  //点击参与回复,显示弹窗,发表回复
   showReply = (replyId) => {
     console.log(replyId)
     this.setState({
-      reply: true
-    })
-
+      visible: true,
+      replyId:replyId
+    });
   }
+ //点击回复发表评论
+  handleOk = e => {
+    Axios.post('/forumPost/reply',{
+      forumPostDetailId:this.state.replyId,
+      content:this.state.replyValue
+     }).then(res=>{
+      //操作成功后隐藏modal,并清空文本域原来的值
+      this.setState({
+        visible: false,
+        replyValue:''
+      })
+      message.success("回复成功!!!")
+       //操作成功后重新查询一次页面
+       this.loadingData();
+     })
+  }; 
+
+  //取消按钮关闭弹窗
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  }
+    
+
+
   //与用户回帖的文本域绑定
   handleChange = e => {
     this.setState({
       value: e.target.value,
+    });
+  };
+
+  //与用户评论的文本域绑定
+  handleChangeReply = e => {
+    this.setState({
+      replyValue: e.target.value,
     });
   };
 
@@ -185,8 +235,10 @@ class PostDetailList extends React.Component {
               </div>
               {/*每一项item的底部,使用子绝父相布局使其永远固定在底部位置*/}
               <div style={{ textAlign: 'right' }}>
+                {this.state.userId&&<span>
                 <Button  >举报</Button>&nbsp;&nbsp;&nbsp;
-                <Button onClick={this.showReply.bind(this, item.id)}>参与回复</Button>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
+                <Button onClick={this.showReply.bind(this, item.id)}>参与回复</Button>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>}
+                发帖时间:{item.createtime}
               </div>
 
             </div>
@@ -194,6 +246,25 @@ class PostDetailList extends React.Component {
         </List.Item>
         }
       />
+      <Modal
+          title="输入回复内容"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          okText="回复"
+          cancelText="取消"
+          maskClosable={false}
+          onCancel={this.handleCancel}
+        >
+          <img
+              width={60}
+              height={60}
+              src={"http://localhost:8000/forum/image/" + this.state.userId + ".jpg"}
+            />
+            <Reply
+              onChange={this.handleChangeReply}
+              value={this.state.replyValue}
+            />
+        </Modal>
     </div>
   }
 }

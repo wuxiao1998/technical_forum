@@ -248,7 +248,7 @@ class UserInfo extends React.Component {
     } else {
       element = <NoLogin history={this.props.history}></NoLogin>
     }
-    return <div style={{ marginTop: "5%", minHeight: '80vh' }}>
+    return <div style={{ minHeight: '80vh', marginTop: "3%", marginLeft: "3%" , marginRight: "3%", marginBottom: "3%",}}>
       {element}
     </div>
   }
