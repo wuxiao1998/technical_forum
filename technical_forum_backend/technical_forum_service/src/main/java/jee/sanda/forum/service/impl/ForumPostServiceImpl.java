@@ -67,6 +67,7 @@ public class ForumPostServiceImpl implements ForumPostService {
     public Page<ForumPostDetail> findDetailByPostId(Long postId,Integer pageNo,Integer pageSize) {
         Sort sortKey = Sort.by(Sort.Direction.ASC, "createtime");
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
+
         Page<ForumPostDetail> pages = forumPostDetailRepository.findByPostId(postId, pageable);
         return pages;
     }
@@ -110,6 +111,7 @@ public class ForumPostServiceImpl implements ForumPostService {
 
     @Override
     public ForumPost findById(Long postId) {
+        forumPostRepository.updateForum_Post_Count(postId);
         Optional<ForumPost> forumPost = forumPostRepository.findById(postId);
         if(!forumPost.isPresent()){
             return null;
