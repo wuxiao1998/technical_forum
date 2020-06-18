@@ -30,7 +30,7 @@ class PostList extends React.Component {
 
   componentWillMount() {
     //组件加载时,查询帖子(切换左边板块菜单不会再次调用此函数,会调用componentWillReceiveProps函数)
-    this.loadingData(sessionStorage.getItem("platekey"))
+    // this.loadingData(sessionStorage.getItem("platekey"))
   }
 
 

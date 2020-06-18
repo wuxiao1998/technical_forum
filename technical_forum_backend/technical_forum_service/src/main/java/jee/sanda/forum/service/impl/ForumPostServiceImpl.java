@@ -177,7 +177,7 @@ public class ForumPostServiceImpl implements ForumPostService {
         }
         User user = userOptional.get();
         final RoleEnum role = user.getRole();
-        if (role==RoleEnum.管理员||user.getId()==forumPostId){
+        if (role==RoleEnum.管理员||user.getId()==userId){
             forumPostRepository.deleteById(forumPostId);
             return true;
         }

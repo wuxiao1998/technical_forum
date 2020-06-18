@@ -84,8 +84,7 @@ class MyPostList extends React.Component {
           key={item.title}
           style={{ marginTop: "10px" }}
           actions={[
-            <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+           
           ]}
         >
           <List.Item.Meta

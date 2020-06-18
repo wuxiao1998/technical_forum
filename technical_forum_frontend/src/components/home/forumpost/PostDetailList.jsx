@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  PageHeader, List, Typography, Comment, Pagination, Form, Button, Input,Modal,message,BackTop
+  PageHeader, List, Typography, Comment, Pagination, Form, Button, Input,Modal,message,BackTop,Popconfirm
 } from 'antd';
 import { QuestionCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom'
@@ -124,7 +124,12 @@ class PostDetailList extends React.Component {
     });
   }
     
-
+  deletePost = ()=>{
+    Axios.delete('/forumPost/deletePostById?postId='+this.state.postId).then(res=>{
+      message.success('删除成功!!!')
+      this.props.history.goBack();
+    })
+  }
 
   //与用户回帖的文本域绑定
   handleChange = e => {
@@ -168,6 +173,11 @@ class PostDetailList extends React.Component {
         header={
           <div style={{ height: 300, position: 'relative' }}>
             <Title style={{ display: 'inline', marginLeft: '15px' }}><QuestionCircleFilled />&nbsp;{this.state.forumPost.title}</Title>
+            {sessionStorage.getItem('user')&&(JSON.parse(sessionStorage.getItem('user')).role =='管理员'||
+            this.state.userId == this.state.mainUser.id)&&
+            <Popconfirm title="确定要删除此帖吗？(删除后不可恢复)" okText="Yes" cancelText="No" onConfirm={this.deletePost}>
+             <Button style={{float:'right'}}>删除帖子</Button>
+             </Popconfirm>}
             <PostDetailItem {...this.state.mainUser} description={this.state.forumPost.description} type="楼主">
             </PostDetailItem>
             <span style={{ position: 'absolute', bottom: 0, right: 0 }}>
