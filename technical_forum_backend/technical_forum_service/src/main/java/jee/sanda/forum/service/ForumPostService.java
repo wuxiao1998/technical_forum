@@ -89,5 +89,11 @@ public interface ForumPostService {
      */
     Integer addExperience(Long userId,Integer increment);
 
+    /**
+     * 删除帖子
+     * @param userId
+     * @param forumPostId
+     * @return
+     */
     boolean deleteForumPost(Long userId,Long forumPostId);
 }
