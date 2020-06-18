@@ -1,5 +1,6 @@
 package jee.sanda.forum.service.impl;
 
+import jee.sanda.forum.em.RoleEnum;
 import jee.sanda.forum.entity.ForumPost;
 import jee.sanda.forum.entity.ForumPostDetail;
 import jee.sanda.forum.entity.ForumPostReply;
@@ -166,5 +167,20 @@ public class ForumPostServiceImpl implements ForumPostService {
         userRepository.updateExprience(increment,userId);
         Integer experience=userRepository.searchExprience(userId);
         return experience;
+    }
+
+    @Override
+    public boolean deleteForumPost(Long userId, Long forumPostId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
+            return false;
+        }
+        User user = userOptional.get();
+        final RoleEnum role = user.getRole();
+        if (role==RoleEnum.管理员||user.getId()==forumPostId){
+            forumPostRepository.deleteById(forumPostId);
+            return true;
+        }
+        return false;
     }
 }

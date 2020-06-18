@@ -56,12 +56,12 @@ public class ForumPost {
     @OneToOne
     @JoinColumn(name = "createby")
     private User user;
-//    @OneToMany(cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
-//    /***
-//     * 帖子详细回帖内容
-//     */
-//    @JoinColumn(name="forum_post_id")
-//    private Set<ForumPostDetail> forumPostDetails;
+    @OneToMany(cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
+    /***
+     * 帖子详细回帖内容
+     */
+    @JoinColumn(name="forum_post_id")
+    private Set<ForumPostDetail> forumPostDetails;
     @Transient
     private Long commentQuantity;
 }

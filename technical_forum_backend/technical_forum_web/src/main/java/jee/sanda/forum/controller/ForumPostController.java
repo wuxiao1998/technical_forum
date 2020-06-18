@@ -144,5 +144,20 @@ public class ForumPostController {
         }
         return ResponseEntity.ok(forumPost);
     }
+
+    /**
+     * 通过帖子id删除帖子
+     * @param postId
+     * @return
+     */
+    @DeleteMapping("deletePostById")
+    public ResponseEntity<Object> deletePostById(@RequestParam("postId") Long postId){
+        HttpSession session=request.getSession();
+        Long userId=(Long)session.getAttribute("userId");
+        if (forumPostService.deleteForumPost(userId,postId)){
+            return ResponseEntity.ok("删除帖子成功");
+        }
+        return ResponseEntity.badRequest().body("删除失败,没有权限删除该帖子");
+    }
 }
 

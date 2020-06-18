@@ -88,4 +88,6 @@ public interface ForumPostService {
      * @return
      */
     Integer addExperience(Long userId,Integer increment);
+
+    boolean deleteForumPost(Long userId,Long forumPostId);
 }
