@@ -47,16 +47,16 @@ public class Notice {
     @CreatedDate
     @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createtime;
-    /**
-     * 修改公告的人
-     */
-    @OneToOne
-    @JoinColumn(name = "updateby")
-    private User updateUser;
-    /**
-     * 修改公告的时间
-     */
-    @LastModifiedDate
-    @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    private Date updatetime;
+//    /**
+//     * 修改公告的人
+//     */
+//    @OneToOne
+//    @JoinColumn(name = "updateby")
+//    private User updateUser;
+//    /**
+//     * 修改公告的时间
+//     */
+//    @LastModifiedDate
+//    @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+//    private Date updatetime;
 }

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.*;
 import java.util.List;
@@ -47,7 +48,7 @@ public class NoticeServiceImpl implements NoticeService {
             return false;
         }
         User user = userOptional.get();
-        notice.setUpdateUser(user);
+//        notice.setUpdateUser(user);
         noticeRepository.save(notice);
         return true;
     }
@@ -60,7 +61,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public Page<Notice> searchNoticeByAdmin(Integer pageNo, Integer pageSize) {
-        Sort sortKey = Sort.by(Sort.Direction.DESC, "updatetime");
+        Sort sortKey = Sort.by(Sort.Direction.DESC, "createtime");
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
         Page<Notice> notices = noticeRepository.findAll(pageable);
         return notices;
@@ -72,12 +73,16 @@ public class NoticeServiceImpl implements NoticeService {
             @Override
             public Predicate toPredicate(Root<Notice> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 Path<Object> plate=root.get("plate");
-                Predicate p1=criteriaBuilder.equal(plate,plateId);
-                Predicate p2=criteriaBuilder.equal(plate,null);
-                return criteriaBuilder.and(p1,p2);
+                Predicate p1;
+                if(StringUtils.isEmpty(plateId)){
+                    p1 =  criteriaBuilder.isNull(plate);
+                }else{
+                    p1 =  criteriaBuilder.equal(plate,plateId);
+                }
+                return p1;
             }
         };
-        Sort sortKey = Sort.by(Sort.Direction.DESC, "updatetime");
+        Sort sortKey = Sort.by(Sort.Direction.DESC, "createtime");
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
         Page<Notice> notices = noticeRepository.findAll(spec,pageable);
         return notices;
