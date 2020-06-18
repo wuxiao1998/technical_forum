@@ -77,6 +77,8 @@ public class ForumPostServiceImpl implements ForumPostService {
         Integer experience=addExperience(userId,10);
         Integer level= ExperienceLevelUtils.judgeLevel(experience);
         userRepository.updateLevel(level,userId);
+        String designation=ExperienceLevelUtils.judgeDesignation(level);
+        userRepository.updateDesignation(designation,userId);
     }
 
     @Override
@@ -114,6 +116,8 @@ public class ForumPostServiceImpl implements ForumPostService {
             Integer experience=addExperience(userId,5);
             Integer level= ExperienceLevelUtils.judgeLevel(experience);
             userRepository.updateLevel(level,userId);
+            String designation=ExperienceLevelUtils.judgeDesignation(level);
+            userRepository.updateDesignation(designation,userId);
             return true;
         }
         return false;
@@ -126,6 +130,8 @@ public class ForumPostServiceImpl implements ForumPostService {
             Integer experience=addExperience(userId,3);
             Integer level= ExperienceLevelUtils.judgeLevel(experience);
             userRepository.updateLevel(level,userId);
+            String designation=ExperienceLevelUtils.judgeDesignation(level);
+            userRepository.updateDesignation(designation,userId);
             return true;
         }
         return false;

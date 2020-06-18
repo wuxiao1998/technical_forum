@@ -1,6 +1,11 @@
 package jee.sanda.forum.utils;
 
 public class ExperienceLevelUtils {
+    /**
+     * 根据经验值返回等级
+     * @param experience
+     * @return
+     */
     public static Integer judgeLevel(Integer experience){
         if(experience>=0&&experience<10){
             return 0;
@@ -34,6 +39,47 @@ public class ExperienceLevelUtils {
         }
         else{
             return 10;
+        }
+    }
+
+    /**
+     * 根据等级返回称号
+     * @param level
+     * @return
+     */
+    public static String judgeDesignation(Integer level){
+        if(level==0){
+            return "萌新上路";
+        }
+        else if(level==1){
+            return "论坛游民";
+        }
+        else if(level==2){
+            return "见习写手";
+        }
+        else if(level==3){
+            return "正式写手";
+        }
+        else if(level==4){
+            return "专业写手";
+        }
+        else if(level==5){
+            return "黄金版主";
+        }
+        else if(level==6){
+            return "白金版主";
+        }
+        else if(level==7){
+            return "荣誉版主";
+        }
+        else if(level==8){
+            return "论坛精英";
+        }
+        else if(level==9){
+            return "论坛支柱";
+        }
+        else{
+            return "论坛元老";
         }
     }
 }

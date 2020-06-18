@@ -58,4 +58,13 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Query(value = "update User set level=?1 where id=?2",nativeQuery = true)
     @Modifying
     Integer updateLevel(Integer level,Long userId);
+
+    /**
+     * 更新称号
+     * @param designation
+     * @param userId
+     */
+    @Query(value = "update User set designation=?1 where id=?2",nativeQuery = true)
+    @Modifying
+    void updateDesignation(String designation,Long userId);
 }
