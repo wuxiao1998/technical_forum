@@ -28,14 +28,15 @@ public class NoticeServiceImpl implements NoticeService {
     private UserRepository userRepository;
     @Override
     public boolean createNotice(Long userId,Notice notice) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (!userOptional.isPresent()) {
-            return false;
-        }
-        User user = userOptional.get();
-        notice.setCreateUser(user);
-        notice.setUpdateUser(user);
-        noticeRepository.save(notice);
+//        Optional<User> userOptional = userRepository.findById(userId);
+//        if (!userOptional.isPresent()) {
+//            return false;
+//        }
+//        User user = userOptional.get();
+//        notice.setCreateUser(user);
+//        notice.setUpdateUser(user);
+        noticeRepository.saveNotice(notice.getTitle(),notice.getContent(),
+                                    notice.getPlate().getId(),userId);
         return true;
     }
 

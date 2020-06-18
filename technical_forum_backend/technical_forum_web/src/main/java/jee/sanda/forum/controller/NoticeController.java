@@ -28,7 +28,7 @@ public class NoticeController {
      * @return
      */
     @PostMapping("/create")
-    public ResponseEntity<Object> createNotice(Notice notice){
+    public ResponseEntity<Object> createNotice(@RequestBody Notice notice){
         HttpSession session=request.getSession();
         Long userId=(Long) session.getAttribute("userId");
         if (noticeService.createNotice(userId,notice)){
@@ -43,7 +43,7 @@ public class NoticeController {
      * @return
      */
     @PostMapping("/update")
-    public ResponseEntity<Object> updateNotice(Notice notice){
+    public ResponseEntity<Object> updateNotice(@RequestBody Notice notice){
         HttpSession session=request.getSession();
         Long userId=(Long) session.getAttribute("userId");
         if (noticeService.createNotice(userId,notice)){
@@ -58,7 +58,7 @@ public class NoticeController {
      * @return
      */
     @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteNotice(Integer noticeId){
+    public ResponseEntity<Object> deleteNotice(@RequestParam("noticeId") Integer noticeId){
         if (noticeService.deleteNotice(noticeId))
         {
             return ResponseEntity.ok("删除公告成功");
@@ -73,7 +73,8 @@ public class NoticeController {
      * @return
      */
     @GetMapping("/searchByAdmin")
-    public ResponseEntity<Object> searchByAdmin(@RequestParam("pageNo") Integer pageNo,@RequestParam("pageSize") Integer pageSize){
+    public ResponseEntity<Object> searchByAdmin(@RequestParam("pageNo") Integer pageNo,
+                                                @RequestParam("pageSize") Integer pageSize){
         Page<Notice> notices=noticeService.searchNoticeByAdmin(pageNo,pageSize);
         return ResponseEntity.ok(notices);
     }
@@ -85,7 +86,9 @@ public class NoticeController {
      * @return
      */
     @GetMapping("/searchByUser")
-    public ResponseEntity<Object> searchByUser(@RequestParam("plateId") Integer plateId,@RequestParam("pageNo") Integer pageNo,@RequestParam("pageSize") Integer pageSize){
+    public ResponseEntity<Object> searchByUser(@RequestParam("plateId") Integer plateId,
+                                               @RequestParam("pageNo") Integer pageNo,
+                                               @RequestParam("pageSize") Integer pageSize){
         if (plateId==null){
             return ResponseEntity.badRequest().body("plateId");
         }

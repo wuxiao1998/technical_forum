@@ -2,6 +2,7 @@ package jee.sanda.forum.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.hibernate.engine.internal.Cascade;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -31,7 +32,7 @@ public class Notice {
     /**
      * 公告范围（null为全站）
      */
-    @OneToOne
+    @OneToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "plate_id")
     private Plate plate;
     /**
