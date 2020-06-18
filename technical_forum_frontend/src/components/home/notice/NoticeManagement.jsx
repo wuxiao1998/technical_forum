@@ -3,47 +3,6 @@ import Axios from 'axios';
 import { Table, Tag, Space, Button, Typography, Modal, Form, Input, message } from 'antd';
 const { Paragraph } = Typography;
 const { TextArea } = Input;
-const columns = [
-
-  {
-    title: '标题',
-    dataIndex: 'title',
-    key: 'title',
-  },
-  {
-    title: '内容',
-    dataIndex: 'content',
-    key: 'content',
-    render: text => <Paragraph style={{ width: '200px' }} ellipsis>{text}</Paragraph>,
-  },
-  {
-    title: '板块',
-    dataIndex: 'plateId',
-    key: 'plateId',
-  },
-  {
-    title: '发布时间',
-    dataIndex: 'createtime',
-    key: 'createtime',
-  },
-  {
-    title: '发布人',
-    key: 'username',
-    dataIndex: 'username',
-  },
-  {
-    title: '操作',
-    key: 'action',
-    render: (text, record) => (
-
-      <Space size="middle">
-        {console.log(record)}
-        <Button>编辑 {record.name}</Button>
-        <Button onClick={test.bind(this, record)}>删除</Button>
-      </Space>
-    ),
-  },
-];
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -66,9 +25,6 @@ const tailFormItemLayout = {
     },
   },
 };
-function test(record) {
-  console.log(record)
-}
 
 //显示公告组件
 class NoticeManagement extends React.Component {
@@ -78,7 +34,51 @@ class NoticeManagement extends React.Component {
     this.state = {
       noticeList: [],
       visible: false,
-      plateList:[]
+      plateList: [],
+      columns: [
+
+        {
+          title: '标题',
+          dataIndex: 'title',
+          key: 'title',
+        },
+        {
+          title: '内容',
+          dataIndex: 'content',
+          key: 'content',
+          render: text => <Paragraph style={{ width: '200px' }} ellipsis>{text}</Paragraph>,
+        },
+        {
+          title: '板块',
+          dataIndex: 'plateId',
+          key: 'plateId',
+        },
+        {
+          title: '发布时间',
+          dataIndex: 'createtime',
+          key: 'createtime',
+        },
+        {
+          title: '发布人',
+          key: 'username',
+          dataIndex: 'username',
+        },
+        {
+          title: '操作',
+          key: 'action',
+          render: (text, record) => (
+
+            <Space size="middle">
+              <Button>查看详情</Button>
+              <Button onClick={this.deleteNotice.bind(this, record.key)}>删除</Button>
+            </Space>
+          ),
+        },
+      ],//构造表格列属性
+      pagination: {
+        current: 1,
+        pageSize: 5
+      }//表格分页属性
     }
   }
 
@@ -89,7 +89,23 @@ class NoticeManagement extends React.Component {
     })
 
   }
+  //删除公告方法
+  deleteNotice = (noticeId) => {
+    Axios.delete('/notice/delete?noticeId=' + noticeId).then(res => {
+      console.log('length',this.state.noticeList )
+      //当一页只有一条数据时,进行删除后刷新页面
+      if(this.state.noticeList.length == 1){
+      
+        this.loadingData(this.state.pagination.current - 1)
+      }else{
+      this.loadingData(this.state.pagination.current)
+      }
+      message.success("删除成功")
+     
+    })
+  }
 
+  //弹窗关闭
   handleCancel = () => {
     console.log('Clicked cancel button');
     this.setState({
@@ -97,46 +113,48 @@ class NoticeManagement extends React.Component {
     });
   };
 
-
+  //弹窗显示
   handleOk = () => {
     this.setState({
       visible: false
     });
   };
+
+  //组件加载时查询数据
   componentWillMount() {
-    Axios.get('/plate/findAll').then(res=>{
+    Axios.get('/plate/findAll').then(res => {
       this.setState({
-        plateList:res.data
+        plateList: res.data
       })
     })
-    this.loadingData()
+    this.loadingData(this.state.pagination.current)
 
   }
 
-
+  //保存公告,成功时回调
   onFinish = values => {
     console.log('Received values of form: ', values);
-    Axios.post('/notice/create',{
-      title:values.title,
-      content:values.content,
-      plate:{
-        id:values.plate == '全部'?null:values.plate,
+    Axios.post('/notice/create', {
+      title: values.title,
+      content: values.content,
+      plate: {
+        id: values.plate == '全部' ? null : values.plate,
       }
-    }).then(res=>{
-      this.loadingData()
+    }).then(res => {
+      this.loadingData(this.state.pagination.current)
       message.success("添加成功")
       this.setState({
-        visible:false
+        visible: false
       })
-      
+
     })
   }
 
 
-
-  loadingData = () => {
+  //查询接口
+  loadingData = (pageNo) => {
     let datasource = [];
-    Axios.get('/notice/searchByAdmin?pageNo=1&pageSize=5').then(res => {
+    Axios.get('/notice/searchByAdmin?pageNo=' + pageNo + '&pageSize=' + this.state.pagination.pageSize).then(res => {
       console.log(res)
       let data = res.data.content
       data.map(item => {
@@ -146,19 +164,32 @@ class NoticeManagement extends React.Component {
           content: item.content,
           plateId: item.plate ? item.plate.name : '全部',
           createtime: item.createtime,
-          username: item.createUser.username
+          username: item.createUser ? item.createUser.username : ''
         }
         datasource.push(notice)
       })
       this.setState({
-        noticeList: datasource
+        noticeList: datasource,
+        pagination: {
+          current: pageNo,
+          pageSize: 5,
+          total: res.data.totalElements
+        }
       })
     })
   }
+
+  handleTableChange = (pagination) => {
+    console.log('分页', pagination)
+    this.loadingData(pagination.current)
+  };
   render() {
     return <div style={{ minHeight: '80vh', marginTop: "5%", marginLeft: "3%", marginRight: "3%", marginBottom: "3%", }}>
       <Button onClick={this.addNotice} style={{ marginBottom: '20px' }}>新增公告</Button>
-      <Table columns={columns} dataSource={this.state.noticeList} />
+      <Table columns={this.state.columns}
+        onChange={this.handleTableChange}
+        dataSource={this.state.noticeList}
+        pagination={this.state.pagination} />
       <Modal
         title="新增公告"
         visible={this.state.visible}
@@ -185,8 +216,8 @@ class NoticeManagement extends React.Component {
                 message: '请输入标题',
               },
               {
-                max:20,
-                message:'标题过长'
+                max: 20,
+                message: '标题过长'
               }
             ]}
           >
@@ -197,12 +228,12 @@ class NoticeManagement extends React.Component {
             label="所属板块"
           >
             <select>
-            <option key="0">全部</option>
-            {
-              this.state.plateList.map((item)=>{
-              return <option value={item.id} key={item.id}>{item.name}</option>
-              })
-            }
+              <option key="0">全部</option>
+              {
+                this.state.plateList.map((item) => {
+                  return <option value={item.id} key={item.id}>{item.name}</option>
+                })
+              }
             </select>
           </Form.Item>
           <Form.Item
@@ -215,17 +246,17 @@ class NoticeManagement extends React.Component {
               },
             ]}
           >
-            <TextArea rows={4}/>
+            <TextArea rows={4} />
           </Form.Item>
           <Form.Item {...tailFormItemLayout}
-          style={{ textAlign: "center" }}
-        >
-          <Button type="primary" htmlType="submit">
-            确定
+            style={{ textAlign: "center" }}
+          >
+            <Button type="primary" htmlType="submit">
+              确定
           </Button>
-        </Form.Item>
+          </Form.Item>
         </Form>
-        
+
       </Modal>
     </div>
   }
