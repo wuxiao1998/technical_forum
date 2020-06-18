@@ -10,6 +10,7 @@ import AddPost from './components/home/forumpost/AddPost'
 import OldPwCheck from './components/authentication/OldPwCheck'
 import NewPwUpdate from './components/authentication/NewPwUpdate'
 import PostDetailList from './components/home/forumpost/PostDetailList'
+import NoticeDetail from './components/home/notice/NoticeDetail'
 class App extends React.Component {
 
   constructor(props) {
@@ -38,6 +39,7 @@ class App extends React.Component {
         <Route path='/oldpwcheck' component={OldPwCheck}></Route>
         <Route path='/newpwupdate' component={NewPwUpdate}></Route>
         <Route path='/forumpost/detail/:postid' component={PostDetailList}></Route>
+        <Route exact path='/noticedetail' component={NoticeDetail}></Route>
       </Switch>
     </HashRouter>
 

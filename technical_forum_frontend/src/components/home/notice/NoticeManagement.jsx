@@ -69,7 +69,7 @@ class NoticeManagement extends React.Component {
           render: (text, record) => (
 
             <Space size="middle">
-              <Button>查看详情</Button>
+              <Button onClick={this.showDetail.bind(this,record)}>查看详情</Button>
               <Popconfirm title="确定要删除吗？" okText="Yes" cancelText="No" onConfirm={this.deleteNotice.bind(this, record.key)}>
               <Button>删除</Button>
               </Popconfirm>
@@ -91,6 +91,16 @@ class NoticeManagement extends React.Component {
     })
 
   }
+
+  //跳转详情页面
+  showDetail = (record)=>{
+   this.props.history.push({
+     pathname:'/noticedetail',
+     state:record
+   })
+
+  }
+
   //删除公告方法
   deleteNotice = (noticeId) => {
     Axios.delete('/notice/delete?noticeId=' + noticeId).then(res => {

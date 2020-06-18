@@ -16,3 +16,21 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     }
+
+    .content {
+      width: 500px;
+      height: 200px;
+      margin: 0 auto; /*水平居中*/
+      position: relative;
+      top: 50%; /*偏移*/
+      margin-top: -150px; 
+  }
+
+   hr {/*内嵌水平线*/
+    width:100%;
+    margin:4 auto;
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
