@@ -1,14 +1,20 @@
 import React from 'react';
 import Axios from 'axios';
-import { Table, Tag, Space, Button } from 'antd';
-
+import { Table, Tag, Space, Button,Typography } from 'antd';
+const { Paragraph } = Typography;
 const columns = [
 
+    {
+      title: '标题',
+      dataIndex: 'title',
+      key: 'title',
+      render: text => <a>{text}</a>,
+    },
     {
       title: '内容',
       dataIndex: 'content',
       key: 'content',
-      render: text => <a>{text}</a>,
+      render: text => <Paragraph ellipsis>{text}</Paragraph>,
     },
     {
       title: '板块',
@@ -43,7 +49,7 @@ const columns = [
   }
 
 //显示公告组件
-class Notice extends React.Component {
+class NoticeManagement extends React.Component {
 
     constructor(props) {
         super(props)
@@ -61,8 +67,9 @@ class Notice extends React.Component {
             data.map(item=>{
                 let notice = {
                     key:item.id.toString(),
+                    title:item.title,
                     content:item.content,
-                    plateId:item.plateId,
+                    plateId:item.plate?item.plate.name:'全部',
                     createtime:item.createtime,
                     username:item.createUser.username
                 }
@@ -82,4 +89,4 @@ class Notice extends React.Component {
     }
 }
 
-export default Notice
+export default NoticeManagement

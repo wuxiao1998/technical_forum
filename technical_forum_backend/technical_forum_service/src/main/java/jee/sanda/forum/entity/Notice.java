@@ -21,14 +21,19 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
+     * 帖子标题
+     */
+    private String title;
+    /**
      * 公告内容
      */
     private String content;
     /**
      * 公告范围（null为全站）
      */
+    @OneToOne
     @JoinColumn(name = "plate_id")
-    private Integer plateId;
+    private Plate plate;
     /**
      * 创建公告的人
      */

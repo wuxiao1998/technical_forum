@@ -5,8 +5,8 @@ import MyPost from './MyPost'
 import UserInfo from './UserInfo'
 import MyHeader from '../Layout/MyHeader'
 import MyFooter from '../Layout/MyFooter'
-import Notice from './Notice'
-import WholeNotice from './WholeNotice'
+import NoticeManagement from './notice/NoticeManagement'
+import WholeNotice from './notice/WholeNotice'
 import { Layout } from 'antd';
 //主页子路由配置
 const { Content, Footer } = Layout;
@@ -35,7 +35,7 @@ class HomeRouter extends React.Component {
             <Route exact path='/home/homepage/:id' component={HomePage}></Route>
             <Route exact path='/home/mypost' component={MyPost}></Route>
             <Route exact path='/home/userinfo' component={UserInfo}></Route>
-            <Route exact path='/home/notice' component={Notice}></Route>
+            <Route exact path='/home/noticemanagement' component={NoticeManagement}></Route>
             <Route exact path='/home/wholenotice' component={WholeNotice}></Route>
           </Switch>
             {/** 导入页面底部*/}

@@ -70,7 +70,7 @@ public class NoticeServiceImpl implements NoticeService {
         Specification<Notice> spec = new Specification<Notice>() {
             @Override
             public Predicate toPredicate(Root<Notice> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                Path<Object> plate=root.get("plateId");
+                Path<Object> plate=root.get("plate");
                 Predicate p1=criteriaBuilder.equal(plate,plateId);
                 Predicate p2=criteriaBuilder.equal(plate,null);
                 return criteriaBuilder.and(p1,p2);
