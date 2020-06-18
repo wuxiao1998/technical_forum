@@ -30,7 +30,7 @@ console.log(this.state.record,'接收来的record')
                     }}
 
 
-                />,
+                />
 
                 <hr />
                 <div>

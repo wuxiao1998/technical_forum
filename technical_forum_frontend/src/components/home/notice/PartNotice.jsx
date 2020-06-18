@@ -27,13 +27,14 @@ const tailFormItemLayout = {
 };
 
 //显示公告组件
-class WholeNotice extends React.Component {
+class PartNotice extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
       noticeList: [],
-      visible: false,
+      titilename:'',
+      plateid: sessionStorage.getItem("plateKey") ? sessionStorage.getItem("plateKey") : 1,
       plateList: [],
       columns: [
 
@@ -107,9 +108,23 @@ class WholeNotice extends React.Component {
   //查询接口
   loadingData = (pageNo) => {
     let datasource = [];
-    Axios.get('/notice/searchByUser?pageNo=' + pageNo + '&pageSize=' + this.state.pagination.pageSize).then(res => {
-      console.log(res)
+    Axios.get('/notice/searchByUser?plateId='+ this.state.plateid + '&pageNo=' + pageNo + '&pageSize=' + this.state.pagination.pageSize).then(res => {
+      console.log(res,'12121212121')
       let data = res.data.content
+      if(this.state.plateid==1)
+      {this.setState({titilename:'java'})}
+      else if(this.state.plateid==2)
+      {this.setState({titilename:'php'})}
+      else if(this.state.plateid==3)
+      {this.setState({titilename:'python'})}
+      else if(this.state.plateid==4)
+      {this.setState({titilename:'c#'})}
+      else if(this.state.plateid==5)
+      {this.setState({titilename:'sql'})}
+      else if(this.state.plateid==100)
+      {this.setState({titilename:'linux'})}
+
+
       data.map(item => {
         let notice = {
           key: item.id.toString(),
@@ -137,7 +152,7 @@ class WholeNotice extends React.Component {
   };
   render() {
     return <div style={{ minHeight: '80vh', marginTop: "5%", marginLeft: "3%", marginRight: "3%", marginBottom: "3%", }}>
-      <h1 style={{ textAlign: "center"}}>全站公告</h1><br/>
+      <h1 style={{ textAlign: "center"}}>{this.state.titilename}板块公告</h1><br/>
       <Table columns={this.state.columns}
         onChange={this.handleTableChange}
         dataSource={this.state.noticeList}
@@ -152,4 +167,4 @@ class WholeNotice extends React.Component {
   }
 }
 
-export default WholeNotice
+export default PartNotice
