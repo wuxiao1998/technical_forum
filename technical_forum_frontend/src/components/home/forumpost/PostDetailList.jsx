@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  PageHeader, List, Typography, Comment, Pagination, Form, Button, Input,Modal,message
+  PageHeader, List, Typography, Comment, Pagination, Form, Button, Input,Modal,message,BackTop
 } from 'antd';
 import { QuestionCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom'
@@ -265,6 +265,7 @@ class PostDetailList extends React.Component {
               value={this.state.replyValue}
             />
         </Modal>
+        <BackTop />
     </div>
   }
 }

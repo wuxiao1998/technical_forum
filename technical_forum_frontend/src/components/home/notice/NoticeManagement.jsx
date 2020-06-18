@@ -1,6 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
-import { Table, Tag, Space, Button, Typography, Modal, Form, Input, message } from 'antd';
+import { Table, Popconfirm, Space, Button, Typography, Modal, Form, Input, message } from 'antd';
 const { Paragraph } = Typography;
 const { TextArea } = Input;
 const formItemLayout = {
@@ -70,7 +70,9 @@ class NoticeManagement extends React.Component {
 
             <Space size="middle">
               <Button>查看详情</Button>
-              <Button onClick={this.deleteNotice.bind(this, record.key)}>删除</Button>
+              <Popconfirm title="确定要删除吗？" okText="Yes" cancelText="No" onConfirm={this.deleteNotice.bind(this, record.key)}>
+              <Button>删除</Button>
+              </Popconfirm>
             </Space>
           ),
         },
@@ -180,7 +182,6 @@ class NoticeManagement extends React.Component {
   }
 
   handleTableChange = (pagination) => {
-    console.log('分页', pagination)
     this.loadingData(pagination.current)
   };
   render() {

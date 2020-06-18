@@ -1,6 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
-import { Layout, Menu } from 'antd';
+import { Layout, Menu} from 'antd';
 import { Card,Row, Col } from 'antd';
 import { Link } from 'react-router-dom'
 import PostList from './forumpost/PostList'
@@ -99,6 +99,7 @@ class HomePage extends React.Component {
           </div>
         </Content>
       </Layout>
+
     </Layout>
 
   }
