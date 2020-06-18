@@ -80,4 +80,12 @@ public interface ForumPostService {
      * @return
      */
     Long countCommentQuantity(Long forumPostId);
+
+    /**
+     * 增加经验值
+     * @param userId
+     * @param increment //增加量
+     * @return
+     */
+    Integer addExperience(Long userId,Integer increment);
 }

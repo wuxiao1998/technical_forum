@@ -3,10 +3,13 @@ package jee.sanda.forum.service.impl;
 import jee.sanda.forum.entity.ForumPost;
 import jee.sanda.forum.entity.ForumPostDetail;
 import jee.sanda.forum.entity.ForumPostReply;
+import jee.sanda.forum.entity.User;
 import jee.sanda.forum.repository.ForumPostDetailRepository;
 import jee.sanda.forum.repository.ForumPostReplyRepository;
 import jee.sanda.forum.repository.ForumPostRepository;
+import jee.sanda.forum.repository.UserRepository;
 import jee.sanda.forum.service.ForumPostService;
+import jee.sanda.forum.utils.ExperienceLevelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +35,9 @@ public class ForumPostServiceImpl implements ForumPostService {
 
     @Autowired
     private ForumPostReplyRepository forumPostReplyRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public Page<ForumPost> findByPlateId(Integer plateId, Integer pageNo, Integer pageSize,String searchCondition) {
 
@@ -66,6 +72,11 @@ public class ForumPostServiceImpl implements ForumPostService {
     @Override
     public void saveForumPost(ForumPost forumPost) {
         forumPostRepository.save(forumPost);
+        User user=forumPost.getUser();
+        Long userId=user.getId();
+        Integer experience=addExperience(userId,10);
+        Integer level= ExperienceLevelUtils.judgeLevel(experience);
+        userRepository.updateLevel(level,userId);
     }
 
     @Override
@@ -100,6 +111,9 @@ public class ForumPostServiceImpl implements ForumPostService {
     public boolean comment(Long userId, Long forumPostId, String content) {
         if(forumPostRepository.insertForum_Post_detail(userId,forumPostId,content)>0)
         {
+            Integer experience=addExperience(userId,5);
+            Integer level= ExperienceLevelUtils.judgeLevel(experience);
+            userRepository.updateLevel(level,userId);
             return true;
         }
         return false;
@@ -109,6 +123,9 @@ public class ForumPostServiceImpl implements ForumPostService {
     public boolean reply(Long userId, Long forumPostDetailId, String content) {
         if(forumPostRepository.insertForum_Post_reply(userId,forumPostDetailId,content)>0)
         {
+            Integer experience=addExperience(userId,3);
+            Integer level= ExperienceLevelUtils.judgeLevel(experience);
+            userRepository.updateLevel(level,userId);
             return true;
         }
         return false;
@@ -136,5 +153,12 @@ public class ForumPostServiceImpl implements ForumPostService {
     public Long countCommentQuantity(Long forumPostId) {
         Long quantity=forumPostDetailRepository.countByPostId(forumPostId);
         return quantity;
+    }
+
+    @Override
+    public Integer addExperience(Long userId, Integer increment) {
+        userRepository.updateExprience(increment,userId);
+        Integer experience=userRepository.searchExprience(userId);
+        return experience;
     }
 }

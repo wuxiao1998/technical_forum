@@ -32,4 +32,30 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Modifying
     @Query("update User  set status = 1 where id = ?1")
     void updateStatus(Long userId);
+
+    /**
+     * 增加经验值
+     * @param increment
+     * @param userId
+     */
+    @Query(value = "update User set experience=experience+?1 where id=?2",nativeQuery = true)
+    @Modifying
+    void updateExprience(Integer increment,Long userId);
+
+    /**
+     * 查询经验值
+     * @param userId
+     */
+    @Query(value = "select experience from User where id=?1",nativeQuery = true)
+    Integer searchExprience(Long userId);
+
+    /**
+     * 更新等级
+     * @param level
+     * @param userId
+     * @return
+     */
+    @Query(value = "update User set level=?1 where id=?2",nativeQuery = true)
+    @Modifying
+    Integer updateLevel(Integer level,Long userId);
 }
