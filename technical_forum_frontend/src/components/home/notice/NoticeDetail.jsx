@@ -16,7 +16,7 @@ class NoticeDetail extends React.Component {
     }
 
     componentWillMount() {
-
+console.log(this.state.record,'接收来的record')
 
     }
     render() {

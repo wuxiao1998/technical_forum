@@ -15,10 +15,10 @@ class HomePage extends React.Component {
       plateKey: '',
       url: '/home/homepage',
       wholenoticedata: [],
-      platenoticedata:[],
+      platenoticedata: [],
       pageNo: 1,
       pageSize: 3,
-      plateid:sessionStorage.getItem("plateKey")?sessionStorage.getItem("plateKey"):1
+      plateid: sessionStorage.getItem("plateKey") ? sessionStorage.getItem("plateKey") : 1
     }
   }
 
@@ -37,13 +37,13 @@ class HomePage extends React.Component {
 
     Axios.get('/notice/searchByUser?plateId= &pageNo=1&pageSize=3').then(res => {
       this.setState({
-        wholenoticedata: res.data.content
+        wholenoticedata: res.data.content,
       })
       console.log(res, '全站公告')
     })
     //查询全站公告
 
-    Axios.get('/notice/searchByUser?plateId='+this.state.plateid+'&pageNo=1&pageSize=3').then(res => {  
+    Axios.get('/notice/searchByUser?plateId=' + this.state.plateid + '&pageNo=1&pageSize=3').then(res => {
       //这里plateId拿值一定要这样绕一圈，直接拿sessionStorage.getItem("plateKey")的话第一次打开网页会报错
       this.setState({
         platenoticedata: res.data.content
@@ -52,16 +52,16 @@ class HomePage extends React.Component {
     })
     //查询板块公告
   }
-  
+
 
   getKey = (item) => {
     this.setState({
       plateKey: item.key,
-      plateid:sessionStorage.getItem("plateKey")
+      plateid: sessionStorage.getItem("plateKey")
     })
     //点击板块时,保存一份platekey至sessionStorge中,解决页面刷新问题
     sessionStorage.setItem("plateKey", item.key)
-    Axios.get('/notice/searchByUser?plateId='+sessionStorage.getItem("plateKey")+'&pageNo=1&pageSize=3').then(res => {
+    Axios.get('/notice/searchByUser?plateId=' + sessionStorage.getItem("plateKey") + '&pageNo=1&pageSize=3').then(res => {
       this.setState({
         platenoticedata: res.data.content
       })
@@ -101,17 +101,17 @@ class HomePage extends React.Component {
                 <Col span={1}></Col>
                 <Col span={7}>
                   <div style={{}}><Card title="全站公告" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
-                    {this.state.wholenoticedata.map((item) => {
-                        return <a >{item.title}<br /></a>
-                    })}
+                    {this.state.wholenoticedata.map((record) => {
+                      return <Link to={{ pathname: '/noticedetail', state: { key: record.id, username: record.createUser.username, createtime: record.createtime, title: record.title, content: record.content, plateId: '全部' } }} >{record.title}<br /></Link>
+                    })}{/* 这里不能直接传record，格式不对，有些参数显示不了，需要进行改造*/}
                   </Card>
                     <br></br>
                     <br></br>
                     <br></br>
                     <Card title="板块公告" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
-                    {this.state.platenoticedata.map((item) => {
-                        return <a >{item.title}<br /></a>
-                    })}
+                      {this.state.platenoticedata.map((record) => {
+                        return <Link to={{ pathname: '/noticedetail', state: { key: record.id, username: record.createUser.username, createtime: record.createtime, title: record.title, content: record.content, plateId: record.plate.name } }} >{record.title}<br /></Link>
+                      })}
                     </Card>
                     <br></br>
                     <br></br>
