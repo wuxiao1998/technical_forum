@@ -1,7 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
-import { Layout, Menu} from 'antd';
-import { Card,Row, Col } from 'antd';
+import { Layout, Menu } from 'antd';
+import { Card, Row, Col, Pagination } from 'antd';
 import { Link } from 'react-router-dom'
 import PostList from './forumpost/PostList'
 import SizeContext from 'antd/lib/config-provider/SizeContext';
@@ -14,6 +14,11 @@ class HomePage extends React.Component {
       plateList: [],
       plateKey: '',
       url: '/home/homepage',
+      wholenoticedata: [],
+      platenoticedata:[],
+      pageNo: 1,
+      pageSize: 3,
+      plateid:sessionStorage.getItem("plateKey")?sessionStorage.getItem("plateKey"):1
     }
   }
 
@@ -30,21 +35,38 @@ class HomePage extends React.Component {
       }
     })
 
-    // Axios.get('/notice/searchByUser?plateId=null'+'&pageNo=' + 1 + '&pageSize=' +
-    // 6).then(res => {
-    //   this.setState({
-    //   })
-    //   console.log(res,'123456789')
-    // })
-    //查询全站公告，暂时还没数据
+    Axios.get('/notice/searchByUser?plateId= &pageNo=1&pageSize=3').then(res => {
+      this.setState({
+        wholenoticedata: res.data.content
+      })
+      console.log(res, '全站公告')
+    })
+    //查询全站公告
+
+    Axios.get('/notice/searchByUser?plateId='+this.state.plateid+'&pageNo=1&pageSize=3').then(res => {  
+      //这里plateId拿值一定要这样绕一圈，直接拿sessionStorage.getItem("plateKey")的话第一次打开网页会报错
+      this.setState({
+        platenoticedata: res.data.content
+      })
+      console.log(res, '板块公告')
+    })
+    //查询板块公告
   }
+  
 
   getKey = (item) => {
     this.setState({
-      plateKey: item.key
+      plateKey: item.key,
+      plateid:sessionStorage.getItem("plateKey")
     })
     //点击板块时,保存一份platekey至sessionStorge中,解决页面刷新问题
     sessionStorage.setItem("plateKey", item.key)
+    Axios.get('/notice/searchByUser?plateId='+sessionStorage.getItem("plateKey")+'&pageNo=1&pageSize=3').then(res => {
+      this.setState({
+        platenoticedata: res.data.content
+      })
+      console.log(res, '板块公告')
+    })
   }
 
 
@@ -58,11 +80,10 @@ class HomePage extends React.Component {
         <Menu theme="dark" selectedKeys={[window.location.hash.split('/')[3]]} mode="inline" onSelect={this.getKey}>
           {this.state.plateList.map(item => {
             return <Menu.Item key={item.id} >
-              <Link to={this.state.url + '/' + item.id}>
+              <Link to={this.state.url + '/' + item.id} >
                 {item.name}</Link>
             </Menu.Item>
           })}
-
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -73,27 +94,35 @@ class HomePage extends React.Component {
           }}>
             <div style={{ display: "inline" }}>
               <Row>
-              {/* 用于布局，一行总数为24 */}
+                {/* 用于布局，一行总数为24 */}
                 <Col span={16}>
-              <div style={{}}><PostList platekey={this.state.plateKey} ></PostList></div>
-              </Col>
-              <Col span={1}></Col>
-              <Col span={7}>
-              <div style={{}}><Card title="全站公告" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
-                <p>公告1balabalblablaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                <p>公告2balabalblabla</p>
-                <p>公告3balabalblabla</p>
-              </Card>
-                <br></br>
-                <br></br>
-                <br></br>
-                <Card title="热门帖子（暂定）" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
-                  <p>帖子1balabalblabla</p>
-                  <p>帖子2balabalblabla</p>
-                  <p>帖子3balabalblabla</p>
-                </Card>
-              </div>
-              </Col>
+                  <div style={{}}><PostList platekey={this.state.plateKey} ></PostList></div>
+                </Col>
+                <Col span={1}></Col>
+                <Col span={7}>
+                  <div style={{}}><Card title="全站公告" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
+                    {this.state.wholenoticedata.map((item) => {
+                        return <a >{item.title}<br /></a>
+                    })}
+                  </Card>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <Card title="板块公告" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
+                    {this.state.platenoticedata.map((item) => {
+                        return <a >{item.title}<br /></a>
+                    })}
+                    </Card>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <Card title="热门帖子（暂定）" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
+                      <p>帖子1balabalblabla</p>
+                      <p>帖子2balabalblabla</p>
+                      <p>帖子3balabalblabla</p>
+                    </Card>
+                  </div>
+                </Col>
               </Row>
             </div>
           </div>
