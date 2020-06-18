@@ -11,7 +11,7 @@
     float: left;
   }
   .product-buyer-name {
-    max-width: 1050px;
+    max-width: 650px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

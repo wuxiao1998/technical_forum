@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Avatar, Space, Button, Pagination, Typography, Input } from 'antd';
 import { Link } from 'react-router-dom'
-import { MessageOutlined, LikeOutlined } from '@ant-design/icons';
+import { MessageOutlined, EyeOutlined } from '@ant-design/icons';
 import Axios from 'axios';
 import '../../../css/App.css'
 //帖子查询组件
@@ -134,8 +134,8 @@ class PostList extends React.Component {
           key={item.title}
           style={{ marginTop: "10px" }}
           actions={[
-            <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+            <IconText icon={EyeOutlined} text={item.count} key="list-vertical-like-o" />,
+            <IconText icon={MessageOutlined} text={item.commentQuantity} key="list-vertical-message" />,
           ]}
         >
           <List.Item.Meta
