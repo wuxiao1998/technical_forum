@@ -6,11 +6,13 @@ import jee.sanda.forum.entity.User;
 import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.repository.UserRepository;
 import jee.sanda.forum.service.UserService;
+import jee.sanda.forum.utils.ExperienceLevelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -114,6 +116,28 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return  user.get();
+    }
+
+    @Override
+    public void updateLevelAndExperienceAndDesignation(Long userId, Integer increment) {
+        Integer experience=addExperience(userId,increment);
+        Integer level= ExperienceLevelUtils.judgeLevel(experience);
+        userRepository.updateLevel(level,userId);
+        String designation=ExperienceLevelUtils.judgeDesignation(level);
+        userRepository.updateDesignation(designation,userId);
+    }
+
+
+    @Override
+    public Integer addExperience(Long userId, Integer increment) {
+        userRepository.updateExprience(increment,userId);
+        Integer experience=userRepository.searchExprience(userId);
+        return experience;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
 

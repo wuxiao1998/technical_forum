@@ -4,6 +4,8 @@ package jee.sanda.forum.service;
 import jee.sanda.forum.entity.User;
 import jee.sanda.forum.form.UpdateUserForm;
 
+import java.util.List;
+
 public interface UserService {
     /***
      * 用户登录
@@ -72,4 +74,24 @@ public interface UserService {
      * @return
      */
     User findById(Long id);
+
+
+    /***
+     * 更改用户经验、等级、称号
+     */
+    void updateLevelAndExperienceAndDesignation(Long userId,Integer increment);
+
+    /**
+     * 增加经验值
+     * @param userId
+     * @param increment //增加量
+     * @return
+     */
+    Integer addExperience(Long userId,Integer increment);
+
+    /**
+     * 查询所有用户
+     * @return
+     */
+    List<User> findAll();
 }

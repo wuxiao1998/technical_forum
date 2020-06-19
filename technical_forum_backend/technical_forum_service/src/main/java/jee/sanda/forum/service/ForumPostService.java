@@ -82,14 +82,6 @@ public interface ForumPostService {
     Long countCommentQuantity(Long forumPostId);
 
     /**
-     * 增加经验值
-     * @param userId
-     * @param increment //增加量
-     * @return
-     */
-    Integer addExperience(Long userId,Integer increment);
-
-    /**
      * 删除帖子
      * @param userId
      * @param forumPostId

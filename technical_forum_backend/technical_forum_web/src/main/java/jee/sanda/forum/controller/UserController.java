@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /***
  * 用户接口
@@ -180,6 +181,17 @@ public class UserController {
         }else{
             return ResponseEntity.ok(user);
         }
+    }
+
+    /**
+     * 查看所有用户信息
+     * @return
+     */
+    @GetMapping("/findAll")
+    public ResponseEntity<Object> findAll(){
+        List<User> userList = userService.findAll();
+        return ResponseEntity.ok(userList);
+
     }
 }
 
