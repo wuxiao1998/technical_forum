@@ -19,4 +19,8 @@ public interface ForumPostDetailRepository extends JpaRepository<ForumPostDetail
     //计算回帖数量
     @Query(value="SELECT count(*) FROM forum_post_detail WHERE forum_post_id=?1",nativeQuery = true)
     Long countByPostId(Long PostId);
+
+    @Query(value="DELETE FROM forum_post_detail WHERE forum_post_id=?1",nativeQuery = true)
+    @Modifying
+    void deleteByPostId(Long forumPostId);
 }

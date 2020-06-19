@@ -11,12 +11,13 @@ spring:
     username: jee
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
   #配置redis信息
   redis:
     host: 175.24.54.96
     port: 6379
     password: jee
-    maxWait: 1000
 
   #邮件服务配置信息
   mail:
