@@ -4,13 +4,21 @@ server:
   port: 8000
 
 spring:
+  #配置数据库连接池
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://175.24.54.96:3306/technical_forum?serverTimezone=GMT%2B8
     username: jee
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
-  ##邮件服务配置信息
+  #配置redis信息
+  redis:
+    host: 175.24.54.96
+    port: 6379
+    password: jee
+    maxWait: 1000
+
+  #邮件服务配置信息
   mail:
     host: smtp.qq.com
     username: 2253815332@qq.com
@@ -22,7 +30,7 @@ spring:
           auth: true
           timout: 25000
     from: 2253815332@qq.com
-    ##jpa配置信息
+    #jpa配置信息
   jpa:
     hibernate:
       ddl-auto: update
@@ -32,11 +40,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    ##时间格式统一配置
+    #时间格式统一配置
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-    ##配置日志等级
+    #配置日志等级
 logging:
   level:
     jee: DEBUG

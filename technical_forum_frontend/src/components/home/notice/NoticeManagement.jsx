@@ -133,13 +133,14 @@ class NoticeManagement extends React.Component {
   };
 
   //组件加载时查询数据
-  componentWillMount() {
+   componentWillMount() {
+    this.loadingData(this.state.pagination.current)
     Axios.get('/plate/findAll').then(res => {
       this.setState({
         plateList: res.data
       })
     })
-    this.loadingData(this.state.pagination.current)
+  
 
   }
 
@@ -164,7 +165,7 @@ class NoticeManagement extends React.Component {
 
 
   //查询接口
-  loadingData = (pageNo) => {
+   loadingData =  (pageNo) => {
     let datasource = [];
     Axios.get('/notice/searchByAdmin?pageNo=' + pageNo + '&pageSize=' + this.state.pagination.pageSize).then(res => {
       console.log(res)

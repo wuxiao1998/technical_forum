@@ -18,7 +18,7 @@ public class MailServiceImpl implements MailService {
     private String from;
 
     @Override
-    public String sendSimpleMail(String email) {
+    public String sendSimpleMail(String email,String info) {
         String code = RandomUtils.getCode();
         //创建SimpleMailMessage对象
         SimpleMailMessage message = new SimpleMailMessage();
@@ -29,7 +29,7 @@ public class MailServiceImpl implements MailService {
         //邮件主题
         message.setSubject("技术论坛系统");
         //邮件内容
-        message.setText("欢迎注册技术论坛系统,此次注册验证码是:" + code);
+        message.setText(info + code +",验证码将在五分钟之内失效,请您尽快使用!!!");
         //发送邮件
         mailSender.send(message);
         return code;
@@ -54,7 +54,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public boolean validateCode(String sessionCode, String code) {
-        return sessionCode.equalsIgnoreCase(code);
+    public boolean validateCode(String uuidCode, String code) {
+        return code.equalsIgnoreCase(uuidCode);
     }
 }

@@ -6,6 +6,7 @@ import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.service.MailService;
 import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ResourceUtils;
@@ -33,7 +34,9 @@ public class UserController {
 
     @Autowired
     private HttpServletRequest request;
-
+    //redis 缓存工具类
+    @Autowired
+    private StringRedisTemplate redisTemplate;
     /***
      * 用户登录接口
      * @param user
@@ -61,19 +64,19 @@ public class UserController {
     public ResponseEntity<String> register(@RequestBody User user) {
         HttpSession session = request.getSession();
         String validateCode = user.getCode();
-        String sessionCode = (String) session.getAttribute("code");
-        if (sessionCode != null && validateCode != null) {
+        String uuid = user.getUuid();
+        if (uuid != null && validateCode != null) {
             //检测验证码是否匹配
-            boolean flag = mailService.validateCode(sessionCode, validateCode);
+            String authCode = redisTemplate.opsForValue().get(uuid);
+            boolean flag = mailService.validateCode(authCode, validateCode);
             if (flag) {
                 //验证码正确
                 Long userId=userService.register(user);
                 session.setAttribute("userId",userId);
-                session.removeAttribute("code");
                 return ResponseEntity.ok("注册成功");
 
             } else {
-                return ResponseEntity.badRequest().body("验证码错误");
+                return ResponseEntity.badRequest().body("验证码错误或已失效!!!");
             }
         } else {
             return ResponseEntity.badRequest().body("注册失败");

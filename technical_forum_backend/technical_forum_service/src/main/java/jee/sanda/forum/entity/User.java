@@ -80,6 +80,11 @@ public class User implements Serializable {
     @Transient
     private String code;
     /***
+     * 接收uuid
+     */
+    @Transient
+    private String uuid;
+    /***
      * 创建时间
      */
     @CreatedDate
@@ -211,6 +216,11 @@ public class User implements Serializable {
         this.updatetime = updatetime;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
 
-
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 }

@@ -7,7 +7,7 @@ public interface MailService {
      * @param email
      * @return
      */
-    String sendSimpleMail(String email);
+    String sendSimpleMail(String email,String info);
 
     /**
      * 重置新密码时向邮箱发送验证码
@@ -17,9 +17,9 @@ public interface MailService {
     String sendVerificationCode(String email);
     /***
      * 验证码校验
-     * @param sessionCode
+     * @param uuidCode
      * @param Code
      * @return
      */
-    boolean validateCode(String sessionCode, String Code);
+    boolean validateCode(String uuidCode, String Code);
 }

@@ -93,11 +93,6 @@ class WholeNotice extends React.Component {
 
   //组件加载时查询数据
   componentWillMount() {
-    Axios.get('/plate/findAll').then(res => {
-      this.setState({
-        plateList: res.data
-      })
-    })
     this.loadingData(this.state.pagination.current)
 
   }
