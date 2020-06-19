@@ -111,20 +111,10 @@ class PartNotice extends React.Component {
     Axios.get('/notice/searchByUser?plateId='+ this.state.plateid + '&pageNo=' + pageNo + '&pageSize=' + this.state.pagination.pageSize).then(res => {
       console.log(res,'12121212121')
       let data = res.data.content
-      if(this.state.plateid==1)
-      {this.setState({titilename:'java'})}
-      else if(this.state.plateid==2)
-      {this.setState({titilename:'php'})}
-      else if(this.state.plateid==3)
-      {this.setState({titilename:'python'})}
-      else if(this.state.plateid==4)
-      {this.setState({titilename:'c#'})}
-      else if(this.state.plateid==5)
-      {this.setState({titilename:'sql'})}
-      else if(this.state.plateid==100)
-      {this.setState({titilename:'linux'})}
-
-
+      this.setState({
+        titilename:data?data[0].plate.name:''
+      })
+      console.log('qdq',data)
       data.map(item => {
         let notice = {
           key: item.id.toString(),
@@ -151,7 +141,9 @@ class PartNotice extends React.Component {
     this.loadingData(pagination.current)
   };
   render() {
-    return <div style={{ minHeight: '80vh', marginTop: "5%", marginLeft: "3%", marginRight: "3%", marginBottom: "3%", }}>
+    return <div style={{ minHeight: '80vh', marginTop: "1%", marginLeft: "3%", marginRight: "3%", marginBottom: "3%", }}>
+        <Col span={12}><Button onClick={this.props.history.goBack} style={{float:"middle" }}>返回</Button>
+        </Col>
       <h1 style={{ textAlign: "center"}}>{this.state.titilename}板块公告</h1><br/>
       <Table columns={this.state.columns}
         onChange={this.handleTableChange}
@@ -160,8 +152,6 @@ class PartNotice extends React.Component {
         />
         <Row>
         <Col span={12}></Col>
-        <Col span={12}><Button onClick={this.props.history.goBack} style={{float:"middle" }}>返回</Button>
-        </Col>
         </Row>
     </div>
   }

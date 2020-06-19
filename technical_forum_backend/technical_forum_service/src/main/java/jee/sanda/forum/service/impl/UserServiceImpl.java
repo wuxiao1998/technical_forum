@@ -107,5 +107,14 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public User findById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            return null;
+        }
+        return  user.get();
+    }
+
 
 }

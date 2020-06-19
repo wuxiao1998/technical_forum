@@ -96,21 +96,24 @@ class HomePage extends React.Component {
               <Row>
                 {/* 用于布局，一行总数为24 */}
                 <Col span={16}>
-                  <div style={{}}><PostList platekey={this.state.plateKey} ></PostList></div>
+                  <div><PostList platekey={this.state.plateKey} ></PostList></div>
                 </Col>
                 <Col span={1}></Col>
                 <Col span={7}>
-                  <div style={{}}><Card title="全站公告" extra={<Link to='/home/wholenotice'>显示更多</Link>} style={{ width: 400 }} size="small">
+                  <div style={{}}><Card title="全站公告" extra={<Link to='/wholenotice'>显示更多</Link>} style={{ width: 400 }} size="small">
                     {this.state.wholenoticedata.map((record) => {
-                      return <Link to={{ pathname: '/noticedetail', state: { key: record.id, username: record.createUser.username, createtime: record.createtime, title: record.title, content: record.content, plateId: '全部' } }} >{record.title}<br /></Link>
+                      return <Link to={{ pathname: '/noticedetail', state: { key: record.id, username: record.createUser.username, createtime: record.createtime, title: record.title, content: record.content, plateId: '全部' } }} >
+                        {record.title}<br /></Link>
                     })}{/* 这里不能直接传record，格式不对，有些参数显示不了，需要进行改造*/}
                   </Card>
                     <br></br>
                     <br></br>
                     <br></br>
-                    <Card title="板块公告" extra={<Link to='/home/partnotice'>显示更多</Link>} style={{ width: 400 }} size="small">
+                    <Card title="板块公告" extra={<Link to='/partnotice'>显示更多</Link>} style={{ width: 400 }} size="small">
                       {this.state.platenoticedata.map((record) => {
-                        return <Link to={{ pathname: '/noticedetail', state: { key: record.id, username: record.createUser.username, createtime: record.createtime, title: record.title, content: record.content, plateId: record.plate.name } }} >{record.title}<br /></Link>
+                        return <Link to={{ pathname: '/noticedetail', state: { key: record.id, username: record.createUser.username, 
+                        createtime: record.createtime, title: record.title, content: record.content, plateId: record.plate.name } }} >
+                          {record.title}<br /></Link>
                       })}
                     </Card>
                     <br></br>

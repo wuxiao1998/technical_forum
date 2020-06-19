@@ -11,6 +11,8 @@ import OldPwCheck from './components/authentication/OldPwCheck'
 import NewPwUpdate from './components/authentication/NewPwUpdate'
 import PostDetailList from './components/home/forumpost/PostDetailList'
 import NoticeDetail from './components/home/notice/NoticeDetail'
+import WholeNotice from './components/home/notice/WholeNotice'
+import PartNotice from './components/home/notice//PartNotice'
 class App extends React.Component {
 
   constructor(props) {
@@ -40,6 +42,8 @@ class App extends React.Component {
         <Route path='/newpwupdate' component={NewPwUpdate}></Route>
         <Route path='/forumpost/detail/:postid' component={PostDetailList}></Route>
         <Route exact path='/noticedetail' component={NoticeDetail}></Route>
+        <Route exact path='/wholenotice' component={WholeNotice}></Route>
+        <Route exact path='/partnotice' component={PartNotice}></Route>
       </Switch>
     </HashRouter>
 

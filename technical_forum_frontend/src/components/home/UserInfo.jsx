@@ -48,12 +48,12 @@ class UserInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: JSON.parse(sessionStorage.getItem("user")),
+      user: {},
       visible: false,
       loginin: true,
-      nickname: JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).nickname : "",
-      phone: JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).phone : "",
-      gender: JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).gender : "",
+      nickname: "",
+      phone:  "",
+      gender:  "",
       previewVisible: false,
       previewImage: '',
       previewTitle: '',
@@ -74,10 +74,17 @@ class UserInfo extends React.Component {
         loginin: false
       })
     }else{
-      let userImage = JSON.parse(sessionStorage.getItem("user")) !== null ? JSON.parse(sessionStorage.getItem("user")).id + '.jpg': "";
-      this.setState({
-        imageUrl:this.state.imageUrl+userImage
+      Axios.get('/user/findById').then(res=>{
+        console.log(res)
+        this.setState({
+          user:res.data,
+          nickname:res.data.nickname,
+          phone:res.data.phone,
+          gender:res.data.gender,
+          imageUrl:this.state.imageUrl+res.data.id+'.jpg'
+        })
       })
+
     }
 
   }
@@ -219,7 +226,6 @@ class UserInfo extends React.Component {
               fileList={this.state.fileList}
               value={this.state.uploadfile}
             >
-                         {console.log('242id',this.state.imageUrl)}
               <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> 
             </Upload>
           </Descriptions.Item >

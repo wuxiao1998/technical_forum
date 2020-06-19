@@ -6,8 +6,6 @@ import UserInfo from './UserInfo'
 import MyHeader from '../Layout/MyHeader'
 import MyFooter from '../Layout/MyFooter'
 import NoticeManagement from './notice/NoticeManagement'
-import WholeNotice from './notice/WholeNotice'
-import PartNotice from './notice/PartNotice'
 import NoticeDetail from './notice/NoticeDetail'
 import { Layout } from 'antd';
 //主页子路由配置
@@ -36,9 +34,7 @@ class HomeRouter extends React.Component {
             <Route exact path='/home/homepage/:id' component={HomePage}></Route>
             <Route exact path='/home/mypost' component={MyPost}></Route>
             <Route exact path='/home/userinfo' component={UserInfo}></Route>
-            <Route exact path='/home/noticemanagement' component={NoticeManagement}></Route>
-            <Route exact path='/home/wholenotice' component={WholeNotice}></Route>
-            <Route exact path='/home/partnotice' component={PartNotice}></Route>
+            <Route exact path='/home/noticemanagement' component={NoticeManagement}></Route>       
             <Route exact path='/home/noticedetail' component={NoticeDetail}></Route>
             {/* 重定向至主页,此匹配项最好放最后*/ }
             <Redirect from='/' to='/home/homepage/1'></Redirect>

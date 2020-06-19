@@ -64,4 +64,12 @@ public interface UserService {
      * @return
      */
     boolean checkPassword(Long userId, String password);
+
+
+    /**
+     * 查找目前登录用户的id
+     * @param id
+     * @return
+     */
+    User findById(Long id);
 }

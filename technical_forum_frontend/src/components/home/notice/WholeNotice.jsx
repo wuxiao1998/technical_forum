@@ -136,7 +136,9 @@ class WholeNotice extends React.Component {
     this.loadingData(pagination.current)
   };
   render() {
-    return <div style={{ minHeight: '80vh', marginTop: "5%", marginLeft: "3%", marginRight: "3%", marginBottom: "3%", }}>
+    return <div style={{ minHeight: '80vh', marginTop: "1%", marginLeft: "3%", marginRight: "3%", marginBottom: "3%", }}>
+       <Col span={12}><Button onClick={this.props.history.goBack} style={{float:"middle" }}>返回</Button>
+        </Col>
       <h1 style={{ textAlign: "center"}}>全站公告</h1><br/>
       <Table columns={this.state.columns}
         onChange={this.handleTableChange}
@@ -145,8 +147,6 @@ class WholeNotice extends React.Component {
         />
         <Row>
         <Col span={12}></Col>
-        <Col span={12}><Button onClick={this.props.history.goBack} style={{float:"middle" }}>返回</Button>
-        </Col>
         </Row>
     </div>
   }

@@ -163,5 +163,23 @@ public class UserController {
         }
         return "success";
     }
+
+    /**
+     * 根据当前登录用户的个人信息
+     * @return
+     */
+    @GetMapping("/findById")
+    public ResponseEntity<Object> findById(){
+        Long userId = (Long)request.getSession().getAttribute("userId");
+        if(userId == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("请重新登录");
+        }
+        User user = userService.findById(userId);
+        if(user == null){
+            return ResponseEntity.badRequest().body("没有找到指定用户");
+        }else{
+            return ResponseEntity.ok(user);
+        }
+    }
 }
 
