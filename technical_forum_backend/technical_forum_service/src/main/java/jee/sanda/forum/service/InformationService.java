@@ -6,13 +6,13 @@ import org.springframework.data.domain.Page;
 
 public interface InformationService {
     /**
-     * 查询未读消息
+     * 查询用户相关消息
      * @param userId
      * @param pageNo
      * @param pageSize
      * @return
      */
-    Page<UserInformation> searchUnreadInformation(Long userId,Integer pageNo, Integer pageSize);
+    Page<UserInformation> searchInformation(Long userId,Integer pageNo, Integer pageSize);
 
     /**
      * 修改消息状态为已读
