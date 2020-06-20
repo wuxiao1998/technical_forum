@@ -25,12 +25,11 @@ class MyPostList extends React.Component {
       pageSize: 6,
       totalPage: 0,
       searchCondition:'',
-      userid: JSON.parse(sessionStorage.getItem("user")).id,
+      userid: this.props.userid?this.props.userid:JSON.parse(sessionStorage.getItem("user")).id,
     }
   }
 
   componentWillMount() {
-
     this.loadingData()
   }
 
@@ -95,7 +94,18 @@ class MyPostList extends React.Component {
                 <Avatar style={{marginRight:'10px'}} 
               src={"http://localhost:8000/forum/image/"+item.user.id+".jpg"} />
             <Text type="secondary" className="product-buyer-name">
-              作者:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
+              作者:<Link to={{
+                    pathname: '/home/persondata', state: {
+                      userid: item.user.id,
+                      gender: item.user.gender,
+                      nickname: item.user.nickname,
+                      role: item.user.role,
+                      experience: item.user.experience,
+                      level: item.user.level,
+                      designation: item.user.designation
+                    }
+                  }} >{item.user.nickname}
+                  </Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
             </Text>
             </div>
             </div>

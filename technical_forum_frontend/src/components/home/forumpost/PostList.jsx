@@ -120,10 +120,10 @@ class PostList extends React.Component {
         </div>
       }
       footer={
-        /*在底部自定义分页组件*/ 
-      <div style={{ textAlign: "center" }}><Pagination
-        current={this.state.pageNo} pageSize={this.state.pageSize} total={this.state.totalPage}
-        showSizeChanger={false} onChange={this.pageChange} />
+        /*在底部自定义分页组件*/
+        <div style={{ textAlign: "center" }}><Pagination
+          current={this.state.pageNo} pageSize={this.state.pageSize} total={this.state.totalPage}
+          showSizeChanger={false} onChange={this.pageChange} />
         </div>
       }
       bordered
@@ -146,7 +146,19 @@ class PostList extends React.Component {
                 <Avatar style={{ marginRight: '10px' }}
                   src={"http://localhost:8000/forum/image/" + item.user.id + ".jpg"} />
                 <Text type="secondary" className="product-buyer-name">
-                  作者:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
+
+                  作者:<Link to={{
+                    pathname: '/home/persondata', state: {
+                      userid: item.user.id,
+                      gender: item.user.gender,
+                      nickname: item.user.nickname,
+                      role: item.user.role,
+                      experience: item.user.experience,
+                      level: item.user.level,
+                      designation: item.user.designation
+                    }
+                  }} >{item.user.nickname}
+                  </Link>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;发帖时间:{item.createtime}
                 </Text>
               </div>
             </div>
