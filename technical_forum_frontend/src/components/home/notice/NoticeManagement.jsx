@@ -165,9 +165,9 @@ class NoticeManagement extends React.Component {
 
 
   //查询接口
-   loadingData =  (pageNo) => {
+   loadingData =   (pageNo) => {
     let datasource = [];
-    Axios.get('/notice/searchByAdmin?pageNo=' + pageNo + '&pageSize=' + this.state.pagination.pageSize).then(res => {
+     Axios.get('/notice/searchByAdmin?pageNo=' + pageNo + '&pageSize=' + this.state.pagination.pageSize).then(res => {
       console.log(res)
       let data = res.data.content
       data.map(item => {
@@ -190,23 +190,6 @@ class NoticeManagement extends React.Component {
         }
       })
     })
-  //   Axios.get('/notice/searchByAdmin?pageNo=' + pageNo + '&pageSize=' + this.state.pagination.pageSize).then(res => {
-  //   let datasource = [];
-  //   for(let i = 0; i<10;i++){
-  //   let notice = {
-  //     key: '212',
-  //     title: '12313',
-  //     content: 'item.content',
-  //     plateId:  '全部',
-  //     createtime: 'item.createtime',
-  //     username:  ''
-  //   }
-  //   datasource.push(notice)
-  // }
-  //   this.setState({
-  //         noticeList: datasource
-  //       })
-  //   })
    
 }
 

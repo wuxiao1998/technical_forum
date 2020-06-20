@@ -7,10 +7,7 @@ import jee.sanda.forum.repository.NoticeRepository;
 import jee.sanda.forum.repository.UserRepository;
 import jee.sanda.forum.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,9 +58,17 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public Page<Notice> searchNoticeByAdmin(Integer pageNo, Integer pageSize) {
+        Specification<Notice> spec = new Specification<Notice>() {
+            @Override
+            public Predicate toPredicate(Root<Notice> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Path<Object> createBy = root.get("createUser");
+                Predicate p1 = criteriaBuilder.isNotNull(createBy);
+                return p1;
+            }
+        };
         Sort sortKey = Sort.by(Sort.Direction.DESC, "createtime");
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
-        Page<Notice> notices = noticeRepository.findAll(pageable);
+        Page<Notice> notices = noticeRepository.findAll(spec,pageable);
         return notices;
     }
 

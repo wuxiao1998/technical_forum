@@ -3,7 +3,6 @@ package jee.sanda.forum.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jee.sanda.forum.entity.Notice;
-import jee.sanda.forum.entity.User;
 import jee.sanda.forum.service.NoticeService;
 import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

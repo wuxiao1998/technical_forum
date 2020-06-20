@@ -12,4 +12,7 @@ public interface NoticeRepository extends JpaRepository<Notice,Integer>, JpaSpec
             " values(?1,?2,?3,?4,?4)",nativeQuery = true)
     @Modifying
     void saveNotice(String title,String content,Integer plate_id,Long userId);
+
+
+
 }
