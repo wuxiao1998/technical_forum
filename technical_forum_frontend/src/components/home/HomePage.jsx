@@ -16,6 +16,7 @@ class HomePage extends React.Component {
       url: '/home/homepage',
       wholenoticedata: [],
       platenoticedata: [],
+      topnoticedata: [],
       pageNo: 1,
       pageSize: 3,
       plateid: sessionStorage.getItem("plateKey") ? sessionStorage.getItem("plateKey") : 1
@@ -51,6 +52,14 @@ class HomePage extends React.Component {
       console.log(res, '板块公告')
     })
     //查询板块公告
+
+    Axios.get('/forumPost/findTopPost/'+this.state.plateid+'/5').then(res => {
+      this.setState({
+        topnoticedata: res.data,
+      })
+      console.log(res, 'top5公告')
+    })
+    //查询全站公告
   }
 
 
@@ -66,6 +75,13 @@ class HomePage extends React.Component {
         platenoticedata: res.data.content
       })
       console.log(res, '板块公告')
+    })
+
+    Axios.get('/forumPost/findTopPost/'+sessionStorage.getItem("plateKey")+'/5').then(res => {
+      this.setState({
+        topnoticedata: res.data,
+      })
+      console.log(res, 'top5公告')
     })
   }
 
@@ -119,10 +135,11 @@ class HomePage extends React.Component {
                     <br></br>
                     <br></br>
                     <br></br>
-                    <Card title="热门帖子（暂定）" extra={<a href="#">显示更多</a>} style={{ width: 400 }} size="small">
-                      <p>帖子1balabalblabla</p>
-                      <p>帖子2balabalblabla</p>
-                      <p>帖子3balabalblabla</p>
+                    <Card title="热门帖子TOP5（按访问量统计）" style={{ width: 400 }} size="small">
+                    {this.state.topnoticedata.map((record) => {
+                        return <Link to={'/forumpost/detail/'+record.id} >
+                          {record.title}<br /></Link>
+                      })}
                     </Card>
                   </div>
                 </Col>

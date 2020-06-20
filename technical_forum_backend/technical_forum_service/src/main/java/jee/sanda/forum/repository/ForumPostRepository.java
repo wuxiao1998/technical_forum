@@ -26,4 +26,9 @@ public interface ForumPostRepository extends JpaRepository<ForumPost, Long>, Jpa
     @Query(value="update forum_post set count=count+1 where id=?1",nativeQuery=true)
     @Modifying
     int updateForum_Post_Count(Long postId);
+
+    @Query(value = "SELECT id,title,description,plate_id,type,createby,createtime,MAX(COUNT) AS COUNT FROM forum_post " +
+            " WHERE plate_id=?1 GROUP BY id " +
+            " ORDER BY COUNT DESC LIMIT ?2",nativeQuery = true)
+    List<ForumPost> findTopPost(Integer plateId, Integer size);
 }

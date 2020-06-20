@@ -5,6 +5,8 @@ import jee.sanda.forum.entity.ForumPostDetail;
 import jee.sanda.forum.entity.ForumPostReply;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 
 public interface ForumPostService {
     /***
@@ -88,4 +90,9 @@ public interface ForumPostService {
      * @return
      */
     boolean deleteForumPost(Long userId,Long forumPostId);
+
+    /**
+     * 查询访问量最多的前n条帖子
+     */
+    List<ForumPost> findTopPost(Integer plateId, Integer size);
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import javax.persistence.criteria.*;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -165,5 +166,10 @@ public class ForumPostServiceImpl implements ForumPostService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<ForumPost> findTopPost(Integer plateId, Integer size) {
+        return forumPostRepository.findTopPost(plateId,size);
     }
 }

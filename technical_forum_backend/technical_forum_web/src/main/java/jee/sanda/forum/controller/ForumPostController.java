@@ -2,6 +2,7 @@ package jee.sanda.forum.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import jee.sanda.forum.entity.ForumPost;
 import jee.sanda.forum.entity.ForumPostDetail;
 import jee.sanda.forum.entity.ForumPostReply;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /***
  * 帖子接口
@@ -170,6 +172,20 @@ public class ForumPostController {
             return ResponseEntity.ok("删除帖子成功");
         }
         return ResponseEntity.badRequest().body("删除失败,没有权限删除该帖子");
+    }
+
+
+    /**
+     * 查询访问量最多的前n条帖子
+     * @param plateId
+     * @return
+     */
+    @ApiOperation("查询访问量最多的前n条帖子")
+    @GetMapping("/findTopPost/{plateId}/{size}")
+    public ResponseEntity<Object> findTopPost(@PathVariable("plateId") Integer plateId,
+                                              @PathVariable("size") Integer size){
+        List<ForumPost> forumPosts = forumPostService.findTopPost(plateId, size);
+        return ResponseEntity.ok(forumPosts);
     }
 }
 
