@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Layout, Menu } from 'antd';
+import { Layout, Menu} from 'antd';
 import { withRouter } from 'react-router';
 const { Header } = Layout;
 
@@ -15,6 +15,7 @@ class MyHeader extends React.Component {
 
     componentWillMount() {
         //设置login值,判断用户当前是否登录
+        console.log('header')
         this.setState({
             login: JSON.parse(sessionStorage.getItem("user"))
         })
@@ -37,7 +38,10 @@ class MyHeader extends React.Component {
                 </div>
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[window.location.hash.split('/')[2]]} >
                 <Menu.Item key="homepage"><Link to={'/home/homepage/' + sessionStorage.getItem("plateKey")}>首页</Link></Menu.Item>
-                <Menu.Item key="mypost"><Link to='/home/mypost'>我的论坛</Link></Menu.Item>
+               
+                <Menu.Item key="mypost"> <Link to='/home/mypost'>
+                    我的论坛</Link></Menu.Item>
+              
                 <Menu.Item key="userinfo"><Link to='/home/userinfo' >用户信息</Link></Menu.Item>
                 {sessionStorage.getItem("user") && JSON.parse(sessionStorage.getItem("user")).role === '管理员'&&<Menu.Item key="noticemanagement">
                     <Link to='/home/noticemanagement' >公告管理</Link></Menu.Item>}

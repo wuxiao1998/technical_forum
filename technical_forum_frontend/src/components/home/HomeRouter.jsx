@@ -20,6 +20,7 @@ class HomeRouter extends React.Component {
     }
   }
   componentWillMount() {
+    
   }
 
 

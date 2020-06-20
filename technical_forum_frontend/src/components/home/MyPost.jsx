@@ -1,8 +1,9 @@
 import React from 'react';
-import { Result, Button } from 'antd';
+import { Result, Button, Badge } from 'antd';
 import { Tabs } from 'antd';
 import NoLogin from '../authentication/NoLogin';
 import MyPostList from'./forumpost/MyPostList';
+import MyInfo from './myinfo/MyInfo'
 const { TabPane } = Tabs;
 //我的帖子组件
 class MyPost extends React.Component {
@@ -34,8 +35,8 @@ class MyPost extends React.Component {
         let element;
         console.log(this.state.user,'987')
         if (this.state.loginin) {            
-            element = <div>
-                <Tabs defaultActiveKey="1" style={{backgroundColor:"#F0F2F5"}} type="line" size={"large"}>
+            element = <div  >
+                <Tabs defaultActiveKey="1" style={{backgroundColor:"#F0F2F5",marginTop:'20px'}} type="line" size={"large"}>
     <TabPane
       tab={
         <span>
@@ -48,19 +49,22 @@ class MyPost extends React.Component {
     </TabPane>
     <TabPane
       tab={
+        <Badge count={10} offset={[10, -9]}>
         <span>
           我的消息
         </span>
+        </Badge>
       }
       key="2"
-    >我的消息
+    >
+      <MyInfo></MyInfo>
     </TabPane>
   </Tabs>
                 </div >
         } else {
             element = <NoLogin history={this.props.history}></NoLogin>
         }
-        return <div style={{ minHeight: '80vh', marginTop: "3%", marginLeft: "3%" , marginRight: "3%", marginBottom: "3%",}}>
+        return <div style={{ minHeight: '80vh', marginTop: "4%", marginLeft: "3%" , marginRight: "3%", marginBottom: "3%",}}>
             {element}
         </div>
     }

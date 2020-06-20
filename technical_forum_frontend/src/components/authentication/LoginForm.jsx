@@ -66,9 +66,9 @@ class LoginFrom extends React.Component {
           />
         </Form.Item>
         <Form.Item>
-          <a className="login-form-forgot" href="">
+          <Link className="login-form-forgot" to='/forgetpassword'>
             忘记密码?
-        </a>
+        </Link>
         </Form.Item>
         <Form.Item>
           <Link to='/register'>没有账号?点击注册</Link>
