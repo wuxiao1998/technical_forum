@@ -1,5 +1,7 @@
 package jee.sanda.forum.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jee.sanda.forum.form.Email;
 import jee.sanda.forum.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @RequestMapping("/mail")
+@Api(value="邮件controller",tags={"邮件服务接口"})
 public class MailController {
     @Autowired
     private MailService mailService;
@@ -24,6 +27,7 @@ public class MailController {
      * @param email
      * @return
      */
+    @ApiOperation("发送邮箱验证码")
     @PostMapping("/sendCode")
     public ResponseEntity<String> sendCode(@RequestBody Email email) {
         String em = email.getEmail();

@@ -1,5 +1,7 @@
 package jee.sanda.forum.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/test")
+@Api(value="测试controller",tags={"测试专用接口"})
 public class TestController {
     @Autowired
     HttpServletRequest request;
@@ -26,6 +29,7 @@ public class TestController {
      * @return
      * @throws IOException
      */
+    @ApiOperation("测试头像上传")
     @PostMapping("/upload")
     public String testUpload(MultipartFile file) throws IOException {
 

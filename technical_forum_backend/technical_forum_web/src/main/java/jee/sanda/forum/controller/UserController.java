@@ -1,6 +1,8 @@
 package jee.sanda.forum.controller;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jee.sanda.forum.entity.User;
 import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.service.MailService;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
+@Api(value="用户controller",tags={"用户服务接口"})
 public class UserController {
 
     @Autowired
@@ -42,6 +45,7 @@ public class UserController {
      * @param user
      * @return
      */
+    @ApiOperation("用户登录")
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody User user) {
         User loginUser = userService.login(user.getUsername(), user.getPassword());
@@ -60,6 +64,7 @@ public class UserController {
      * @param user
      * @return
      */
+    @ApiOperation("用户注册")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
         HttpSession session = request.getSession();
@@ -88,6 +93,7 @@ public class UserController {
      * @param updateUserForm
      * @return
      */
+    @ApiOperation("更新用户信息")
     @PostMapping("/updateUser")
     public ResponseEntity<String> updateUser(@RequestBody UpdateUserForm updateUserForm) {
         HttpSession session = request.getSession();
@@ -107,6 +113,7 @@ public class UserController {
      * @param user
      * @return
      */
+    @ApiOperation("检查用户名是否重名")
     @PostMapping("/checkUsername")
     public ResponseEntity<Object> checkUsername(@RequestBody User user) {
         if (userService.checkUserName(user.getUsername())) {
@@ -120,6 +127,7 @@ public class UserController {
      * @param user
      * @return
      */
+    @ApiOperation("检查用户修改密码时旧密码是否正确")
     @PostMapping("/checkPassword")
     public ResponseEntity<Object> checkPassword(@RequestBody User user) {
         HttpSession session = request.getSession();
@@ -135,6 +143,7 @@ public class UserController {
      * @param user
      * @return
      */
+    @ApiOperation("修改密码")
     @PostMapping("/updatePassword")
     public ResponseEntity<Object> updatePassword(@RequestBody User user) {
         HttpSession session = request.getSession();
@@ -150,6 +159,7 @@ public class UserController {
      * @return
      * @throws IOException
      */
+    @ApiOperation("头像上传")
     @PostMapping("/upload")
     public String testUpload(MultipartFile file,@RequestParam("uploadType")String uploadType) throws IOException {
         if(file == null){
@@ -172,6 +182,7 @@ public class UserController {
      * 根据当前登录用户的个人信息
      * @return
      */
+    @ApiOperation("查找当前登录用户的个人信息")
     @GetMapping("/findById")
     public ResponseEntity<Object> findById(){
         Long userId = (Long)request.getSession().getAttribute("userId");
@@ -190,6 +201,7 @@ public class UserController {
      * 查看所有用户信息
      * @return
      */
+    @ApiOperation("查看所有用户信息")
     @GetMapping("/findAll")
     public ResponseEntity<Object> findAll(){
         List<User> userList = userService.findAll();

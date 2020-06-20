@@ -50,4 +50,3 @@ logging:
   level:
     jee: DEBUG
     test: DEBUG
-

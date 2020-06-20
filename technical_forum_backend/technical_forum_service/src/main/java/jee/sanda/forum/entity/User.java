@@ -2,6 +2,8 @@ package jee.sanda.forum.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import jee.sanda.forum.em.GenderEnum;
 import jee.sanda.forum.em.RoleEnum;
 import jee.sanda.forum.em.StatusEnum;
@@ -19,79 +21,96 @@ import java.util.Date;
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
+@ApiModel("用户实体类")
 public class User implements Serializable {
     /***
      * 主键id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty("用户id")
     private Long id;
     /***
      * 用户名
      */
+    @ApiModelProperty("用户名")
     private String username;
     /***
      * 密码
      */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ApiModelProperty("登录密码")
     private String password;
     /***
      * 邮箱
      */
+    @ApiModelProperty("邮箱")
     private String email;
     /***
      * 昵称
      */
+    @ApiModelProperty("昵称")
     private String nickname;
     /***
      * 电话
      */
+    @ApiModelProperty("电话")
     private String phone;
     /***
      * 性别
      */
+    @ApiModelProperty("性别")
     @Enumerated(EnumType.ORDINAL)
     private GenderEnum gender;
     /***
      * 经验值
      */
+    @ApiModelProperty("经验值")
     private Integer experience;
     /***
      * 等级
      */
+    @ApiModelProperty("等级")
     private Integer level;
     /***
      * 称号
      */
+    @ApiModelProperty("称号")
     private String designation;
     /***
      * 状态(封号,可用)
      */
+    @ApiModelProperty("状态")
     @Enumerated(EnumType.ORDINAL)
     private StatusEnum status;
     /***
      * 权限
      */
+    @ApiModelProperty("权限")
     @Enumerated(EnumType.ORDINAL)
     private RoleEnum role;
     /***
      * 接收邮箱验证码
      */
+    @ApiModelProperty("邮箱验证码")
     @Transient
     private String code;
     /***
      * 接收uuid
      */
+    @ApiModelProperty("uuid")
     @Transient
     private String uuid;
     /***
      * 创建时间
      */
+    @ApiModelProperty("注册时间")
     @CreatedDate
     private java.util.Date createtime;
     /***
      * 最后更新时间
      */
+    @ApiModelProperty("最后更新时间")
     @LastModifiedDate
     @JsonIgnore
     private java.util.Date updatetime;

@@ -1,5 +1,4 @@
 package jee.sanda.forum.service.impl;
-
 import jee.sanda.forum.em.RoleEnum;
 import jee.sanda.forum.entity.ForumPost;
 import jee.sanda.forum.entity.ForumPostDetail;

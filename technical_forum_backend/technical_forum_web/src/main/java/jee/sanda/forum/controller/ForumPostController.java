@@ -1,5 +1,7 @@
 package jee.sanda.forum.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jee.sanda.forum.entity.ForumPost;
 import jee.sanda.forum.entity.ForumPostDetail;
 import jee.sanda.forum.entity.ForumPostReply;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/forumPost")
+@Api(value="帖子controller",tags={"帖子服务接口"})
 public class ForumPostController {
 
     @Autowired
@@ -32,6 +35,7 @@ public class ForumPostController {
      * @param pageSize
      * @return
      */
+    @ApiOperation("根据板块id分页查询帖子信息")
     @GetMapping("/findByPlateId")
     public ResponseEntity<Object> findByPlateId(@RequestParam("plateId") Integer plateId, @RequestParam("pageNo") Integer pageNo,
                                                 @RequestParam("pageSize") Integer pageSize, @RequestParam("searchCondition") String searchCondition) {
@@ -47,6 +51,7 @@ public class ForumPostController {
      * @param postId
      * @return
      */
+    @ApiOperation("通过帖子主表id查询帖子的所有信息")
     @GetMapping("/findPostDetails")
     public ResponseEntity<Object> findDetailByPostId(@RequestParam("postId") Long postId,
                                                   @RequestParam("pageNo") Integer pageNo,
@@ -56,10 +61,11 @@ public class ForumPostController {
     }
 
     /***
-     * 通过帖子主表id查询帖子的所有信息(暂不使用)
+     * 通过帖子子表查询帖子的所有评论信息(暂不使用)
      * @param postDetailId
      * @return
      */
+    @ApiOperation("通过帖子子表查询帖子的所有评论信息")
     @GetMapping("/findPostReply")
     public ResponseEntity<Object> findReplyByPostDetailId(@RequestParam("postDetailId") Long postDetailId,
                                                   @RequestParam("pageNo") Integer pageNo,
@@ -74,6 +80,7 @@ public class ForumPostController {
      * @param forumPost
      * @return
      */
+    @ApiOperation("发布新帖")
     @PostMapping("/addPost")
     public ResponseEntity<Object> addPost(@RequestBody ForumPost forumPost) {
         forumPostService.saveForumPost(forumPost);
@@ -87,6 +94,7 @@ public class ForumPostController {
      * @param pageSize
      * @return
      */
+    @ApiOperation("查找我的帖子")
     @GetMapping("/findByUserId")
     public ResponseEntity<Object>addPost(@RequestParam("userId") Long userId,@RequestParam("pageNo") Integer pageNo,@RequestParam("pageSize") Integer pageSize){
         if (userId == null) {
@@ -101,6 +109,7 @@ public class ForumPostController {
      * @param comment
      * @return
      */
+    @ApiOperation("保存回帖信息")
     @PostMapping("/comment")
     public ResponseEntity<Object>comment(@RequestBody Comment comment){
         HttpSession session=request.getSession();
@@ -118,6 +127,7 @@ public class ForumPostController {
      * @param reply
      * @return
      */
+    @ApiOperation("保存回复信息")
     @PostMapping("/reply")
     public ResponseEntity<Object>reply(@RequestBody Reply reply){
         HttpSession session=request.getSession();
@@ -135,6 +145,7 @@ public class ForumPostController {
      * @param postId
      * @return
      */
+    @ApiOperation("通过帖子主表id查询子表详情")
     @GetMapping("/findById")
     public ResponseEntity<Object> findById(@RequestParam("postId") Long postId){
 
@@ -150,7 +161,8 @@ public class ForumPostController {
      * @param postId
      * @return
      */
-    @DeleteMapping("deletePostById")
+    @ApiOperation("通过帖子主表id级联删除帖子")
+    @DeleteMapping("/deletePostById")
     public ResponseEntity<Object> deletePostById(@RequestParam("postId") Long postId){
         HttpSession session=request.getSession();
         Long userId=(Long)session.getAttribute("userId");
