@@ -87,7 +87,7 @@ class PostDetailList extends React.Component {
       this.setState({
         value:''
       })
-      message.success("发表成功!!!")
+      message.success("发表成功,经验值+5")
       this.loadingData();
     })
   }
@@ -110,7 +110,7 @@ class PostDetailList extends React.Component {
         visible: false,
         replyValue:''
       })
-      message.success("回复成功!!!")
+      message.success("评论成功,经验值+3")
        //操作成功后重新查询一次页面
        this.loadingData();
      })

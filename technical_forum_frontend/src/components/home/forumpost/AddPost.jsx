@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Form, Input, InputNumber, Button } from 'antd';
+import { Form, Input, InputNumber, Button, message } from 'antd';
 import NoLogin from '../../authentication/NoLogin'
 //发新帖组件
 const layout = {
@@ -39,7 +39,9 @@ class AddPost extends React.Component {
         id: JSON.parse(sessionStorage.getItem("user")).id
       }
     }).then(res => {
+      message.success("发帖成功,经验值+10")
       this.props.history.push('/home/homepage/' + this.state.plateId);
+      
     })
   };
   goBack = () => {
