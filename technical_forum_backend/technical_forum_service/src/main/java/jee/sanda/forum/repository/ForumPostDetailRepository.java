@@ -23,4 +23,9 @@ public interface ForumPostDetailRepository extends JpaRepository<ForumPostDetail
     @Query(value="DELETE FROM forum_post_detail WHERE forum_post_id=?1",nativeQuery = true)
     @Modifying
     void deleteByPostId(Long forumPostId);
+
+    //保存用户的回帖信息
+    @Query(value="insert into forum_post_detail(createby,forum_post_id,content) values(?1,?2,?3)",nativeQuery=true)
+    @Modifying
+    int insertForum_Post_detail(Long userId,Long forumPostId,String Content);
 }

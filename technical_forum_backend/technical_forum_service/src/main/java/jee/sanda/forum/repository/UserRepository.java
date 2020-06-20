@@ -57,7 +57,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      */
     @Query(value = "update User set level=?1 where id=?2",nativeQuery = true)
     @Modifying
-    Integer updateLevel(Integer level,Long userId);
+    int updateLevel(Integer level,Long userId);
 
     /**
      * 更新称号
@@ -67,4 +67,12 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Query(value = "update User set designation=?1 where id=?2",nativeQuery = true)
     @Modifying
     void updateDesignation(String designation,Long userId);
+
+    /**
+     * 通过id查找昵称
+     * @param userId
+     * @return
+     */
+    @Query(value ="select nickname from user where id=?1",nativeQuery = true)
+    String findNickNameById(Long userId);
 }

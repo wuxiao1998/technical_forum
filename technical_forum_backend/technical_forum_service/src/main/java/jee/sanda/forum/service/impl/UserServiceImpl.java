@@ -1,10 +1,12 @@
 package jee.sanda.forum.service.impl;
 
+import jee.sanda.forum.em.InfoKindEnum;
 import jee.sanda.forum.em.RoleEnum;
 import jee.sanda.forum.em.StatusEnum;
 import jee.sanda.forum.entity.User;
 import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.repository.UserRepository;
+import jee.sanda.forum.service.InformationService;
 import jee.sanda.forum.service.UserService;
 import jee.sanda.forum.utils.ExperienceLevelUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private InformationService informationService;
 
     @Override
     public User login(String username, String password) {
@@ -122,9 +127,13 @@ public class UserServiceImpl implements UserService {
     public void updateLevelAndExperienceAndDesignation(Long userId, Integer increment) {
         Integer experience=addExperience(userId,increment);
         Integer level= ExperienceLevelUtils.judgeLevel(experience);
-        userRepository.updateLevel(level,userId);
+        int row=userRepository.updateLevel(level,userId);
         String designation=ExperienceLevelUtils.judgeDesignation(level);
         userRepository.updateDesignation(designation,userId);
+        if (row>0){
+            String content="恭喜你！你的账号升到了"+level+"级，获得新称号："+designation+"。";
+            informationService.createInformation(userId,content, InfoKindEnum.普通消息);
+        }
     }
 
 

@@ -12,16 +12,6 @@ public interface ForumPostRepository extends JpaRepository<ForumPost, Long>, Jpa
     //根据板块查找帖子
     List<ForumPost> findByPlateId(Integer plateId);
 
-    //保存用户的回帖信息
-    @Query(value="insert into forum_post_detail(createby,forum_post_id,content) values(?1,?2,?3)",nativeQuery=true)
-    @Modifying
-    int insertForum_Post_detail(Long userId,Long forumPostId,String Content);
-
-    //保存用户的评论信息
-    @Query(value="insert into forum_post_reply(createby,forum_post_detail_id,content) values(?1,?2,?3)",nativeQuery=true)
-    @Modifying
-    int insertForum_Post_reply(Long userId,Long forumPostDetailId,String Content);
-
     //帖子浏览量+1
     @Query(value="update forum_post set count=count+1 where id=?1",nativeQuery=true)
     @Modifying
@@ -31,4 +21,7 @@ public interface ForumPostRepository extends JpaRepository<ForumPost, Long>, Jpa
             " WHERE plate_id=?1 GROUP BY id " +
             " ORDER BY COUNT DESC LIMIT ?2",nativeQuery = true)
     List<ForumPost> findTopPost(Integer plateId, Integer size);
+    //根据帖子id查找帖子标题
+    @Query(value = "select title from forum_post where id=?1",nativeQuery = true)
+    String findTitleById(Long postId);
 }

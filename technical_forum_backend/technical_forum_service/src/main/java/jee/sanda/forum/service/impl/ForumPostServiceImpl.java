@@ -1,4 +1,5 @@
 package jee.sanda.forum.service.impl;
+import jee.sanda.forum.em.InfoKindEnum;
 import jee.sanda.forum.em.RoleEnum;
 import jee.sanda.forum.entity.ForumPost;
 import jee.sanda.forum.entity.ForumPostDetail;
@@ -9,6 +10,7 @@ import jee.sanda.forum.repository.ForumPostReplyRepository;
 import jee.sanda.forum.repository.ForumPostRepository;
 import jee.sanda.forum.repository.UserRepository;
 import jee.sanda.forum.service.ForumPostService;
+import jee.sanda.forum.service.InformationService;
 import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,6 +44,10 @@ public class ForumPostServiceImpl implements ForumPostService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private InformationService informationService;
+
     @Override
     public Page<ForumPost> findByPlateId(Integer plateId, Integer pageNo, Integer pageSize,String searchCondition) {
 
@@ -110,9 +116,13 @@ public class ForumPostServiceImpl implements ForumPostService {
 
     @Override
     public boolean comment(Long userId, Long forumPostId, String content) {
-        if(forumPostRepository.insertForum_Post_detail(userId,forumPostId,content)>0)
+        if(forumPostDetailRepository.insertForum_Post_detail(userId,forumPostId,content)>0)
         {
             userService.updateLevelAndExperienceAndDesignation(userId, 5);
+            String nickname=userRepository.findNickNameById(userId);
+            String title=forumPostRepository.findTitleById(forumPostId);
+            String content1=nickname+"在\""+title+"\"这篇帖子中评论了你";
+            informationService.createInformation(userId,content1, InfoKindEnum.帖子消息);
             return true;
         }
         return false;
@@ -120,9 +130,12 @@ public class ForumPostServiceImpl implements ForumPostService {
 
     @Override
     public boolean reply(Long userId, Long forumPostDetailId, String content) {
-        if(forumPostRepository.insertForum_Post_reply(userId,forumPostDetailId,content)>0)
+        if(forumPostReplyRepository.insertForum_Post_reply(userId,forumPostDetailId,content)>0)
         {
             userService.updateLevelAndExperienceAndDesignation(userId, 3);
+            String nickname=userRepository.findNickNameById(userId);
+            String content1=nickname+"对你的\""+content+"\"这段回帖进行了评论";
+            informationService.createInformation(userId,content1, InfoKindEnum.帖子消息);
             return true;
         }
         return false;
