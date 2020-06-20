@@ -94,4 +94,18 @@ public interface UserService {
      * @return
      */
     List<User> findAll();
+
+    /**
+     * 封禁用户
+     * @param userId
+     * @return
+     */
+    boolean banUser(Long userId);
+
+    /**
+     * 检查用户状态
+     * @param user
+     * @return
+     */
+    boolean checkStatus(User user);
 }

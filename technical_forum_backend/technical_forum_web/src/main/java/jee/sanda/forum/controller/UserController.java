@@ -49,14 +49,21 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody User user) {
         User loginUser = userService.login(user.getUsername(), user.getPassword());
-        if (loginUser == null) {
+        if (loginUser == null)
+        {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("用户名或密码错误");
-        } else {
-            HttpSession session = request.getSession();
-            //将userId存入session域
-            session.setAttribute("userId", loginUser.getId());
-            return ResponseEntity.ok(loginUser);
         }
+        else
+            {
+                if (userService.checkStatus(loginUser)==true)
+                {
+                    HttpSession session = request.getSession();
+                    //将userId存入session域
+                    session.setAttribute("userId", loginUser.getId());
+                    return ResponseEntity.ok(loginUser);
+                }
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("该账号被封，无法登录");
+            }
     }
 
     /***
@@ -207,6 +214,20 @@ public class UserController {
         List<User> userList = userService.findAll();
         return ResponseEntity.ok(userList);
 
+    }
+
+    /**
+     * 封禁用户
+     * @param userId
+     * @return
+     */
+    @ApiOperation("封禁用户")
+    @GetMapping("/banUser")
+    public ResponseEntity<Object> banUser(Long userId){
+        if(userService.banUser(userId)){
+           return ResponseEntity.ok("封禁成功");
+        }
+        return ResponseEntity.badRequest().body("没有查找到该用户id，封禁失败");
     }
 }
 

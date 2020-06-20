@@ -140,5 +140,25 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public boolean banUser(Long userId) {
+        User user=findById(userId);
+        if(user!=null){
+            user.setStatus(StatusEnum.封号);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkStatus(User user) {
+        if(user.getStatus()==StatusEnum.正常)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
 }
