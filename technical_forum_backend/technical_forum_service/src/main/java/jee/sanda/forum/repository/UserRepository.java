@@ -34,40 +34,40 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     void updateStatus(Long userId);
 
     /**
-     * 增加经验值
-     * @param increment
-     * @param userId
-     */
-    @Query(value = "update User set experience=experience+?1 where id=?2",nativeQuery = true)
-    @Modifying
-    void updateExprience(Integer increment,Long userId);
-
-    /**
-     * 查询经验值
-     * @param userId
-     */
-    @Query(value = "select experience from User where id=?1",nativeQuery = true)
-    Integer searchExprience(Long userId);
-
-    /**
-     * 更新等级
-     * @param level
-     * @param userId
-     * @return
-     */
-    @Query(value = "update User set level=?1 where id=?2",nativeQuery = true)
-    @Modifying
-    int updateLevel(Integer level,Long userId);
-
-    /**
      * 更新称号
-     * @param designation
-     * @param userId
+     * @param experience,level,designation
+     * @param
      */
-    @Query(value = "update User set designation=?1 where id=?2",nativeQuery = true)
+    @Query(value = "update User set experience=?1,level=?2,designation=?3 where id=?4",nativeQuery = true)
     @Modifying
-    void updateDesignation(String designation,Long userId);
+    void updateExperienceAndLevelAndDesignation(Integer experience,Integer level,String designation,Long userId);
 
+
+//    /**
+//     * 增加经验值
+//     * @param increment
+//     * @param userId
+//     */
+//    @Query(value = "update User set experience=experience+?1 where id=?2",nativeQuery = true)
+//    @Modifying
+//    void updateExprience(Integer increment,Long userId);
+//
+//    /**
+//     * 查询经验值
+//     * @param userId
+//     */
+//    @Query(value = "select experience from User where id=?1",nativeQuery = true)
+//    Integer searchExprience(Long userId);
+//
+//    /**
+//     * 更新等级
+//     * @param level
+//     * @param userId
+//     * @return
+//     */
+//    @Query(value = "update User set level=?1 where id=?2",nativeQuery = true)
+//    @Modifying
+//    int updateLevel(Integer level,Long userId);
     /**
      * 通过id查找昵称
      * @param userId

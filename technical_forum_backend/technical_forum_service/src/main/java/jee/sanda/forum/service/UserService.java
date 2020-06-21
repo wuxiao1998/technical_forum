@@ -82,14 +82,6 @@ public interface UserService {
     void updateLevelAndExperienceAndDesignation(Long userId,Integer increment);
 
     /**
-     * 增加经验值
-     * @param userId
-     * @param increment //增加量
-     * @return
-     */
-    Integer addExperience(Long userId,Integer increment);
-
-    /**
      * 查询所有用户
      * @return
      */

@@ -9,7 +9,7 @@ import NoticeManagement from './management/NoticeManagement'
 import NoticeDetail from './notice/NoticeDetail'
 import UserManagement from './management/UserManagement'
 import PersonData from '../authentication/PersonData'
-import infomanagement from './management/InfoManagement'
+import ApplyInfoManagement from './management/ApplyInfoManagement'
 import { Layout } from 'antd';
 //主页子路由配置
 const { Content, Footer } = Layout;
@@ -42,7 +42,7 @@ class HomeRouter extends React.Component {
             <Route exact path='/home/noticedetail' component={NoticeDetail}></Route>
             <Route exact path='/home/usermanagement' component={UserManagement}></Route>
             <Route exact path='/home/persondata' component={PersonData}></Route>
-            <Route exact path='/home/infomanagement' component={infomanagement}></Route>
+            <Route exact path='/home/applyinfomanagement' component={ApplyInfoManagement}></Route>
             {/* 重定向至主页,此匹配项最好放最后*/ }
             <Redirect from='/' to='/home/homepage/1'></Redirect>
           </Switch>

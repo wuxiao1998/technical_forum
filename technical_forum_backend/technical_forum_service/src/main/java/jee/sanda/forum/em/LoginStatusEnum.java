@@ -1,5 +1,5 @@
 package jee.sanda.forum.em;
 
-public enum StatusEnum {
+public enum LoginStatusEnum {
     正常,封号
 }

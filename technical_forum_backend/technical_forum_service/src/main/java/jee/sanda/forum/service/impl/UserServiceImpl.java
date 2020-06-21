@@ -2,7 +2,7 @@ package jee.sanda.forum.service.impl;
 
 import jee.sanda.forum.em.InfoKindEnum;
 import jee.sanda.forum.em.RoleEnum;
-import jee.sanda.forum.em.StatusEnum;
+import jee.sanda.forum.em.LoginStatusEnum;
 import jee.sanda.forum.entity.User;
 import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.repository.UserRepository;
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
         //设置初始称号
         user.setDesignation("萌新上路");
         //设置初始状态为激活
-        user.setStatus(StatusEnum.正常);
+        user.setStatus(LoginStatusEnum.正常);
         //初始角色为普通用户
         user.setRole(RoleEnum.普通用户);
     }
@@ -125,24 +125,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateLevelAndExperienceAndDesignation(Long userId, Integer increment) {
-        Integer experience=addExperience(userId,increment);
-        Integer level= ExperienceLevelUtils.judgeLevel(experience);
-        int row=userRepository.updateLevel(level,userId);
-        String designation=ExperienceLevelUtils.judgeDesignation(level);
-        userRepository.updateDesignation(designation,userId);
-        if (row>0){
-            String content="恭喜你！你的账号升到了"+level+"级，获得新称号："+designation+"。";
+        Optional<User> userOptional = userRepository.findById(userId);
+        if(!userOptional.isPresent()){
+            return;
+        }
+        User user = userOptional.get();
+        Integer oldLevel = user.getLevel();
+        //获取原有经验值
+        Integer experience= user.getExperience();
+        //增加经验值
+        experience = experience + increment;
+        //判断属于哪个等级
+        Integer newLevel= ExperienceLevelUtils.judgeLevel(experience);
+        //判断等级对应的称号
+        String designation=ExperienceLevelUtils.judgeDesignation(newLevel);
+        userRepository.updateExperienceAndLevelAndDesignation(experience,newLevel,designation,userId);
+        if (newLevel != oldLevel){
+            String content="恭喜你！你的账号升到了"+newLevel+"级，获得新称号："+designation+"。";
             informationService.createInformation(userId,content, InfoKindEnum.普通消息,null);
         }
     }
 
-
-    @Override
-    public Integer addExperience(Long userId, Integer increment) {
-        userRepository.updateExprience(increment,userId);
-        Integer experience=userRepository.searchExprience(userId);
-        return experience;
-    }
 
     @Override
     public List<User> findAll() {
@@ -153,7 +156,7 @@ public class UserServiceImpl implements UserService {
     public boolean banUser(Long userId) {
         User user=findById(userId);
         if(user!=null){
-            user.setStatus(StatusEnum.封号);
+            user.setStatus(LoginStatusEnum.封号);
             userRepository.save(user);
             return true;
         }
@@ -162,7 +165,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkStatus(User user) {
-        if(user.getStatus()==StatusEnum.正常)
+        if(user.getStatus()== LoginStatusEnum.正常)
         {
             return true;
         }

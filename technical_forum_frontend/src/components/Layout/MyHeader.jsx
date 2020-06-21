@@ -48,7 +48,7 @@ class MyHeader extends React.Component {
                 {sessionStorage.getItem("user") && JSON.parse(sessionStorage.getItem("user")).role === '管理员' && <Menu.Item key="usermanagement">
                     <Link to='/home/usermanagement' >用户管理</Link></Menu.Item>}
                     {sessionStorage.getItem("user") && JSON.parse(sessionStorage.getItem("user")).role === '管理员' && <Menu.Item key="infomanagement">
-                    <Link to='/home/infomanagement' >消息管理</Link></Menu.Item>}
+                    <Link to='/home/applyinfomanagement' >申请管理</Link></Menu.Item>}
 
                 <Menu.Item key="4" style={{ float: "right" }} onClick={this.distoryUser}>{this.state.login ? '注销' : ''}</Menu.Item>
                 {!this.state.login && <Menu.Item key="5" style={{ float: "right" }}><Link to='/register'>注册</Link></Menu.Item>}

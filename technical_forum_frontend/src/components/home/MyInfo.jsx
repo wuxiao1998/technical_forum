@@ -49,6 +49,11 @@ class MyInfo extends React.Component {
     })
 
   }
+
+  gotoPost = (forumPostId)=>{
+
+    this.props.history.push('/forumpost/detail/'+forumPostId)
+  }
       render() {
 
         return <List
@@ -63,11 +68,11 @@ class MyInfo extends React.Component {
               style={{ marginTop: "10px" }}
               actions={[
                item.status == '未读'&&<Button onClick={this.updateStatus.bind(this,item.id)}>已读</Button>,
-               <Button>查看详情</Button>
+               item.kind == '帖子消息'&&<Button onClick={this.gotoPost.bind(this,item.forumPostId)}>查看详情</Button>
               ]}
             >
               <List.Item.Meta
-                title={<Link to={'/forumpost/detail/'+item.id} style={{fontSize:'16px',fontWeight:700}}>{item.content}</Link>}
+                title={<span>{item.content}</span>}
               />
     
             </List.Item>

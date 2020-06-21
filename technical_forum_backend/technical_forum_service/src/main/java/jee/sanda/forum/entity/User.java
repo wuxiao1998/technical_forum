@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jee.sanda.forum.em.GenderEnum;
 import jee.sanda.forum.em.RoleEnum;
-import jee.sanda.forum.em.StatusEnum;
+import jee.sanda.forum.em.LoginStatusEnum;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -82,7 +82,7 @@ public class User implements Serializable {
      */
     @ApiModelProperty("状态")
     @Enumerated(EnumType.ORDINAL)
-    private StatusEnum status;
+    private LoginStatusEnum status;
     /***
      * 权限
      */
@@ -195,11 +195,11 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public StatusEnum getStatus() {
+    public LoginStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(LoginStatusEnum status) {
         this.status = status;
     }
 

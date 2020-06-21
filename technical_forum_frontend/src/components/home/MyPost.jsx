@@ -3,7 +3,7 @@ import { Result, Button, Badge } from 'antd';
 import { Tabs } from 'antd';
 import NoLogin from '../authentication/NoLogin';
 import MyPostList from'./forumpost/MyPostList';
-import MyInfo from '../MyInfo'
+import MyInfo from './MyInfo'
 const { TabPane } = Tabs;
 //我的帖子组件
 class MyPost extends React.Component {
@@ -57,7 +57,7 @@ class MyPost extends React.Component {
       }
       key="2"
     >
-      <MyInfo></MyInfo>
+      <MyInfo history={this.props.history}></MyInfo>
     </TabPane>
   </Tabs>
                 </div >

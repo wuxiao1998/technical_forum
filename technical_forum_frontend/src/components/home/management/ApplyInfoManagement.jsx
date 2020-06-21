@@ -26,8 +26,8 @@ const tailFormItemLayout = {
   },
 };
 
-//消息管理组件
-class InfoManagement extends React.Component {
+//申请管理组件
+class ApplyInfoManagement extends React.Component {
 
   constructor(props) {
     super(props)
@@ -38,30 +38,30 @@ class InfoManagement extends React.Component {
       columns: [
 
         {
-          title: '用户名',
-          dataIndex: 'title',
-          key: 'title',
-        },
-        {
-          title: '昵称',
+          title: '内容',
           dataIndex: 'content',
           key: 'content',
+        },
+        {
+          title: '申请人',
+          dataIndex: 'user',
+          key: 'user',
           render: text => <Paragraph style={{ width: '200px' }} ellipsis>{text}</Paragraph>,
         },
         {
-          title: '等级',
-          dataIndex: 'plateId',
-          key: 'plateId',
-        },
-        {
-          title: '状态',
+          title: '申请时间',
           dataIndex: 'createtime',
           key: 'createtime',
         },
         {
-          title: '权限',
-          key: 'username',
-          dataIndex: 'username',
+          title: '状态',
+          dataIndex: 'status',
+          key: 'status',
+        },
+        {
+          title: '类型',
+          key: 'type',
+          dataIndex: 'type',
         },
         {
           title: '操作',
@@ -275,4 +275,4 @@ class InfoManagement extends React.Component {
   }
 }
 
-export default InfoManagement
+export default ApplyInfoManagement
