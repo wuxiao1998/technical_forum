@@ -1,5 +1,5 @@
 import React from 'react';
-import {Steps,Form, Input, Button,} from 'antd';
+import {Steps,Form, Input, Button,Spin} from 'antd';
 import Axios from 'axios';
 const { Step } = Steps;
 const layout = {
@@ -24,8 +24,12 @@ class ForgetPassword extends React.Component {
       }
 
       onFinish = values => {
-        console.log('Received values',values)
-        this.props.history.push('/emailcheck')
+        console.log('Received values',values);
+        sessionStorage.setItem('username',values.username);
+        Axios.get('/mail/sendCodeForResetPassword/'+values.username).then(res=>{
+          this.props.history.push('/emailcheck');
+        })
+     
         }
        
 
@@ -50,11 +54,15 @@ class ForgetPassword extends React.Component {
 >
   <Input />
 </Form.Item>
+
 <Form.Item {...tailLayout}>
   <Button type="primary" htmlType="submit">
     下一步
   </Button>
+ 
+ 
 </Form.Item>
+
     </Form>
 
         </div>

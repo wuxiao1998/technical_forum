@@ -26,7 +26,13 @@ class EmailCheck extends React.Component {
 
       onFinish = values => {
         console.log('Received values',values)
-        this.props.history.push('/restpassword')
+        Axios.post('/user/validateCode',{
+          username:sessionStorage.getItem('username'),
+          code:values.code
+        }).then(res=>{
+          this.props.history.push('/restpassword')
+        })
+      
         }
        
 

@@ -26,7 +26,14 @@ class RestPassword extends React.Component {
 
       onFinish = values => {
         console.log('Received values',values)
-        this.props.history.push('/restsuccess')
+        Axios.post('/user/resetPassword',{
+          username:sessionStorage.getItem('username'),
+          password:values.password
+        }).then(res=>{
+          sessionStorage.removeItem('username');
+          this.props.history.push('/restsuccess')
+        })
+       
         }
        
 

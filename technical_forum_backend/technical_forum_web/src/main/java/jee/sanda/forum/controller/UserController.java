@@ -233,15 +233,19 @@ public class UserController {
 
     /**
      * 查看验证码是否正确
-     * @param userCode
+     * @param user
      * @return
      */
     @ApiOperation("查看验证码是否正确")
-    @GetMapping("/validateCode")
-    public ResponseEntity<Object> validateCode (@RequestParam("userCode")String userCode){
-
-        String emailCode = redisTemplate.opsForValue().get("emailCode");
-        if(mailService.validateCode(userCode, emailCode)){
+    @PostMapping("/validateCode")
+    public ResponseEntity<Object> validateCode (@RequestBody User user){
+        String userName = user.getUsername();
+        String userCode = user.getCode();
+        String emailCode = redisTemplate.opsForValue().get(userName);
+        if(emailCode != null && mailService.validateCode(userCode, emailCode)){
+            Long userId = userService.findUserIdByUserName(userName);
+            HttpSession session = request.getSession();
+            session.setAttribute("restpassword",userId);
             return ResponseEntity.ok("验证码正确");
         }
         return ResponseEntity.badRequest().body("验证码错误");
@@ -255,9 +259,13 @@ public class UserController {
     @ApiOperation("重置密码")
     @PostMapping("/resetPassword")
     public ResponseEntity<Object> resetPassword(@RequestBody User user){
-        String userName=redisTemplate.opsForValue().get("userName");
-        Long userId=userService.findUserIdByUserName(userName);
+        HttpSession session = request.getSession();
+        Long userId= (Long)session.getAttribute("restpassword");
+        if(userId == null){
+            return ResponseEntity.badRequest().body("密码重置失败!");
+        }
         if (userService.updatePassword(userId, user.getPassword())) {
+            session.removeAttribute("restpassword");
             return ResponseEntity.ok("密码重置成功");
         }
         return ResponseEntity.badRequest().body("密码重置失败");

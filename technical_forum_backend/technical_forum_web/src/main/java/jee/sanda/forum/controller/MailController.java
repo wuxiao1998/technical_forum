@@ -46,14 +46,14 @@ public class MailController {
         return ResponseEntity.ok("success");
     }
     @ApiOperation("发送用于重置密码的邮箱验证码")
-    @GetMapping("/sendCodeForResetPassword")
-    public ResponseEntity<String> sendCodeForResetPassword(@RequestParam("username") String userName) {
+    @GetMapping("/sendCodeForResetPassword/{username}")
+    public ResponseEntity<String> sendCodeForResetPassword(@PathVariable("username") String userName) {
         if(!userService.checkUserName(userName))
         {
             String em=userService.findEmailByUserName(userName);
             String code = mailService.sendSimpleMail(em,"本次用于重置密码的验证码是:");
-            redisTemplate.opsForValue().set("emailCode",code,5, TimeUnit.MINUTES); //验证码在5分钟之后失效
-            redisTemplate.opsForValue().set("userName",userName,5, TimeUnit.MINUTES);
+            redisTemplate.delete(userName);
+            redisTemplate.opsForValue().set(userName,code,5, TimeUnit.MINUTES); //验证码在5分钟之后失效
             return ResponseEntity.ok("success");
         }
         return ResponseEntity.badRequest().body("用户名错误");
