@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Set;
+
 
 public interface ForumPostDetailRepository extends JpaRepository<ForumPostDetail, Long>, JpaSpecificationExecutor<ForumPostDetail> {
     //分页查询所有回帖信息
@@ -20,7 +22,7 @@ public interface ForumPostDetailRepository extends JpaRepository<ForumPostDetail
     @Query(value="SELECT count(*) FROM forum_post_detail WHERE forum_post_id=?1",nativeQuery = true)
     Long countByPostId(Long PostId);
 
-    @Query(value="DELETE FROM forum_post_detail WHERE forum_post_id=?1",nativeQuery = true)
+    @Query(value="DELETE FROM ForumPostDetail WHERE forumPostId=?1")
     @Modifying
     void deleteByPostId(Long forumPostId);
 
@@ -31,6 +33,8 @@ public interface ForumPostDetailRepository extends JpaRepository<ForumPostDetail
     //通过回帖id查找回帖人
     @Query(value = "select createby from forum_post_detail where id=?1",nativeQuery = true)
     Long findUserIdByPostDetailId(Long postDetailId);
+
+    Set<ForumPostDetail> findByForumPostId(Long forumPostId);
     //通过回帖id查找帖子id
     /*@Query(value = "select forum_post_id from forum_post_detail where id=?1",nativeQuery = true)
     Long findPostIdIdByPostDetailId(Long postDetailId);

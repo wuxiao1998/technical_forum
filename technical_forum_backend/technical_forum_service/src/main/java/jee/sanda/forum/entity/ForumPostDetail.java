@@ -55,5 +55,7 @@ public class ForumPostDetail {
     @JoinColumn(name="forum_post_detail_id")
     private Set<ForumPostReply> ForumPostReply;
 
-
+    @ApiModelProperty("主表id")
+    @Column(name="forum_post_id")
+    private Long forumPostId;
 }

@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -180,7 +181,11 @@ public class ForumPostServiceImpl implements ForumPostService {
         User user = userOptional.get();
         final RoleEnum role = user.getRole();
         if (role==RoleEnum.管理员||user.getId()==userId){
-            forumPostDetailRepository.deleteByPostId(forumPostId);
+
+            Set<ForumPostDetail> forumPostDetails = forumPostDetailRepository.findByForumPostId(forumPostId);
+            forumPostDetails.stream().forEach(forumPostDetail -> {
+                forumPostDetailRepository.delete(forumPostDetail);
+            });
             forumPostRepository.deleteById(forumPostId);
             return true;
         }
