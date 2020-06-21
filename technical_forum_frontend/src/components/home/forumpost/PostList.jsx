@@ -116,7 +116,8 @@ class PostList extends React.Component {
             }
             style={{ width: 200, marginLeft: '30px' }}
           />
-          <Button style={{ float: "right" }}><Link to={"/forumpost/add/" + this.state.platekey}>去发帖</Link></Button>
+          <Button style={{ float: "right" ,marginLeft:'20px'}}><Link to={"/forumpost/add/" + this.state.platekey}>去发帖</Link></Button>
+          <Button style={{ float: "right" }}><Link to={"/forumpost/applyposthost/" + this.state.platekey}>申请版主</Link></Button>
         </div>
       }
       footer={

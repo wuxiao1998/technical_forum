@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface NoticeRepository extends JpaRepository<Notice,Integer>, JpaSpecificationExecutor<Notice> {
 
-    @Query(value="insert into notice(title,content,plate_id,createby,updateby)" +
-            " values(?1,?2,?3,?4,?4)",nativeQuery = true)
+    @Query(value="insert into notice(title,content,plate_id,createby)" +
+            " values(?1,?2,?3,?4)",nativeQuery = true)
     @Modifying
     void saveNotice(String title,String content,Integer plate_id,Long userId);
 

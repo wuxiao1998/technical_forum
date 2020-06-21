@@ -59,9 +59,9 @@ class ApplyInfoManagement extends React.Component {
           key: 'status',
         },
         {
-          title: '类型',
-          key: 'type',
-          dataIndex: 'type',
+          title: '申请板块',
+          key: 'plate_id',
+          dataIndex: 'plate_id',
         },
         {
           title: '操作',
@@ -167,29 +167,29 @@ class ApplyInfoManagement extends React.Component {
   //查询接口
    loadingData =   (pageNo) => {
     let datasource = [];
-     Axios.get('/user/findAll').then(res => {
-      console.log(res)
-      let data = res.data.content
-      data.map(item => {
-        let notice = {
-        //   key: item.id.toString(),
-        //   title: item.title,
-        //   content: item.content,
-        //   plateId: item.plate ? item.plate.name : '全部',
-        //   createtime: item.createtime,
-        //   username: item.createUser ? item.createUser.username : ''
-        }
-        datasource.push(notice)
-      })
-      this.setState({
-        noticeList: datasource,
-        pagination: {
-          current: pageNo,
-          pageSize: 5,
-          total: res.data.totalElements
-        }
-      })
-    })
+    //  Axios.get('/user/findAll').then(res => {
+    //   console.log(res)
+    //   let data = res.data.content
+    //   data.map(item => {
+    //     let notice = {
+    //     //   key: item.id.toString(),
+    //     //   title: item.title,
+    //     //   content: item.content,
+    //     //   plateId: item.plate ? item.plate.name : '全部',
+    //     //   createtime: item.createtime,
+    //     //   username: item.createUser ? item.createUser.username : ''
+    //     }
+    //     datasource.push(notice)
+    //   })
+    //   this.setState({
+    //     noticeList: datasource,
+    //     pagination: {
+    //       current: pageNo,
+    //       pageSize: 5,
+    //       total: res.data.totalElements
+    //     }
+    //   })
+    // })
    
 }
 
@@ -198,7 +198,6 @@ class ApplyInfoManagement extends React.Component {
   };
   render() {
     return <div style={{ minHeight: '80vh', marginTop: "5%", marginLeft: "3%", marginRight: "3%", marginBottom: "3%", }}>
-      <Button onClick={this.addNotice} style={{ marginBottom: '20px' }}>新增公告</Button>
       <Table columns={this.state.columns}
         onChange={this.handleTableChange}
         dataSource={this.state.noticeList}

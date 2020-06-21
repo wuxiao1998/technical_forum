@@ -16,6 +16,7 @@ import ForgetPassword from './components/authentication/restpassword/ForgetPassw
 import EmailCheck from './components/authentication/restpassword/EmailCheck'
 import RestPassword from './components/authentication/restpassword/RestPassword'
 import RestSuccess from './components/authentication/restpassword/RestSuccess'
+import ApplyPostHost from './components/home/forumpost/ApplyPostHost'
 class App extends React.Component {
 
   constructor(props) {
@@ -50,6 +51,7 @@ class App extends React.Component {
         <Route exact path='/emailcheck' component={EmailCheck}></Route>
         <Route exact path='/restpassword' component={RestPassword}></Route>
         <Route exact path='/restsuccess' component={RestSuccess}></Route>
+        <Route exact path='/forumpost/applyposthost/:plateid' component={ApplyPostHost}></Route>
       </Switch>
     </HashRouter>
 
