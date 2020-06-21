@@ -24,4 +24,7 @@ public interface ForumPostRepository extends JpaRepository<ForumPost, Long>, Jpa
     //根据帖子id查找帖子标题
     @Query(value = "select title from forum_post where id=?1",nativeQuery = true)
     String findTitleById(Long postId);
+    //通过帖子id查找发帖人
+    @Query(value = "select createby from forum_post where id=?1",nativeQuery = true)
+    Long findUserIdByPostId(Long postId);
 }

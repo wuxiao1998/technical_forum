@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
         userRepository.updateDesignation(designation,userId);
         if (row>0){
             String content="恭喜你！你的账号升到了"+level+"级，获得新称号："+designation+"。";
-            informationService.createInformation(userId,content, InfoKindEnum.普通消息);
+            informationService.createInformation(userId,content, InfoKindEnum.普通消息,null);
         }
     }
 

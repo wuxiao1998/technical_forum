@@ -28,4 +28,10 @@ public interface ForumPostDetailRepository extends JpaRepository<ForumPostDetail
     @Query(value="insert into forum_post_detail(createby,forum_post_id,content) values(?1,?2,?3)",nativeQuery=true)
     @Modifying
     int insertForum_Post_detail(Long userId,Long forumPostId,String Content);
+    //通过回帖id查找回帖人
+    @Query(value = "select createby from forum_post_detail where id=?1",nativeQuery = true)
+    Long findUserIdByPostDetailId(Long postDetailId);
+    //通过回帖id查找帖子id
+    @Query(value = "select forum_post_id from forum_post_detail where id=?1",nativeQuery = true)
+    Long findPostIdIdByPostDetailId(Long postDetailId);
 }

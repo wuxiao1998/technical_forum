@@ -28,5 +28,5 @@ public interface InformationService {
      * @param kind
      * @return
      */
-    boolean createInformation(Long userId, String content, InfoKindEnum kind);
+    boolean createInformation(Long userId, String content, InfoKindEnum kind,Long forumPostId);
 }

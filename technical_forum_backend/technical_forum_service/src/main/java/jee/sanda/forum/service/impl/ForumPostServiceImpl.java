@@ -122,7 +122,8 @@ public class ForumPostServiceImpl implements ForumPostService {
             String nickname=userRepository.findNickNameById(userId);
             String title=forumPostRepository.findTitleById(forumPostId);
             String content1=nickname+"在\""+title+"\"这篇帖子中评论了你";
-            informationService.createInformation(userId,content1, InfoKindEnum.帖子消息);
+            Long uId=forumPostRepository.findUserIdByPostId(forumPostId);
+            informationService.createInformation(uId,content1, InfoKindEnum.帖子消息,forumPostId);
             return true;
         }
         return false;
@@ -135,7 +136,9 @@ public class ForumPostServiceImpl implements ForumPostService {
             userService.updateLevelAndExperienceAndDesignation(userId, 3);
             String nickname=userRepository.findNickNameById(userId);
             String content1=nickname+"对你的\""+content+"\"这段回帖进行了评论";
-            informationService.createInformation(userId,content1, InfoKindEnum.帖子消息);
+            Long uId=forumPostDetailRepository.findUserIdByPostDetailId(forumPostDetailId);
+            Long postId=forumPostDetailRepository.findPostIdIdByPostDetailId(forumPostDetailId);
+            informationService.createInformation(uId,content1, InfoKindEnum.帖子消息,postId);
             return true;
         }
         return false;

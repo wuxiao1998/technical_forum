@@ -59,4 +59,10 @@ public class UserInformation {
     @OneToOne
     @JoinColumn(name = "userid")
     private User user;
+    /**
+     * 消息相关帖子id
+     */
+    @ApiModelProperty("消息相关帖子id")
+    @JoinColumn(name="forum_post_id")
+    private Long forumPostId;
 }

@@ -41,7 +41,7 @@ public class InformationServiceImpl implements InformationService {
     }
 
     @Override
-    public boolean createInformation(Long userId, String content, InfoKindEnum kind) {
+    public boolean createInformation(Long userId, String content, InfoKindEnum kind,Long forumPostId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (!userOptional.isPresent()) {
             return false;
@@ -52,6 +52,9 @@ public class InformationServiceImpl implements InformationService {
         userInformation.setStatus(InfoStatusEnum.未读);
         userInformation.setKind(kind);
         userInformation.setUser(user);
+        if(forumPostId!=null){
+            userInformation.setForumPostId(forumPostId);
+        }
         userInformationRepository.save(userInformation);
         return true;
     }
