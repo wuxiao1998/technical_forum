@@ -11,9 +11,15 @@ import jee.sanda.forum.service.UserService;
 import jee.sanda.forum.utils.ExperienceLevelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -148,8 +154,18 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Page<User> findAll(Integer pageNo, Integer pageSize) {
+        Specification<User> spec = new Specification<User>() {
+            @Override
+            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Path<Object> username = root.get("username");
+                Predicate p1 = criteriaBuilder.isNotNull(username);
+                return p1;
+            }
+        };
+        Sort sortKey = Sort.by(Sort.Direction.DESC, "role");
+        Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
+        return userRepository.findAll(spec,pageable);
     }
 
     @Override

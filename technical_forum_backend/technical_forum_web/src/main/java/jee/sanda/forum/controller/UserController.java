@@ -8,6 +8,7 @@ import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.service.MailService;
 import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /***
  * 用户接口
@@ -209,9 +209,10 @@ public class UserController {
      * @return
      */
     @ApiOperation("查看所有用户信息")
-    @GetMapping("/findAll")
-    public ResponseEntity<Object> findAll(){
-        List<User> userList = userService.findAll();
+    @GetMapping("/findAll/{pageNo}/{pageSize}")
+    public ResponseEntity<Object> findAll(@PathVariable("pageNo") Integer pageNo,
+                                          @PathVariable("pageSize") Integer pageSize){
+        Page<User> userList = userService.findAll(pageNo,pageSize);
         return ResponseEntity.ok(userList);
 
     }

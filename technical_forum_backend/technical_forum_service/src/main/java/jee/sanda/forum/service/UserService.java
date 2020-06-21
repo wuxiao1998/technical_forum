@@ -3,6 +3,7 @@ package jee.sanda.forum.service;
 
 import jee.sanda.forum.entity.User;
 import jee.sanda.forum.form.UpdateUserForm;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -85,7 +86,7 @@ public interface UserService {
      * 查询所有用户
      * @return
      */
-    List<User> findAll();
+    Page<User> findAll(Integer pageNo, Integer pageSize);
 
     /**
      * 封禁用户
