@@ -1,14 +1,8 @@
 package jee.sanda.forum.service.impl;
 import jee.sanda.forum.em.InfoKindEnum;
 import jee.sanda.forum.em.RoleEnum;
-import jee.sanda.forum.entity.ForumPost;
-import jee.sanda.forum.entity.ForumPostDetail;
-import jee.sanda.forum.entity.ForumPostReply;
-import jee.sanda.forum.entity.User;
-import jee.sanda.forum.repository.ForumPostDetailRepository;
-import jee.sanda.forum.repository.ForumPostReplyRepository;
-import jee.sanda.forum.repository.ForumPostRepository;
-import jee.sanda.forum.repository.UserRepository;
+import jee.sanda.forum.entity.*;
+import jee.sanda.forum.repository.*;
 import jee.sanda.forum.service.ForumPostService;
 import jee.sanda.forum.service.InformationService;
 import jee.sanda.forum.service.UserService;
@@ -47,6 +41,9 @@ public class ForumPostServiceImpl implements ForumPostService {
 
     @Autowired
     private InformationService informationService;
+
+    @Autowired
+    private DetailCommentRepository detailCommentRepository;
 
     @Override
     public Page<ForumPost> findByPlateId(Integer plateId, Integer pageNo, Integer pageSize,String searchCondition) {
@@ -135,10 +132,13 @@ public class ForumPostServiceImpl implements ForumPostService {
         {
             userService.updateLevelAndExperienceAndDesignation(userId, 3);
             String nickname=userRepository.findNickNameById(userId);
-            String content1=nickname+"对你的\""+content+"\"这段回帖进行了评论";
-            Long uId=forumPostDetailRepository.findUserIdByPostDetailId(forumPostDetailId);
-            Long postId=forumPostDetailRepository.findPostIdIdByPostDetailId(forumPostDetailId);
-            informationService.createInformation(uId,content1, InfoKindEnum.帖子消息,postId);
+            Optional<DetailComment> detailComment=detailCommentRepository.findById(forumPostDetailId);
+            DetailComment dc=detailComment.get();
+            Long uId=dc.getUserId();
+            String content1=dc.getContent();
+            Long postId=dc.getPostId();
+            String content2=nickname+"对你的\""+content1+"\"这段回帖进行了评论";
+            informationService.createInformation(uId,content2, InfoKindEnum.帖子消息,postId);
             return true;
         }
         return false;
