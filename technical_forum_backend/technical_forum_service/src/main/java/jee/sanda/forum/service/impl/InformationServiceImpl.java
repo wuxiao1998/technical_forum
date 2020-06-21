@@ -59,4 +59,16 @@ public class InformationServiceImpl implements InformationService {
         return true;
     }
 
+    @Override
+    public int countUnreadInformationQuantity(Long userId) {
+        int quantity=userInformationRepository.countUnreadQuantity(userId);
+        return quantity;
+    }
+
+    @Override
+    public boolean deleteInformation(Long infoId) {
+        userInformationRepository.deleteById(infoId);
+        return true;
+    }
+
 }

@@ -10,10 +10,13 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserInformationRepository extends JpaRepository<UserInformation,Long>,JpaSpecificationExecutor<UserInformation> {
     //查询与用户相关的所有消息
-    @Query(value = "select * from user_information where userid=?1",nativeQuery = true)
+    @Query(value = "select * from user_information where userid=?1 order by status desc ",nativeQuery = true)
     Page<UserInformation> searchUnreadInformation(Long userId, Pageable pageable);
     //将消息状态改为已读
     @Query(value = "update user_information set status=0 where id=?1",nativeQuery = true)
     @Modifying
     int changeStatus(Long informationId);
+    //返回未读消息数量
+    @Query(value = "select count(*) from user_information where userid=?1 and status=1",nativeQuery = true)
+    int countUnreadQuantity(Long userId);
 }

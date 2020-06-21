@@ -54,4 +54,31 @@ public class InformationController {
         informationService.changeStatus(informationId);
         return ResponseEntity.ok("已读消息");
     }
+
+    /**
+     * 返回未读消息数量
+     * @return
+     */
+    @ApiOperation("返回未读消息数量")
+    @GetMapping("/unreadInformationQuantity")
+    public ResponseEntity<Object> unreadInformationQuantity(){
+        HttpSession session=request.getSession();
+        Long userId=(Long)session.getAttribute("userId");
+        int quantity=informationService.countUnreadInformationQuantity(userId);
+        return ResponseEntity.ok(quantity);
+    }
+
+    /**
+     * 删除消息
+     * @param infoId
+     * @return
+     */
+    @ApiOperation("删除消息")
+    @GetMapping("/deleteInformation")
+    public ResponseEntity<Object> deleteInformation(@RequestParam("infoId") Long infoId){
+        if (informationService.deleteInformation(infoId)){
+            return ResponseEntity.ok("删除成功");
+        }
+        return ResponseEntity.badRequest().body("删除失败");
+    }
 }

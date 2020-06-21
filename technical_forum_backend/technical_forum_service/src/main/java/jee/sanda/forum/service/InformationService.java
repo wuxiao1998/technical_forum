@@ -29,4 +29,18 @@ public interface InformationService {
      * @return
      */
     boolean createInformation(Long userId, String content, InfoKindEnum kind,Long forumPostId);
+
+    /**
+     * 查询未读消息数量
+     * @param userId
+     * @return
+     */
+    int countUnreadInformationQuantity(Long userId);
+
+    /**
+     * 删除消息通知
+     * @param infoId
+     * @return
+     */
+    boolean deleteInformation(Long infoId);
 }
