@@ -45,6 +45,12 @@ public class MailController {
         redisTemplate.opsForValue().set(uuid,code,5, TimeUnit.MINUTES); //验证码在5分钟之后失效
         return ResponseEntity.ok("success");
     }
+
+    /**
+     * 发送用于重置密码的邮箱验证码
+     * @param userName
+     * @return
+     */
     @ApiOperation("发送用于重置密码的邮箱验证码")
     @GetMapping("/sendCodeForResetPassword/{username}")
     public ResponseEntity<String> sendCodeForResetPassword(@PathVariable("username") String userName) {

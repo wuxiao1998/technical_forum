@@ -46,6 +46,9 @@ public class ForumPostServiceImpl implements ForumPostService {
     @Autowired
     private DetailCommentRepository detailCommentRepository;
 
+    @Autowired
+    private UserPlateRepository userPlateRepository;
+
     @Override
     public Page<ForumPost> findByPlateId(Integer plateId, Integer pageNo, Integer pageSize,String searchCondition) {
 
@@ -183,13 +186,19 @@ public class ForumPostServiceImpl implements ForumPostService {
 
     @Override
     public boolean deleteForumPost(Long userId, Long forumPostId) {
+        boolean flag=false;
+        Long pId=forumPostRepository.findPlateIdByPostId(forumPostId);
+        Integer plateId=pId.intValue();
         Optional<User> userOptional = userRepository.findById(userId);
         if (!userOptional.isPresent()) {
             return false;
         }
         User user = userOptional.get();
         final RoleEnum role = user.getRole();
-        if (role==RoleEnum.管理员||user.getId()==userId){
+        if(role==RoleEnum.版主&&userPlateRepository.findByUserIdAndPlateId(userId,plateId)!=null){
+            flag=true;
+        }
+        if (role==RoleEnum.管理员||user.getId()==userId||flag==true){
 
             Set<ForumPostDetail> forumPostDetails = forumPostDetailRepository.findByForumPostId(forumPostId);
             forumPostDetails.stream().forEach(forumPostDetail -> {

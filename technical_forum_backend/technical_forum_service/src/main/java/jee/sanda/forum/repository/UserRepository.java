@@ -1,6 +1,7 @@
 package jee.sanda.forum.repository;
 
 
+import jee.sanda.forum.em.RoleEnum;
 import jee.sanda.forum.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -91,4 +92,12 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      */
     @Query(value = "select id from user where username=?1",nativeQuery = true)
     Long findIdByUserName(String userName);
+
+    /**
+     * 将用户角色设为版主
+     * @param userId
+     */
+    @Query(value = "update user set role=1 where id=?1",nativeQuery = true)
+    @Modifying
+    void changeRoleToModerator(Long userId);
 }

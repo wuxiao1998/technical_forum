@@ -41,9 +41,8 @@ public class ApplyInfo {
     @Enumerated(EnumType.ORDINAL)
     private ApplyStatusEnum status;
 
-    @ApiModelProperty("消息类型")
-    @Enumerated(EnumType.ORDINAL)
-    private ApplyTypeEnum type;
+    @ApiModelProperty("申请成为板块id的版主")
+    private Integer plateId;
 
     @ApiModelProperty("处理人")
     @OneToOne
