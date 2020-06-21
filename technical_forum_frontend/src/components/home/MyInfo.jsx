@@ -73,6 +73,7 @@ class MyInfo extends React.Component {
             >
               <List.Item.Meta
                 title={<span>{item.content}</span>}
+            description={<span>接收人:{item.user.username}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;创建时间:{item.createtime}</span>}
               />
     
             </List.Item>

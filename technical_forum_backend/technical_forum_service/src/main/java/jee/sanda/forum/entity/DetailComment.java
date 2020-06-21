@@ -29,12 +29,12 @@ public class DetailComment {
      * 回帖人id
      */
     @ApiModelProperty("回帖人id")
-    @JoinColumn(name = "createby")
+    @Column(name = "createby")
     private Long userId;
     /**
      * 回复的帖子id
      */
     @ApiModelProperty("回复的帖子id")
-    @JoinColumn(name = "forum_post_id")
+    @Column(name = "forum_post_id")
     private Long postId;
 }

@@ -26,7 +26,7 @@ public class InformationServiceImpl implements InformationService {
     private UserInformationRepository userInformationRepository;
     @Override
     public Page<UserInformation> searchInformation(Long userId, Integer pageNo, Integer pageSize) {
-        Sort sortKey = Sort.by(Sort.Direction.ASC, "createtime");
+        Sort sortKey = Sort.by(Sort.Direction.DESC, "status","createtime");
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
         Page<UserInformation> pages=userInformationRepository.searchUnreadInformation(userId,pageable);
         return pages;

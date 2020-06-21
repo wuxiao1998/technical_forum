@@ -121,6 +121,7 @@ class PostDetailList extends React.Component {
     console.log(e);
     this.setState({
       visible: false,
+      replyValue:''
     });
   }
     
@@ -263,6 +264,7 @@ class PostDetailList extends React.Component {
           okText="回复"
           cancelText="取消"
           maskClosable={false}
+          destroyOnClose={true}
           onCancel={this.handleCancel}
         >
           <img

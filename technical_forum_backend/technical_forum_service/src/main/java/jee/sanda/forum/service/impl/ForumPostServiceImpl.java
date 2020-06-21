@@ -120,6 +120,7 @@ public class ForumPostServiceImpl implements ForumPostService {
             String title=forumPostRepository.findTitleById(forumPostId);
             String content1=nickname+"在\""+title+"\"这篇帖子中评论了你";
             Long uId=forumPostRepository.findUserIdByPostId(forumPostId);
+            if(uId != userId)
             informationService.createInformation(uId,content1, InfoKindEnum.帖子消息,forumPostId);
             return true;
         }
@@ -135,10 +136,12 @@ public class ForumPostServiceImpl implements ForumPostService {
             Optional<DetailComment> detailComment=detailCommentRepository.findById(forumPostDetailId);
             DetailComment dc=detailComment.get();
             Long uId=dc.getUserId();
-            String content1=dc.getContent();
-            Long postId=dc.getPostId();
-            String content2=nickname+"对你的\""+content1+"\"这段回帖进行了评论";
-            informationService.createInformation(uId,content2, InfoKindEnum.帖子消息,postId);
+            if(uId != userId) {
+                String content1 = dc.getContent();
+                Long postId = dc.getPostId();
+                String content2 = nickname + "对你的\"" + content1 + "\"这段回帖进行了评论";
+                informationService.createInformation(uId, content2, InfoKindEnum.帖子消息, postId);
+            }
             return true;
         }
         return false;
