@@ -18,7 +18,8 @@ public interface ForumPostReplyRepository extends JpaRepository<ForumPostReply, 
     Page<ForumPostReply> findByPostDetailId(Long postDetailId, Pageable pageable);
 
     //保存用户的评论信息
-    @Query(value="insert into forum_post_reply(createby,forum_post_detail_id,content) values(?1,?2,?3)",nativeQuery=true)
+    @Query(value = "insert into forum_post_reply(createby,forum_post_detail_id,content,parent_id) values(?1,?2,?3,?4)", nativeQuery = true)
     @Modifying
-    int insertForum_Post_reply(Long userId,Long forumPostDetailId,String Content);
+    int insertForum_Post_reply(Long userId, Long forumPostDetailId, String Content, Long parentId);
+
 }

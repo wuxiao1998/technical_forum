@@ -45,6 +45,7 @@ class PostDetailList extends React.Component {
       replyInfo: [],//每条帖子对应的评论信息
       visible: false ,//用于控制弹窗的显示‘
       replyId:'',//取每一条帖子详情的id
+      otherReplyId:'',
       replyValue:'',//回复内容
       userId: sessionStorage.getItem("user")? JSON.parse(sessionStorage.getItem("user")).id:null //当前登录用户的id
 
@@ -96,14 +97,26 @@ class PostDetailList extends React.Component {
     console.log(replyId)
     this.setState({
       visible: true,
-      replyId:replyId
+      replyId:replyId,
+      otherReplyId:null
+    });
+  }
+
+   //点击评论他人的评论
+   showOthersReply = (forumId,otherReplyId) => {
+    console.log(forumId,otherReplyId)
+    this.setState({
+      visible: true,
+      replyId: forumId,
+      otherReplyId:otherReplyId
     });
   }
  //点击回复发表评论
   handleOk = e => {
     Axios.post('/forumPost/reply',{
       forumPostDetailId:this.state.replyId,
-      content:this.state.replyValue
+      content:this.state.replyValue,
+      parentId:this.state.otherReplyId
      }).then(res=>{
       //操作成功后隐藏modal,并清空文本域原来的值
       this.setState({
@@ -230,10 +243,12 @@ class PostDetailList extends React.Component {
                     }
                     }
                     dataSource={item.forumPostReply}
-                    renderItem={value => <List.Item >
+                    renderItem={value => <List.Item 
+                      actions={[this.state.userId&&<Button onClick={this.showOthersReply.bind(this,item.id,value.id)}>回复</Button>]}
+                    >
                       <Comment
                         key={value.id}
-                        author={value.user.nickname}
+                        author={!value.forumPostReply?value.user.nickname:value.user.nickname + ' 回复 '+value.forumPostReply.user.nickname}
                         avatar={'http://localhost:8000/forum/image/' + value.user.id + '.jpg'}
                         content={value.content}
                         datetime={value.createtime}

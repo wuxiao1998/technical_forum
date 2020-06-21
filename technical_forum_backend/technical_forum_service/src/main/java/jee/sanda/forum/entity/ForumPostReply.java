@@ -46,4 +46,9 @@ public class ForumPostReply {
     @JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createtime;
 
+
+    @OneToOne
+    @JoinColumn(name = "parent_id")
+    private ForumPostReply forumPostReply;
+
 }

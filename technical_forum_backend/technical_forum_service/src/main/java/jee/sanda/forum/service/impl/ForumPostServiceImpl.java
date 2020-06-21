@@ -129,19 +129,28 @@ public class ForumPostServiceImpl implements ForumPostService {
     }
 
     @Override
-    public boolean reply(Long userId, Long forumPostDetailId, String content) {
-        if(forumPostReplyRepository.insertForum_Post_reply(userId,forumPostDetailId,content)>0)
+    public boolean reply(Long userId, Long forumPostDetailId, String content,Long parentId) {
+        if(forumPostReplyRepository.insertForum_Post_reply(userId,forumPostDetailId,content,parentId)>0)
         {
             userService.updateLevelAndExperienceAndDesignation(userId, 3);
             String nickname=userRepository.findNickNameById(userId);
-            Optional<DetailComment> detailComment=detailCommentRepository.findById(forumPostDetailId);
-            DetailComment dc=detailComment.get();
-            Long uId=dc.getUserId();
-            if(uId != userId) {
-                String content1 = dc.getContent();
-                Long postId = dc.getPostId();
-                String content2 = nickname + "对你的\"" + content1 + "\"这段回帖进行了评论";
-                informationService.createInformation(uId, content2, InfoKindEnum.帖子消息, postId);
+            Optional<DetailComment> detailComment = detailCommentRepository.findById(forumPostDetailId);
+            DetailComment dc = detailComment.get();
+            Long postId = dc.getPostId();
+            if(parentId == null) {
+                Long uId = dc.getUserId();
+                if (uId != userId) {
+                    String content1 = dc.getContent();
+                    String content2 = nickname + "对你的\"" + content1 + "\"这段回帖进行了评论";
+                    informationService.createInformation(uId, content2, InfoKindEnum.帖子消息, postId);
+                }
+            }else{
+               ForumPostReply forumPostReply = forumPostReplyRepository.findById(parentId).get();
+                 Long uId = forumPostReply.getUser().getId();
+                if (uId != userId) {
+                    String content2 = nickname + "回复了你";
+                    informationService.createInformation(uId, content2, InfoKindEnum.帖子消息, postId);
+                }
             }
             return true;
         }

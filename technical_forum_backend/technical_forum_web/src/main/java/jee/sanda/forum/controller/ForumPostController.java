@@ -136,7 +136,8 @@ public class ForumPostController {
         Long userId=(Long)session.getAttribute("userId");
         Long forumPostDetailId=reply.getForumPostDetailId();
         String content=reply.getContent();
-        if(forumPostService.reply(userId,forumPostDetailId,content)){
+        Long parentId = reply.getParentId();
+        if(forumPostService.reply(userId,forumPostDetailId,content,parentId)){
             return ResponseEntity.ok("评论成功");
         }
         return ResponseEntity.badRequest().body("评论失败");

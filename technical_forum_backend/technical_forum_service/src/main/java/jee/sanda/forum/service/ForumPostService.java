@@ -56,7 +56,7 @@ public interface ForumPostService {
      * @param content
      * @return
      */
-    boolean reply(Long userId,Long forumPostDetailId,String content);
+    boolean reply(Long userId,Long forumPostDetailId,String content,Long parentId);
 
 
     /***
