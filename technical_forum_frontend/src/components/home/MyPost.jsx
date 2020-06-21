@@ -3,7 +3,7 @@ import { Result, Button, Badge } from 'antd';
 import { Tabs } from 'antd';
 import NoLogin from '../authentication/NoLogin';
 import MyPostList from'./forumpost/MyPostList';
-import MyInfo from './myinfo/MyInfo'
+import MyInfo from '../MyInfo'
 const { TabPane } = Tabs;
 //我的帖子组件
 class MyPost extends React.Component {

@@ -13,7 +13,7 @@ class MyFooter extends React.Component {
 
     render() {
         return <Footer style={{ textAlign: 'center', background: "#001529", color: "#ffffff" }}>
-            上海杉达学院  ©2020 Created by Ant UED</Footer>
+            上海杉达学院  ©2020 Created by 上海杉达学院</Footer>
     }
 }
 

@@ -9,28 +9,46 @@ class MyInfo extends React.Component {
             pageNo: 1,
             pageSize: 6,
             totalPage: 0,
-            listData:[
-                {
-                    id:1,
-                    content:'131313',
-                },
-                {
-                    id:2,
-                    content:'1313131312424',
-                }
-            ]
+            listData:[]
         }
       }
 
     componentWillMount()
     {
-        // Axios.get('/forum/').then(res=>{
-          
-        // })
+        this.loadingData();
 
 
     }
 
+    loadingData = ()=>{
+      Axios.get('/information/searchInformation?pageNo='+this.state.pageNo+'&pageSize='+this.state.pageSize).then(res=>{
+        console.log(res)
+        this.setState({
+          listData:res.data.content,
+          totalPage: res.data.totalElements,
+        })
+      })
+    }
+    updateStatus = (infoId)=>{
+      console.log(infoId)
+      Axios.get('/information/changeInformationStatus?informationId='+infoId).then(res=>{
+        this.loadingData()
+      })
+
+    }
+
+     /* 当点击分页控件时，触发此函数*/
+  pageChange = (page) => {
+    Axios.get('/information/searchInformation?pageNo='+page+'&pageSize='+this.state.pageSize).then(res => {
+      console.log(res.data)
+      this.setState({
+        listData: res.data.content,
+        totalPage: res.data.totalElements,
+        pageNo: page
+      })
+    })
+
+  }
       render() {
 
         return <List
@@ -44,7 +62,7 @@ class MyInfo extends React.Component {
               key={item.id}
               style={{ marginTop: "10px" }}
               actions={[
-               <Button>已读</Button>,
+               item.status == '未读'&&<Button onClick={this.updateStatus.bind(this,item.id)}>已读</Button>,
                <Button>查看详情</Button>
               ]}
             >
