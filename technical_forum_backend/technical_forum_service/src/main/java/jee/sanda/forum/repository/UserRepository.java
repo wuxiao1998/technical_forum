@@ -75,4 +75,20 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      */
     @Query(value ="select nickname from user where id=?1",nativeQuery = true)
     String findNickNameById(Long userId);
+
+    /**
+     * 通过用户名查找邮箱
+     * @param userName
+     * @return
+     */
+    @Query(value = "select email from user where username=?1",nativeQuery = true)
+    String findEmailByUserName(String userName);
+
+    /**
+     * 通过用户名查找用户id
+     * @param userName
+     * @return
+     */
+    @Query(value = "select id from user where username=?1",nativeQuery = true)
+    Long findIdByUserName(String userName);
 }

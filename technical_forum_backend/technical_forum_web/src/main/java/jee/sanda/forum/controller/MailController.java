@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jee.sanda.forum.form.Email;
 import jee.sanda.forum.service.MailService;
+import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class MailController {
     //redis 缓存工具类
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private UserService userService;
     /***
      * 发送邮箱验证码
      * @param email
@@ -40,5 +44,18 @@ public class MailController {
         redisTemplate.delete(uuid);
         redisTemplate.opsForValue().set(uuid,code,5, TimeUnit.MINUTES); //验证码在5分钟之后失效
         return ResponseEntity.ok("success");
+    }
+    @ApiOperation("发送用于重置密码的邮箱验证码")
+    @GetMapping("/sendCodeForResetPassword")
+    public ResponseEntity<String> sendCodeForResetPassword(@RequestParam("username") String userName) {
+        if(!userService.checkUserName(userName))
+        {
+            String em=userService.findEmailByUserName(userName);
+            String code = mailService.sendSimpleMail(em,"本次用于重置密码的验证码是:");
+            redisTemplate.opsForValue().set("emailCode",code,5, TimeUnit.MINUTES); //验证码在5分钟之后失效
+            redisTemplate.opsForValue().set("userName",userName,5, TimeUnit.MINUTES);
+            return ResponseEntity.ok("success");
+        }
+        return ResponseEntity.badRequest().body("用户名错误");
     }
 }

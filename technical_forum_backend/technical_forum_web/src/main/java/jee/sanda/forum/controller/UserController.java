@@ -224,11 +224,43 @@ public class UserController {
      */
     @ApiOperation("封禁用户")
     @GetMapping("/banUser")
-    public ResponseEntity<Object> banUser(Long userId){
+    public ResponseEntity<Object> banUser(@RequestParam("userId") Long userId){
         if(userService.banUser(userId)){
            return ResponseEntity.ok("封禁成功");
         }
         return ResponseEntity.badRequest().body("没有查找到该用户id，封禁失败");
+    }
+
+    /**
+     * 查看验证码是否正确
+     * @param userCode
+     * @return
+     */
+    @ApiOperation("查看验证码是否正确")
+    @GetMapping("/validateCode")
+    public ResponseEntity<Object> validateCode (@RequestParam("userCode")String userCode){
+
+        String emailCode = redisTemplate.opsForValue().get("emailCode");
+        if(mailService.validateCode(userCode, emailCode)){
+            return ResponseEntity.ok("验证码正确");
+        }
+        return ResponseEntity.badRequest().body("验证码错误");
+    }
+
+    /**
+     * 重置密码
+     * @param user
+     * @return
+     */
+    @ApiOperation("重置密码")
+    @PostMapping("/resetPassword")
+    public ResponseEntity<Object> resetPassword(@RequestBody User user){
+        String userName=redisTemplate.opsForValue().get("userName");
+        Long userId=userService.findUserIdByUserName(userName);
+        if (userService.updatePassword(userId, user.getPassword())) {
+            return ResponseEntity.ok("密码重置成功");
+        }
+        return ResponseEntity.badRequest().body("密码重置失败");
     }
 }
 

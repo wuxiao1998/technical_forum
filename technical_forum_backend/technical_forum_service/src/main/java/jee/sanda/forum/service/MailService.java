@@ -9,12 +9,6 @@ public interface MailService {
      */
     String sendSimpleMail(String email,String info);
 
-    /**
-     * 重置新密码时向邮箱发送验证码
-     * @param email
-     * @return
-     */
-    String sendVerificationCode(String email);
     /***
      * 验证码校验
      * @param uuidCode

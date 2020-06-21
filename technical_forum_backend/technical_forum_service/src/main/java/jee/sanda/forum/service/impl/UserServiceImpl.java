@@ -188,5 +188,17 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public Long findUserIdByUserName(String userName) {
+        Long userId=userRepository.findIdByUserName(userName);
+        return userId;
+    }
+
+    @Override
+    public String findEmailByUserName(String userName) {
+        String email=userRepository.findEmailByUserName(userName);
+        return email;
+    }
+
 
 }

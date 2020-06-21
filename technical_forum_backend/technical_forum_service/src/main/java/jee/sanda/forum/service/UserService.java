@@ -101,4 +101,18 @@ public interface UserService {
      * @return
      */
     boolean checkStatus(User user);
+
+    /**
+     * 通过用户名查找邮箱
+     * @param userName
+     * @return
+     */
+    String findEmailByUserName(String userName);
+
+    /**
+     * 通过用户名查找用户id
+     * @param userName
+     * @return
+     */
+    Long findUserIdByUserName(String userName);
 }
