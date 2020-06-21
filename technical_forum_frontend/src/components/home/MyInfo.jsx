@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Avatar, Space, Button, Pagination, Typography, Input } from 'antd';
+import { List, Avatar, Space, Button, Pagination, Typography, Input, message } from 'antd';
 import { Link } from 'react-router-dom'
 import Axios from 'axios';
 class MyInfo extends React.Component {
@@ -32,11 +32,20 @@ class MyInfo extends React.Component {
     updateStatus = (infoId)=>{
       console.log(infoId)
       Axios.get('/information/changeInformationStatus?informationId='+infoId).then(res=>{
+        console.log('count',this.props.count)
+        this.props.parent(this,this.props.count - 1);
         this.loadingData()
       })
 
     }
 
+    deleteInfo = (infoId) =>{
+      Axios.get('/information/deleteInformation?infoId='+infoId).then(res=>{
+        message.success("删除成功")
+        this.loadingData()
+      })
+
+    }
      /* 当点击分页控件时，触发此函数*/
   pageChange = (page) => {
     Axios.get('/information/searchInformation?pageNo='+page+'&pageSize='+this.state.pageSize).then(res => {
@@ -68,7 +77,8 @@ class MyInfo extends React.Component {
               style={{ marginTop: "10px" }}
               actions={[
                item.status == '未读'&&<Button onClick={this.updateStatus.bind(this,item.id)}>已读</Button>,
-               item.kind == '帖子消息'&&<Button onClick={this.gotoPost.bind(this,item.forumPostId)}>查看详情</Button>
+               item.kind == '帖子消息'&&<Button onClick={this.gotoPost.bind(this,item.forumPostId)}>查看详情</Button>,
+               item.status == '已读'&&<Button onClick={this.deleteInfo.bind(this,item.id)}>删除</Button>
               ]}
             >
               <List.Item.Meta

@@ -4,6 +4,7 @@ import { Tabs } from 'antd';
 import NoLogin from '../authentication/NoLogin';
 import MyPostList from'./forumpost/MyPostList';
 import MyInfo from './MyInfo'
+import Axios from 'axios';
 const { TabPane } = Tabs;
 //我的帖子组件
 class MyPost extends React.Component {
@@ -12,7 +13,8 @@ class MyPost extends React.Component {
         super(props)
         this.state = {
             user: JSON.parse(sessionStorage.getItem("user")),
-            loginin: true
+            loginin: true,
+            unreadCount:0
         }
     }
 
@@ -25,15 +27,26 @@ class MyPost extends React.Component {
                 loginin: false
             })
         }
+        Axios.get('/information/unreadInformationQuantity').then(res=>{
+          console.log(res)
+          this.setState({
+            unreadCount:res.data
+          })
+        })
     }
 
     goLogin = () => {
         this.props.history.push('/');
     }
 
+    updateCount = (result,count)=>{
+        this.setState({
+          unreadCount:count
+        })
+
+    }
     render() {
         let element;
-        console.log(this.state.user,'987')
         if (this.state.loginin) {            
             element = <div  >
                 <Tabs defaultActiveKey="1" style={{backgroundColor:"#F0F2F5",marginTop:'20px'}} type="line" size={"large"}>
@@ -49,7 +62,7 @@ class MyPost extends React.Component {
     </TabPane>
     <TabPane
       tab={
-        <Badge count={10} offset={[10, -9]}>
+        <Badge count={this.state.unreadCount} offset={[10, -9]}>
         <span>
           我的消息
         </span>
@@ -57,7 +70,7 @@ class MyPost extends React.Component {
       }
       key="2"
     >
-      <MyInfo history={this.props.history}></MyInfo>
+      <MyInfo history={this.props.history} parent={this.updateCount} count={this.state.unreadCount}></MyInfo>
     </TabPane>
   </Tabs>
                 </div >
