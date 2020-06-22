@@ -36,7 +36,7 @@ public class ApplyInfoServiceImpl implements ApplyInfoService {
 
     @Override
     public Page<ApplyInfo> showApplyInfo(Integer pageNo, Integer pageSize) {
-        Sort sortKey = Sort.by(Sort.Direction.DESC, "createtime");
+        Sort sortKey = Sort.by(Sort.Direction.DESC, "status");
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
         Page<ApplyInfo>applyInfos=applyInfoRepository.findAll(pageable);
         return applyInfos;
