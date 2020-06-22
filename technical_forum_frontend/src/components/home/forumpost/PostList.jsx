@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Avatar, Space, Button, Pagination, Typography, Input } from 'antd';
+import { List, Avatar, Space, Button, Pagination, Typography, Input, message } from 'antd';
 import { Link } from 'react-router-dom'
 import { MessageOutlined, EyeOutlined } from '@ant-design/icons';
 import Axios from 'axios';
@@ -24,7 +24,8 @@ class PostList extends React.Component {
       pageNo: 1,//当前页码
       pageSize: 6,//每页多少
       totalPage: 0,//总管多少元素
-      searchCondition: ''//查询条件
+      searchCondition: '',//查询条件
+      userId:JSON.parse(sessionStorage.getItem("user"))?JSON.parse(sessionStorage.getItem("user")).id:'',//不通过props来传登录信息了，直接用Session判断更加方便也不容易出错
     }
   }
 
@@ -89,6 +90,7 @@ class PostList extends React.Component {
 
   /*根据title模糊查询帖子 */
   searchCondition = value => {
+    if(this.state.userId!=''){
     Axios.get('/forumPost/findByPlateId?plateId=' + this.state.platekey + '&pageNo=1&pageSize=' +
       this.state.pageSize + '&searchCondition=' + value
     ).then(res => {
@@ -100,7 +102,11 @@ class PostList extends React.Component {
         pageNo: 1
       })
     })
-
+  }
+  else 
+  {
+    message.error("游客无法使用搜索功能")
+  }
   }
   render() {
 

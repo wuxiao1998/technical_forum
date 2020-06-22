@@ -60,6 +60,7 @@ class UserInfo extends React.Component {
       uploadfile:'',
       imageUrl:"http://localhost:8000/forum/image/",
       fileobj:'',
+      getTimestamp:''
     
     }
     this.showModa = this.showModa.bind(this);
@@ -76,12 +77,13 @@ class UserInfo extends React.Component {
     }else{
       Axios.get('/user/findById').then(res=>{
         console.log(res)
+        let getTimestamp = new  Date().getTime();
         this.setState({
           user:res.data,
           nickname:res.data.nickname,
           phone:res.data.phone,
           gender:res.data.gender,
-          imageUrl:this.state.imageUrl+res.data.id+'.jpg'
+          imageUrl:this.state.imageUrl+res.data.id+'.jpg'+ "?timestamp=" + getTimestamp
         })
       })
 
