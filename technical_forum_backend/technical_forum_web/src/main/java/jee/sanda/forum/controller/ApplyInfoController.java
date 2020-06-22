@@ -9,6 +9,7 @@ import jee.sanda.forum.entity.UserPlate;
 import jee.sanda.forum.form.Email;
 import jee.sanda.forum.service.ApplyInfoService;
 import jee.sanda.forum.service.MailService;
+import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -30,6 +31,8 @@ public class ApplyInfoController {
     private ApplyInfoService applyInfoService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private UserService userService;
 
     /**
      * 提交申请
@@ -41,12 +44,17 @@ public class ApplyInfoController {
     public ResponseEntity<Object> saveApplyInfo(@RequestBody ApplyInfo applyInfo){
         HttpSession session = request.getSession();
         Long userId = (Long)session.getAttribute("userId");
+        boolean checkResult = userService.checkLevel(userId);
+        if(checkResult){
         User user = new User();
         user.setId(userId);
         //获取当前登录用户
         applyInfo.setApplyUser(user);
         applyInfoService.saveApplyInfo(applyInfo);
         return ResponseEntity.ok("success");
+        }else{
+            return  ResponseEntity.badRequest().body("抱歉,申请版主的功能只对7级及以上的玩家开放");
+        }
     }
 
     /**

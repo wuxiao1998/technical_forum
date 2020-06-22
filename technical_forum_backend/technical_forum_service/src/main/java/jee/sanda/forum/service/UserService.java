@@ -5,7 +5,6 @@ import jee.sanda.forum.entity.User;
 import jee.sanda.forum.form.UpdateUserForm;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
 
 public interface UserService {
     /***
@@ -115,4 +114,6 @@ public interface UserService {
      * @return
      */
     Long findUserIdByUserName(String userName);
+
+    boolean checkLevel(Long userId);
 }

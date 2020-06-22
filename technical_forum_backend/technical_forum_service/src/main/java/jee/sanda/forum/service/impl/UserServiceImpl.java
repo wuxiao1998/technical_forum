@@ -195,6 +195,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean checkLevel(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if(!user.isPresent()){
+            return  false;
+        }
+        Integer level = user.get().getLevel();
+        return level >= 7;
+    }
+
+    @Override
     public String findEmailByUserName(String userName) {
         String email=userRepository.findEmailByUserName(userName);
         return email;
