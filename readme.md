@@ -17,6 +17,8 @@
 > 1.在technical_forum_web/src/main/resources目录下找到application.yml配置连接数据库以及redis数据库相关信息
 >
 > 2.运行technical_forum_web/src/main/java/jee/sanda/forum/boot/TechnicalForumApplication.java,启动后端服务即可
+>
+> 3.可访问[http://localhost:8000/forum/swagger-ui.html](http://localhost:8000/forum/swagger-ui.html#/) 查看所有接口信息
 
 ## 4.前端项目简介及运行步骤
 
@@ -41,8 +43,10 @@
 >本项目由于时间紧凑,且主要用于学习,可能会有些bug及不足点。此为我们开发的第一个版本,今后可能会对代码进行优化以及功能的升级。
 >
 >如遇到问题请联系开发者
->本项目作者：吴霄    	825612027@qq.com
+>本项目作者：
 >
->​		      帅正宇	1971730142@qq.com
+>吴霄    	825612027@qq.com
 >
->​                     蔡圣晔	992945919@qq.com
+>帅正宇	1971730142@qq.com
+>
+>​蔡圣晔	992945919@qq.com
