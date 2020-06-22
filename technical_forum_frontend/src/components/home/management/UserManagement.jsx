@@ -41,6 +41,9 @@ class UserManagement extends React.Component {
       username: '',
       userid: '',
       role:'',
+      nickname:'',
+      level:'',
+      status:'',
       columns: [
 
         {
@@ -96,10 +99,14 @@ class UserManagement extends React.Component {
 
   //封禁确认
   banUser = (record) => {
+    console.log(record,'11111')
     this.setState({
       visible: true,
       username: record.username,
-      userid: record.id,
+      userid: record.userid,
+      role:record.role,
+      level:record.level,
+      nickname:record.nickname,
     })
   }
 
@@ -108,7 +115,7 @@ class UserManagement extends React.Component {
     this.setState({
       visible2: true,
       username: record.username,
-      userid: record.id,
+      userid: record.userid,
       role:record.role
     })
   }
@@ -124,11 +131,11 @@ class UserManagement extends React.Component {
 
   //解封用户方法
   resumeUser = (record) => {
-    // Axios.delete('/notice/delete?noticeId=' + record.id).then(res => {
+    Axios.post('/user/resumeUser?userId='+record.userid).then(res => {
+      this.loadingData(this.state.pagination.current)
+      message.success("解封成功")
 
-    //   message.success("解封成功")
-
-    // })
+    })
   }
 
   //弹窗关闭(封禁帐号)
@@ -175,10 +182,8 @@ class UserManagement extends React.Component {
   //保存封禁内容,成功时回调
   onFinish = values => {
     console.log('Received values of form: ', values);
-    Axios.post('/notice/create', {
-      title: values.title,
-      content: values.content,
-    }).then(res => {
+    console.log(this.state.userid, '777777777777777777777777');
+    Axios.post('/user/banUser?userId='+this.state.userid).then(res => {
       this.loadingData(this.state.pagination.current)
       message.success("封禁成功")
       this.setState({
@@ -191,14 +196,11 @@ class UserManagement extends React.Component {
   //保存状态更改,成功时回调
   onFinish2 = values => {
     console.log('Received values of form: ', values);
-    Axios.post('/notice/create', {
-      title: values.title,
-      content: values.content,
-    }).then(res => {
+    Axios.post('/user/roleChange?role='+values.rolechange+'&userId='+this.state.userid).then(res => {
       this.loadingData(this.state.pagination.current)
       message.success("状态更改成功")
       this.setState({
-        visible: false
+        visible2: false
       })
 
     })
@@ -270,6 +272,24 @@ class UserManagement extends React.Component {
             {this.state.username}
           </Form.Item>
           <Form.Item
+            name="nickname"
+            label="昵称"
+          >
+            {this.state.nickname}
+          </Form.Item>
+          <Form.Item
+            name="level"
+            label="等级"
+          >
+            {this.state.level}
+          </Form.Item>
+          <Form.Item
+            name="level"
+            label="权限"
+          >
+            {this.state.role}
+          </Form.Item>
+          {/* <Form.Item
             name="content"
             label="封禁理由"
             rules={[
@@ -280,7 +300,7 @@ class UserManagement extends React.Component {
             ]}
           >
             <TextArea rows={4} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item {...tailFormItemLayout}
             style={{ textAlign: "center" }}
           >
@@ -316,7 +336,7 @@ class UserManagement extends React.Component {
             {this.state.username}
           </Form.Item>
           <Form.Item
-            name="content"
+            name="rolechange"
             label="权限"
             rules={[
               {
@@ -326,9 +346,9 @@ class UserManagement extends React.Component {
             ]}
           >
             <Select defaultValue={this.state.role} style={{ width: 120 }}>
-              <Option value="管理员">管理员</Option>
-              <Option value="版主">版主</Option>
-              <Option value="普通用户">普通用户</Option>
+              <Option value="2">管理员</Option>
+              <Option value="1">版主</Option>
+              <Option value="0">普通用户</Option>
             </Select>
           </Form.Item>
           <Form.Item {...tailFormItemLayout}
