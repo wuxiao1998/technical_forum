@@ -32,7 +32,7 @@ class ApplyInfoManagement extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      noticeList: [],
+      applyInfoList: [],
       visible: false,
       plateList: [],
       columns: [
@@ -69,10 +69,9 @@ class ApplyInfoManagement extends React.Component {
           render: (text, record) => (
 
             <Space size="middle">
-              <Button onClick={this.showDetail.bind(this,record)}>查看详情</Button>
-              <Popconfirm title="确定要删除吗？" okText="Yes" cancelText="No" onConfirm={this.deleteNotice.bind(this, record.key)}>
-              <Button>删除</Button>
-              </Popconfirm>
+              {record.status == '未处理' &&<Button onClick={this.accept.bind(this,record)}>同意</Button>}
+              {record.status == '未处理' &&<Button onClick={this.unaccept.bind(this,record)}>驳回</Button>}
+              <Button onClick={this.showDetail.bind(this,record.userobject)}>查看用户详情</Button>
             </Space>
           ),
         },
@@ -91,31 +90,50 @@ class ApplyInfoManagement extends React.Component {
     })
 
   }
+  accept = (record)=>{
+    console.log('record',record)
+    Axios.post('/applyInfo/grantModeratorToUser/'+record.key,{
+      userId:record.userobject.id,
+      plateId:record.plate.id
+    }).then(res=>{
+      this.loadingData(this.state.pagination.current)
+      message.success('操作成功!!!')
+    
+    })
+  }
+  unaccept = (record)=>{
+    Axios.post('/applyInfo/rejectApply',{
+      id:record.key,
+      applyUser:{
+         id:record.userobject.id
+      },
+      plate:{
+        name:record.plate.name
+      }
+    }).then(res=>{
+      this.loadingData(this.state.pagination.current)
+      message.success('操作成功!!!')
+    })
+  }
 
   //跳转详情页面
-  showDetail = (record)=>{
+  showDetail = (user)=>{
+  console.log('user',user)
    this.props.history.push({
-     pathname:'/noticedetail',
-     state:record
+     pathname:'/home/persondata',
+     state:{
+       userid:user.id,
+       gender:user.gender,
+       nickname:user.nickname,
+       role:user.role,
+       experience:user.experience,
+       level:user.level,
+       designation:user.designation
+     }
    })
 
   }
 
-  //删除公告方法
-  deleteNotice = (noticeId) => {
-    Axios.delete('/notice/delete?noticeId=' + noticeId).then(res => {
-      console.log('length',this.state.noticeList )
-      //当一页只有一条数据时,进行删除后刷新页面
-      if(this.state.noticeList.length == 1){
-      
-        this.loadingData(this.state.pagination.current - 1)
-      }else{
-      this.loadingData(this.state.pagination.current)
-      }
-      message.success("删除成功")
-     
-    })
-  }
 
   //弹窗关闭
   handleCancel = () => {
@@ -163,7 +181,8 @@ class ApplyInfoManagement extends React.Component {
   //查询接口
    loadingData =   (pageNo) => {
     let datasource = [];
-     Axios.get('/applyInfo/showApplyInfo?pageNo=1&pageSize=5').then(res => {
+     Axios.get('/applyInfo/showApplyInfo?pageNo='+pageNo+'&pageSize='+this.state.pagination.pageSize)
+     .then(res => {
       console.log(res)
       let data = res.data.content
       data.map(item => {
@@ -174,12 +193,14 @@ class ApplyInfoManagement extends React.Component {
           plateId: item.plate.name,
           createtime: item.createtime,
           status:item.status,
+          userobject:item.applyUser,
+          plate:item.plate
         
         }
         datasource.push(notice)
       })
       this.setState({
-        noticeList: datasource,
+        applyInfoList: datasource,
         pagination: {
           current: pageNo,
           pageSize: 5,
@@ -197,7 +218,7 @@ class ApplyInfoManagement extends React.Component {
     return <div style={{ minHeight: '80vh', marginTop: "5%", marginLeft: "3%", marginRight: "3%", marginBottom: "3%", }}>
       <Table columns={this.state.columns}
         onChange={this.handleTableChange}
-        dataSource={this.state.noticeList}
+        dataSource={this.state.applyInfoList}
         pagination={this.state.pagination} />
       <Modal
         title="新增公告"

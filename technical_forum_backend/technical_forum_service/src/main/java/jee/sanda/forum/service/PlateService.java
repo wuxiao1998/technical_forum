@@ -10,4 +10,6 @@ public interface PlateService {
      * @return
      */
     List<Plate> findAll();
+
+    String getNameById(Integer plateId);
 }

@@ -68,9 +68,9 @@ public class ApplyInfoController {
      * @return
      */
     @ApiOperation("授权用户成为版主")
-    @PostMapping("/grantModeratorToUser")
-    public ResponseEntity<Object> grantModeratorToUser(@RequestBody UserPlate userPlate){
-        if(applyInfoService.grantModeratorToUser(userPlate)){
+    @PostMapping("/grantModeratorToUser/{applyId}")
+    public ResponseEntity<Object> grantModeratorToUser(@PathVariable Long applyId,@RequestBody UserPlate userPlate){
+        if(applyInfoService.grantModeratorToUser(userPlate,applyId)){
             return ResponseEntity.ok("授权成功");
         }
         return ResponseEntity.badRequest().body("授权失败");
@@ -78,13 +78,13 @@ public class ApplyInfoController {
 
     /**
      * 将申请状态改为已处理
-     * @param applyId
+     * @param
      * @return
      */
     @ApiOperation("将申请状态改为已处理")
-    @GetMapping("/changeApplyStatusToProcessed")
-    public ResponseEntity<Object> changeApplyStatusToProcessed(@RequestParam("applyId")Long applyId){
-        applyInfoService.changeStatusToProcessed(applyId);
+    @PostMapping("/rejectApply")
+    public ResponseEntity<Object> changeApplyStatusToProcessed(@RequestBody ApplyInfo applyInfo){
+        applyInfoService.rejectApply(applyInfo);
         return ResponseEntity.ok("success");
     }
 }

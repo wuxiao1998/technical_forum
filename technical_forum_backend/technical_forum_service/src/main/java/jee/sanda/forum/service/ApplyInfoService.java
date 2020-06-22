@@ -22,11 +22,13 @@ public interface ApplyInfoService {
      * @param userPlate
      * @return
      */
-    boolean grantModeratorToUser(UserPlate userPlate);
+    boolean grantModeratorToUser(UserPlate userPlate,Long applyId);
 
     /**
      * 将申请状态改为已处理
      * @param applyId
      */
-   void changeStatusToProcessed(Long applyId);
+   void changeStatusToAccept(Long applyId);
+
+    void rejectApply(ApplyInfo applyInfo);
 }
