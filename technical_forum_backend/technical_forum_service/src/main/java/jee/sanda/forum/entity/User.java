@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /***
  * 用户实体类
@@ -114,6 +115,17 @@ public class User implements Serializable {
     @LastModifiedDate
     @JsonIgnore
     private java.util.Date updatetime;
+
+    @Transient
+    private List<UserPlate> plateList;
+
+    public List<UserPlate> getPlateList() {
+        return plateList;
+    }
+
+    public void setPlateList(List<UserPlate> plateList) {
+        this.plateList = plateList;
+    }
 
     public Long getId() {
         return id;

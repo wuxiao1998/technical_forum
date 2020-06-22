@@ -47,19 +47,34 @@ class PostDetailList extends React.Component {
       replyId:'',//取每一条帖子详情的id
       otherReplyId:'',
       replyValue:'',//回复内容
-      userId: sessionStorage.getItem("user")? JSON.parse(sessionStorage.getItem("user")).id:null //当前登录用户的id
+      userId: sessionStorage.getItem("user")? JSON.parse(sessionStorage.getItem("user")).id:null, //当前登录用户的id
+      auth:false,//判断是否有权限删帖
 
     }
   }
 
-  async componentWillMount() {
+   async componentWillMount() {
     //先同步查询楼主信息
-    await Axios.get('/forumPost/findById?postId=' + this.state.postId).then(res => {
+     await Axios.get('/forumPost/findById?postId=' + this.state.postId).then(res => {
       this.setState({
         forumPost: res.data,
         mainUser: res.data.user
       })
     })
+    console.log(JSON.parse(sessionStorage.getItem("user")))
+   let user = JSON.parse(sessionStorage.getItem("user"));
+   if(user && user.role == '版主'){
+      let plateList = user.plateList;
+      for (let index = 0; index < plateList.length; index++) {
+          if(this.state.forumPost.plateId == plateList[index].plateId){
+            this.setState({
+              auth:true
+            })
+            break;
+          }
+        
+      }
+   }
     //查询页面所有帖子以及评论信息
     this.loadingData();
   }
@@ -188,7 +203,7 @@ class PostDetailList extends React.Component {
           <div style={{ height: 300, position: 'relative' }}>
             <Title style={{ display: 'inline', marginLeft: '15px' }}><QuestionCircleFilled />&nbsp;{this.state.forumPost.title}</Title>
             {sessionStorage.getItem('user')&&(JSON.parse(sessionStorage.getItem('user')).role =='管理员'||
-            this.state.userId == this.state.mainUser.id)&&
+            this.state.userId == this.state.mainUser.id || this.state.auth)&&
             <Popconfirm title="确定要删除此帖吗？(删除后不可恢复)" okText="Yes" cancelText="No" onConfirm={this.deletePost}>
              <Button style={{float:'right'}}>删除帖子</Button>
              </Popconfirm>}
@@ -262,7 +277,7 @@ class PostDetailList extends React.Component {
               {/*每一项item的底部,使用子绝父相布局使其永远固定在底部位置*/}
               <div style={{ textAlign: 'right' }}>
                 {this.state.userId&&<span>
-                <Button  >举报</Button>&nbsp;&nbsp;&nbsp;
+                {/* <Button  >举报</Button>&nbsp;&nbsp;&nbsp; */}
                 <Button onClick={this.showReply.bind(this, item.id)}>参与回复</Button>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>}
                 发帖时间:{item.createtime}
               </div>

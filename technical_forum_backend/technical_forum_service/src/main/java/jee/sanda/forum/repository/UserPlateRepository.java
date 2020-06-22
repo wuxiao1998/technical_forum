@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface UserPlateRepository extends JpaRepository<UserPlate,Integer>, JpaSpecificationExecutor<UserPlate> {
     /**
      * 通过用户id和板块id查找是否存在
@@ -14,4 +16,6 @@ public interface UserPlateRepository extends JpaRepository<UserPlate,Integer>, J
      */
     @Query(value = "select id from user_plate where user_id=?1 and plate_id=?2",nativeQuery = true)
     Integer findByUserIdAndPlateId(Long userId,Integer plateId);
+
+    List<UserPlate> findByUserId(Long userId);
 }

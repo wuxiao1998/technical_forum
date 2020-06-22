@@ -3,9 +3,13 @@ package jee.sanda.forum.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jee.sanda.forum.em.RoleEnum;
+import jee.sanda.forum.entity.Plate;
 import jee.sanda.forum.entity.User;
+import jee.sanda.forum.entity.UserPlate;
 import jee.sanda.forum.form.UpdateUserForm;
 import jee.sanda.forum.service.MailService;
+import jee.sanda.forum.service.UserPlateService;
 import jee.sanda.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /***
  * 用户接口
@@ -37,6 +42,9 @@ public class UserController {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private UserPlateService userPlateService;
     //redis 缓存工具类
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -59,10 +67,16 @@ public class UserController {
                 {
                     HttpSession session = request.getSession();
                     //将userId存入session域
-                    session.setAttribute("userId", loginUser.getId());
+                    Long userId = loginUser.getId();
+                    session.setAttribute("userId", userId);
+                    if(loginUser.getRole() == RoleEnum.版主){
+                        List<UserPlate> plateList = userPlateService.findByUserId(userId);
+                        loginUser.setPlateList(plateList);
+                    }
                     return ResponseEntity.ok(loginUser);
                 }
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("该账号被封，无法登录");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
+                        body("该账号被封，无法登录,如有疑问,请咨询管理员");
             }
     }
 
