@@ -294,6 +294,10 @@ class Register extends React.Component {
               required: true,
               message: '请输入手机',
             },
+            {
+              pattern: /^1[3456789]\d{9}$/,
+              message:'请输入正确的手机号格式!!!'
+            }
           ]}
         >
           <Input />

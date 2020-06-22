@@ -4,7 +4,6 @@ package jee.sanda.forum.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jee.sanda.forum.em.RoleEnum;
-import jee.sanda.forum.entity.Plate;
 import jee.sanda.forum.entity.User;
 import jee.sanda.forum.entity.UserPlate;
 import jee.sanda.forum.form.UpdateUserForm;
@@ -311,6 +310,19 @@ public class UserController {
             return ResponseEntity.ok("密码重置成功");
         }
         return ResponseEntity.badRequest().body("密码重置失败");
+    }
+
+    /**
+     * 用户注销
+     * @param
+     * @return
+     */
+    @ApiOperation("用户注销")
+    @GetMapping("/logout")
+    public ResponseEntity<Object> logout(){
+        HttpSession session = request.getSession();
+        session.removeAttribute("userId");
+        return ResponseEntity.ok("注销成功");
     }
 }
 

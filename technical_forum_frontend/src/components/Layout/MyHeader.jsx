@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, Menu } from 'antd';
 import { withRouter } from 'react-router';
+import Axios from 'axios';
 const { Header } = Layout;
 
 //主页头部布局组件
@@ -24,6 +25,9 @@ class MyHeader extends React.Component {
 
     distoryUser = () => {
         sessionStorage.removeItem("user");
+        Axios.get('/user/logout').then(res=>{
+            console.log(res)
+        })
         this.setState({
             login: null
         })

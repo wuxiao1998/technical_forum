@@ -10,12 +10,16 @@ import jee.sanda.forum.service.ApplyInfoService;
 import jee.sanda.forum.service.InformationService;
 import jee.sanda.forum.service.PlateService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.criteria.*;
 
 @Service
 @Transactional
@@ -42,10 +46,18 @@ public class ApplyInfoServiceImpl implements ApplyInfoService {
 
     @Override
     public Page<ApplyInfo> showApplyInfo(Integer pageNo, Integer pageSize) {
+        Specification<ApplyInfo> spec = new Specification<ApplyInfo>() {
+            @Override
+            public Predicate toPredicate(Root<ApplyInfo> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                Path<Object> applyUser = root.get("applyUser");
+                Predicate p1 = criteriaBuilder.gt(applyUser.get("id").as(Long.class), 0);
+                return p1;
+            }
+        };
         Sort sortKey =  Sort.by(Sort.Direction.ASC, "status");
         sortKey.and(Sort.by(Sort.Direction.DESC, "createtime"));
         Pageable pageable =  PageRequest.of(pageNo - 1, pageSize, sortKey);
-        Page<ApplyInfo>applyInfos=applyInfoRepository.findAll(pageable);
+        Page<ApplyInfo>applyInfos=applyInfoRepository.findAll(spec,pageable);
         return applyInfos;
     }
 
