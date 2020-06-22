@@ -180,6 +180,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean resumeUser(Long userId) {
+        User user=findById(userId);
+        if(user!=null){
+            user.setStatus(LoginStatusEnum.正常);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean roleChange(Integer role,Long userId) {
+        User user=findById(userId);
+        if(user!=null&&role==2){
+            user.setRole(RoleEnum.管理员);
+            userRepository.save(user);
+            return true;
+        }
+        else if(user!=null&&role==1)
+        {
+            user.setRole(RoleEnum.版主);
+            userRepository.save(user);
+            return true;
+        }
+        else if(user!=null&&role==0)
+        {
+            user.setRole(RoleEnum.普通用户);
+            userRepository.save(user);
+            return true;
+        }
+       else return false;
+    }
+
+    @Override
     public boolean checkStatus(User user) {
         if(user.getStatus()== LoginStatusEnum.正常)
         {

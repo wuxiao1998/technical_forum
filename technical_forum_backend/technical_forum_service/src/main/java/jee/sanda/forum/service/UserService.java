@@ -95,6 +95,20 @@ public interface UserService {
     boolean banUser(Long userId);
 
     /**
+     * 解封用户
+     * @param userId
+     * @return
+     */
+    boolean resumeUser(Long userId);
+
+    /**
+     * 更改用户权限
+     * @param role
+     * @param userId
+     * @return
+     */
+    boolean roleChange(Integer role,Long userId);
+    /**
      * 检查用户状态
      * @param user
      * @return

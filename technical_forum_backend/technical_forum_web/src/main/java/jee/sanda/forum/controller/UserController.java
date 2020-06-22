@@ -223,12 +223,40 @@ public class UserController {
      * @return
      */
     @ApiOperation("封禁用户")
-    @GetMapping("/banUser")
+    @PostMapping("/banUser")
     public ResponseEntity<Object> banUser(@RequestParam("userId") Long userId){
         if(userService.banUser(userId)){
            return ResponseEntity.ok("封禁成功");
         }
         return ResponseEntity.badRequest().body("没有查找到该用户id，封禁失败");
+    }
+    /**
+     * 解封用户
+     * @param userId
+     * @return
+     */
+    @ApiOperation("解封用户")
+    @PostMapping("/resumeUser")
+    public ResponseEntity<Object> resumeUser(@RequestParam("userId") Long userId){
+        if(userService.resumeUser(userId)){
+            return ResponseEntity.ok("解封成功");
+        }
+        return ResponseEntity.badRequest().body("没有查找到该用户id，解封失败");
+    }
+
+    /**
+     * 更改用户权限
+     * @param role
+     * @param userId
+     * @return
+     */
+    @ApiOperation("权限更改")
+    @PostMapping("/roleChange")
+    public ResponseEntity<Object> roleChange(@RequestParam("role") Integer role,@RequestParam("userId") Long userId){
+        if(userService.roleChange(role,userId)){
+            return ResponseEntity.ok("权限更改成功");
+        }
+        return ResponseEntity.badRequest().body("没有查找到该用户id，权限更改失败");
     }
 
     /**
