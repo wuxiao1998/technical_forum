@@ -2,7 +2,9 @@ package jee.sanda.forum.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jee.sanda.forum.em.ApplyStatusEnum;
 import jee.sanda.forum.entity.ApplyInfo;
+import jee.sanda.forum.entity.User;
 import jee.sanda.forum.entity.UserPlate;
 import jee.sanda.forum.form.Email;
 import jee.sanda.forum.service.ApplyInfoService;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.concurrent.TimeUnit;
 
 /***
@@ -36,6 +39,12 @@ public class ApplyInfoController {
     @ApiOperation("提交申请")
     @PostMapping("/saveApplyInfo")
     public ResponseEntity<Object> saveApplyInfo(@RequestBody ApplyInfo applyInfo){
+        HttpSession session = request.getSession();
+        Long userId = (Long)session.getAttribute("userId");
+        User user = new User();
+        user.setId(userId);
+        //获取当前登录用户
+        applyInfo.setApplyUser(user);
         applyInfoService.saveApplyInfo(applyInfo);
         return ResponseEntity.ok("success");
     }

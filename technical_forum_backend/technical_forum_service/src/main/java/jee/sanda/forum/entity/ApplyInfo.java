@@ -39,19 +39,11 @@ public class ApplyInfo {
 
     @ApiModelProperty("处理状态")
     @Enumerated(EnumType.ORDINAL)
-    private ApplyStatusEnum status;
+    private ApplyStatusEnum status = ApplyStatusEnum.未处理;
 
     @ApiModelProperty("申请成为板块id的版主")
-    private Integer plateId;
-
-    @ApiModelProperty("处理人")
     @OneToOne
-    @JoinColumn(name = "handler_id")
-    private User handlerUser;
+    @JoinColumn(name="plate_id")
+    private Plate plate;
 
-    @ApiModelProperty("处理时间")
-    @LastModifiedDate
-    @JsonIgnore
-    @Column(name="handler_time")
-    private java.util.Date handlerTime;
 }

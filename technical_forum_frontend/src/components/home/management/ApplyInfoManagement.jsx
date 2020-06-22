@@ -54,14 +54,14 @@ class ApplyInfoManagement extends React.Component {
           key: 'createtime',
         },
         {
+          title: '申请板块',
+          key: 'plateId',
+          dataIndex: 'plateId',
+        }, 
+        {
           title: '状态',
           dataIndex: 'status',
           key: 'status',
-        },
-        {
-          title: '申请板块',
-          key: 'plate_id',
-          dataIndex: 'plate_id',
         },
         {
           title: '操作',
@@ -135,11 +135,7 @@ class ApplyInfoManagement extends React.Component {
   //组件加载时查询数据
    componentWillMount() {
     this.loadingData(this.state.pagination.current)
-    Axios.get('/plate/findAll').then(res => {
-      this.setState({
-        plateList: res.data
-      })
-    })
+  
   
 
   }
@@ -167,29 +163,30 @@ class ApplyInfoManagement extends React.Component {
   //查询接口
    loadingData =   (pageNo) => {
     let datasource = [];
-    //  Axios.get('/user/findAll').then(res => {
-    //   console.log(res)
-    //   let data = res.data.content
-    //   data.map(item => {
-    //     let notice = {
-    //     //   key: item.id.toString(),
-    //     //   title: item.title,
-    //     //   content: item.content,
-    //     //   plateId: item.plate ? item.plate.name : '全部',
-    //     //   createtime: item.createtime,
-    //     //   username: item.createUser ? item.createUser.username : ''
-    //     }
-    //     datasource.push(notice)
-    //   })
-    //   this.setState({
-    //     noticeList: datasource,
-    //     pagination: {
-    //       current: pageNo,
-    //       pageSize: 5,
-    //       total: res.data.totalElements
-    //     }
-    //   })
-    // })
+     Axios.get('/applyInfo/showApplyInfo?pageNo=1&pageSize=5').then(res => {
+      console.log(res)
+      let data = res.data.content
+      data.map(item => {
+        let notice = {
+          key: item.id.toString(),
+          user: item.applyUser.username,
+          content: item.content,
+          plateId: item.plate.name,
+          createtime: item.createtime,
+          status:item.status,
+        
+        }
+        datasource.push(notice)
+      })
+      this.setState({
+        noticeList: datasource,
+        pagination: {
+          current: pageNo,
+          pageSize: 5,
+          total: res.data.totalElements
+        }
+      })
+    })
    
 }
 

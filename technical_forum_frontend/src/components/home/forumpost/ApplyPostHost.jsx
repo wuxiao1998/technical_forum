@@ -37,7 +37,9 @@ class ApplyPostHost extends React.Component {
     console.log('Received values of form: ', values);
     axios.post('/applyInfo/saveApplyInfo', {
      content:values.content,
-     plateId:this.state.plateId
+     plate:{
+       id:this.state.plateId
+     }
     }).then(res => {
       message.success("申请成功,管理员会在三个工作日之内给予回复")
       this.props.history.push('/home/homepage/' + this.state.plateId);
