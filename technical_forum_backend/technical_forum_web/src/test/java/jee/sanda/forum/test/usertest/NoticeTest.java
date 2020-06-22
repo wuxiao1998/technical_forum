@@ -1,8 +1,8 @@
 package jee.sanda.forum.test.usertest;
 
 import jee.sanda.forum.boot.TechnicalForumApplication;
-import jee.sanda.forum.entity.User;
-import jee.sanda.forum.service.UserService;
+import jee.sanda.forum.entity.Notice;
+import jee.sanda.forum.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,26 +14,25 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = TechnicalForumApplication.class)
 @Slf4j
 @RunWith(SpringRunner.class)
-public class UserTest {
+public class NoticeTest {
     @Autowired
-    private UserService userService;
+    private NoticeService noticeService;
 
-    /***
-     * 用户登录测试
-     * @return
+    /**
+     * 管理员查看所有公告测试
      */
     @Test
-    public void testLogin(){
-        User user = userService.login("user1", "123");
-        System.out.println(user);
+    public void testSearchNoticeByAdmin(){
+        Page<Notice>notices=noticeService.searchNoticeByAdmin(2,5);
+        System.out.println(notices);
     }
 
     /**
-     * 查找所有用户测试
+     * 用户查看公告测试
      */
     @Test
-    public void testFindAll(){
-        Page<User> users=userService.findAll(2,5);
-        System.out.println(users);
+    public void testSearchNoticeByUser(){
+        Page<Notice>notices=noticeService.searchNoticeByUser(1,2,5);
+        System.out.println(notices);
     }
 }
