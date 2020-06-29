@@ -1,6 +1,7 @@
 import React from 'react';
-import { Comment, Avatar, Badge } from 'antd';
+import { Comment, Avatar, Badge,Divider } from 'antd';
 import { Link } from 'react-router-dom'
+import Axios from 'axios';
 class PostDetailItem extends React.Component {
   constructor(props) {
     super(props)
@@ -10,11 +11,21 @@ class PostDetailItem extends React.Component {
   }
 
   componentWillMount() {
-console.log(this.props,'12222222222222222222')
+
 
 
   }
+
+  // //下载文件
+  // downloadfile = () => {
+  //   console.log(this.state.value)
+  //   Axios.get('forumPost/download?fileName='+this.props.fileName, {
+
+  //   }).then(res => {
+  //   })
+  // }
   render() {
+    console.log(this.props.fileName,'787879999999999999999')
     return <div style={{ marginTop: 20 }}>
       <div style={{ float: 'left', width: '100px', height: 270, textAlign: 'center' }}>
         <Badge count={this.props.type ? this.props.type : ''}>
@@ -37,6 +48,14 @@ console.log(this.props,'12222222222222222222')
       </div>
       <div style={{ float: 'right', width: '80%', height: 270, textAlign: 'left' }}>
         <div>{this.props.description}</div>
+        {(this.props.type=='楼主'&&this.props.fileName)&&
+            <div>
+        <Divider orientation="left">附件下载</Divider>
+        <span style={{}}>
+                <a href={'http://localhost:8000/forum/forumPost/download/'+this.props.fileName}>{this.props.fileName.split(this.props.fileName.substring(this.props.fileName.lastIndexOf('-'),this.props.fileName.length))}{this.props.fileName.substring(this.props.fileName.lastIndexOf('.'),this.props.fileName.length)}</a>
+            </span>
+            </div>
+        }
       </div>
     </div>
   }

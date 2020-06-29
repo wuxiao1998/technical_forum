@@ -62,6 +62,7 @@ class PostDetailList extends React.Component {
       })
     })
     console.log(JSON.parse(sessionStorage.getItem("user")))
+    console.log(this.state.forumPost,'99999999999999999999999999999999999')
    let user = JSON.parse(sessionStorage.getItem("user"));
    if(user && user.role == '版主'){
       let plateList = user.plateList;
@@ -189,6 +190,7 @@ class PostDetailList extends React.Component {
 
   }
   render() {
+    console.log(this.state.forumPost.fileName,'filename88888888888888888888888888')
     return <div><PageHeader
       className="site-page-header"
       onBack={() => {
@@ -207,7 +209,7 @@ class PostDetailList extends React.Component {
             <Popconfirm title="确定要删除此帖吗？(删除后不可恢复)" okText="Yes" cancelText="No" onConfirm={this.deletePost}>
              <Button style={{float:'right'}}>删除帖子</Button>
              </Popconfirm>}
-            <PostDetailItem {...this.state.mainUser} description={this.state.forumPost.description} type="楼主">
+            <PostDetailItem {...this.state.mainUser} description={this.state.forumPost.description} type="楼主" fileName={this.state.forumPost.fileName}>
             </PostDetailItem>
             <span style={{ position: 'absolute', bottom: 0, right: 0 }}>
               发帖时间:{this.state.forumPost.createtime}
