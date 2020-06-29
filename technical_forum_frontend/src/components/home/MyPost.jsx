@@ -20,7 +20,6 @@ class MyPost extends React.Component {
 
 
     componentWillMount() {
-        document.body.style.backgroundColor = '#F0F2F5';//将整个页面背景色改为灰色，解决有背景没被渲染出现白色；（副作用容易造成重绘影响性能，暂未发现影响）
         if (!sessionStorage.getItem("user")) {
 
             this.setState({

@@ -1,14 +1,20 @@
 import React from 'react';
-import { Comment, Avatar, Badge,Divider } from 'antd';
+import { Comment, Avatar, Badge,Divider,message } from 'antd';
 import { Link } from 'react-router-dom'
 import Axios from 'axios';
+import '../../../css/App.css'
 class PostDetailItem extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
 
     }
+
   }
+
+errorAlert(){
+  message.error("游客无法下载附件")
+}
 
   componentWillMount() {
 
@@ -50,9 +56,9 @@ class PostDetailItem extends React.Component {
         <div>{this.props.description}</div>
         {(this.props.type=='楼主'&&this.props.fileName)&&
             <div>
-        <Divider orientation="left">附件下载</Divider>
+        <Divider orientation="left" className="hr" style={{}}>附件下载</Divider>
         <span style={{}}>
-                <a href={'http://localhost:8000/forum/forumPost/download/'+this.props.fileName}>{this.props.fileName.split(this.props.fileName.substring(this.props.fileName.lastIndexOf('-'),this.props.fileName.length))}{this.props.fileName.substring(this.props.fileName.lastIndexOf('.'),this.props.fileName.length)}</a>
+                {JSON.parse(sessionStorage.getItem('user'))?<a href={'http://localhost:8000/forum/forumPost/download/'+this.props.fileName}>{this.props.fileName.split(this.props.fileName.substring(this.props.fileName.lastIndexOf('-'),this.props.fileName.length))}{this.props.fileName.substring(this.props.fileName.lastIndexOf('.'),this.props.fileName.length)}</a>:<a onClick={this.errorAlert}>{this.props.fileName.split(this.props.fileName.substring(this.props.fileName.lastIndexOf('-'),this.props.fileName.length))}{this.props.fileName.substring(this.props.fileName.lastIndexOf('.'),this.props.fileName.length)}</a>}
             </span>
             </div>
         }

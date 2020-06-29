@@ -17,6 +17,20 @@
     white-space: nowrap;
     }
 
+    .hr::before{
+      border-top: 1px solid black !important;
+    }
+
+    .hr::after{
+      border-top: 1px solid black !important;
+    }
+    .ant-list-split .ant-list-header {
+      border-bottom: 1px solid black !important;
+    }
+    .ant-list-split .ant-list-item {
+      border-bottom: 1px solid black !important ;
+  }
+
     .content {
       width: 500px;
       height: 200px;

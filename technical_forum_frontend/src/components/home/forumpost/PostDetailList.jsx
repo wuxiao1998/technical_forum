@@ -6,6 +6,7 @@ import { QuestionCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom'
 import PostDetailItem from './PostDetailItem'
 import Axios from 'axios';
+import '../../../css/App.css'
 const { Title } = Typography;
 const { TextArea } = Input;
 //回帖组件
