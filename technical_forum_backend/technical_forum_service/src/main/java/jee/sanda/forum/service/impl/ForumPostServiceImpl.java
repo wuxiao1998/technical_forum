@@ -220,4 +220,6 @@ public class ForumPostServiceImpl implements ForumPostService {
     public void updateFileName(String fileName,Long forumPostId) {
         forumPostRepository.updateFileById(fileName,forumPostId);
     }
+
+
 }

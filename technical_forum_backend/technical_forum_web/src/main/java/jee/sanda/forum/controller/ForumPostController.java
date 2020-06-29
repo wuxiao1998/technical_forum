@@ -9,6 +9,7 @@ import jee.sanda.forum.entity.ForumPostReply;
 import jee.sanda.forum.form.Comment;
 import jee.sanda.forum.form.Reply;
 import jee.sanda.forum.service.ForumPostService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/forumPost")
+@Slf4j
 @Api(value="帖子controller",tags={"帖子服务接口"})
 public class ForumPostController {
 
@@ -246,6 +249,55 @@ public class ForumPostController {
         forumPostService.updateFileName(fileName.toString(),forumPostId);
 
         return "success";
+    }
+
+
+    @GetMapping("download/{fileName}")
+    public void downloadFile(@PathVariable String fileName,
+                                                 HttpServletResponse response) {
+        if (fileName != null) {
+            //设置文件路径
+            File file = new File("upload"+File.separator+fileName);
+            BufferedInputStream bis = null;
+            FileInputStream fis = null;
+            try {
+                if (file.exists()) {
+                    response.setContentType("application/octet-stream");
+                    response.setHeader("content-type", "application/octet-stream");
+
+                    response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "UTF-8"));
+                    byte[] buffer = new byte[1024];
+                    fis = new FileInputStream(file);
+                    bis = new BufferedInputStream(fis);
+                    OutputStream os = response.getOutputStream();
+                    int i = bis.read(buffer);
+                    while (i != -1) {
+                        os.write(buffer, 0, i);
+                        i = bis.read(buffer);
+                    }
+                    System.out.println("success");
+                }
+            }
+                catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (bis != null) {
+                        try {
+                            bis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
     }
 }
 
