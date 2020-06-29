@@ -81,11 +81,12 @@ public class ForumPostServiceImpl implements ForumPostService {
 }
 
     @Override
-    public void saveForumPost(ForumPost forumPost) {
-        forumPostRepository.save(forumPost);
+    public Long saveForumPost(ForumPost forumPost) {
+        forumPost = forumPostRepository.save(forumPost);
         User user = forumPost.getUser();
         Long userId = user.getId();
         userService.updateLevelAndExperienceAndDesignation(userId, 10);
+        return forumPost.getId();
     }
     @Override
     public Page<ForumPostDetail> findDetailByPostId(Long postId,Integer pageNo,Integer pageSize) {
@@ -213,5 +214,10 @@ public class ForumPostServiceImpl implements ForumPostService {
     @Override
     public List<ForumPost> findTopPost(Integer plateId, Integer size) {
         return forumPostRepository.findTopPost(plateId,size);
+    }
+
+    @Override
+    public void updateFileName(String fileName,Long forumPostId) {
+        forumPostRepository.updateFileById(fileName,forumPostId);
     }
 }

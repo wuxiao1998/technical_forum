@@ -75,4 +75,7 @@ public class ForumPost {
     @ApiModelProperty("回帖数量")
     @Transient
     private Long commentQuantity;
+
+    @Column(name = "filename")
+    private String fileName;
 }

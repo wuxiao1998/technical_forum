@@ -12,10 +12,16 @@ import jee.sanda.forum.service.ForumPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /***
@@ -85,7 +91,10 @@ public class ForumPostController {
     @ApiOperation("发布新帖")
     @PostMapping("/addPost")
     public ResponseEntity<Object> addPost(@RequestBody ForumPost forumPost) {
-        forumPostService.saveForumPost(forumPost);
+        Long forumPostId = forumPostService.saveForumPost(forumPost);
+        HttpSession session = request.getSession();
+        //保存主键id,在完成附件上传后移除
+        session.setAttribute("forumPostId",forumPostId);
         return ResponseEntity.ok("success");
     }
 
@@ -187,6 +196,56 @@ public class ForumPostController {
                                               @PathVariable("size") Integer size){
         List<ForumPost> forumPosts = forumPostService.findTopPost(plateId, size);
         return ResponseEntity.ok(forumPosts);
+    }
+
+
+    /***
+     * 附件上传
+     * @param file,uploadType
+     * @return
+     * @throws IOException
+     */
+    @ApiOperation("帖子附件上传")
+    @PostMapping("/upload")
+    public String fileUpload(MultipartFile file) throws IOException {
+        HttpSession session = request.getSession();
+        Long forumPostId = (Long)session.getAttribute("forumPostId");
+        session.removeAttribute("forumPostId");
+        if(file == null){
+            //不上传附件，终止方法运行
+            return "";
+        }
+        File upload = new File("upload");
+        //获取源文件名
+        String originalFilename = file.getOriginalFilename();
+        //查找文件后缀名位置
+        int i = originalFilename.lastIndexOf(".");
+        //获取该文件前缀
+        String prefix = originalFilename.substring(0,i);
+        //获取后缀名
+        String suffix = originalFilename.substring(i);
+        if(!upload.exists()){
+            upload.mkdirs();
+        }
+        //获取当前时间戳
+        Date date = new Date();
+        //拼接文件名
+        StringBuffer  fileName = new StringBuffer();
+        fileName.append(prefix);
+        fileName.append("-");
+        fileName.append(date.getTime());
+        fileName.append(suffix);
+        System.out.println(fileName.toString());
+        //拼接文件路径
+        StringBuffer path = new StringBuffer();
+        path.append(upload.getAbsolutePath());
+        path.append(File.separator);
+        path.append(fileName);
+        file.transferTo(new File(path.toString()));
+        //上传成功后移除session
+        forumPostService.updateFileName(fileName.toString(),forumPostId);
+
+        return "success";
     }
 }
 

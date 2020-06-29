@@ -19,10 +19,10 @@ public interface ForumPostService {
     Page<ForumPost> findByPlateId(Integer plateId, Integer pageNo, Integer pageSize,String searchCondition);
 
     /***
-     * 保存帖子信息
+     * 保存帖子信息,并返回自增id
      * @param forumPost
      */
-    void saveForumPost(ForumPost forumPost);
+    Long saveForumPost(ForumPost forumPost);
 
     /***
      * 根据帖子主表的id,分页查询帖子详情
@@ -95,4 +95,6 @@ public interface ForumPostService {
      * 查询访问量最多的前n条帖子
      */
     List<ForumPost> findTopPost(Integer plateId, Integer size);
+
+    void updateFileName(String fileName,Long forumPostId);
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { Form, Input, InputNumber, Button, message } from 'antd';
+import { Form, Input, InputNumber, Button, message, Upload} from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import NoLogin from '../../authentication/NoLogin'
 //发新帖组件
 const layout = {
@@ -39,10 +40,22 @@ class AddPost extends React.Component {
         id: JSON.parse(sessionStorage.getItem("user")).id
       }
     }).then(res => {
+      if(values.upload){
+      let config = {
+        headers: {
+  
+          "Content-Type": "multipart/form-data"
+        }
+      };
+      let formData = new FormData();
+      formData.append("file", values.upload.file);
+      axios.post('/forumPost/upload', formData, config)
+    }
       message.success("发帖成功,经验值+10")
       this.props.history.push('/home/homepage/' + this.state.plateId);
       
     })
+    
   };
   goBack = () => {
     this.props.history.goBack();
@@ -69,6 +82,22 @@ class AddPost extends React.Component {
             <Input />
           </Form.Item>
 
+          <Form.Item
+            name="upload"
+            label="附件上传"
+            
+          >
+           <Upload name='file'
+           beforeUpload={()=>{
+             return false;
+           }}
+           >
+        <Button>
+        <UploadOutlined /> Click to Upload
+       </Button>
+         </Upload>
+          </Form.Item>
+
           <Form.Item name="description" label="详细描述"
           rules={[
             {
@@ -83,7 +112,7 @@ class AddPost extends React.Component {
           >
             <Input.TextArea style={{height:'150px'}}/>
           </Form.Item>
-          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 7 }}>
+          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 11 }}>
             <Button type="primary" htmlType="submit">
               发布
               </Button>
@@ -98,7 +127,7 @@ class AddPost extends React.Component {
         <NoLogin history={this.props.history}></NoLogin>
       </div>
     }
-    return <div style={{ textAlign: 'center', marginTop: '10%' }}>
+    return <div style={{ marginTop: '10%' }}>
       {element}
     </div>
   }

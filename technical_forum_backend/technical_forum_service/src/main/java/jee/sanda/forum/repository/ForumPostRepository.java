@@ -17,7 +17,7 @@ public interface ForumPostRepository extends JpaRepository<ForumPost, Long>, Jpa
     @Modifying
     int updateForum_Post_Count(Long postId);
 
-    @Query(value = "SELECT id,title,description,plate_id,type,createby,createtime,MAX(COUNT) AS COUNT FROM forum_post " +
+    @Query(value = "SELECT id,title,description,plate_id,type,createby,createtime,filename,MAX(COUNT) AS COUNT FROM forum_post " +
             " WHERE plate_id=?1 GROUP BY id " +
             " ORDER BY COUNT DESC LIMIT ?2",nativeQuery = true)
     List<ForumPost> findTopPost(Integer plateId, Integer size);
@@ -31,4 +31,8 @@ public interface ForumPostRepository extends JpaRepository<ForumPost, Long>, Jpa
     //通过帖子id查找板块id
     @Query(value = "select plate_id from forum_post where id=?1",nativeQuery = true)
     Long findPlateIdByPostId(Long postId);
+
+    @Query(value="update forum_post set filename=?1 where id=?2",nativeQuery=true)
+    @Modifying
+    void updateFileById(String fileName, Long forumPostId);
 }
