@@ -88,7 +88,7 @@ class HomePage extends React.Component {
 
   render() {
 
-    return <Layout style={{ minHeight: '82vh', marginTop: "63px" }}>
+    return <Layout style={{ minHeight: '90vh', marginTop: "63px" }}>
       <Sider
         width="194"
       >

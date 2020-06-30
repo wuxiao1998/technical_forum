@@ -34,7 +34,7 @@ class MyHeader extends React.Component {
         this.props.history.push('/home/homepage/' + sessionStorage.getItem("plateKey"));
     }
     render() {
-        return <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+        return <Header style={{ position: 'fixed', zIndex: 100, width: '100%' }}>
             <div class="logo" style={{ backgroundColor: 'transparent', marginTop: '1px' }}>
                 <span style={{ color: 'white', fontWeight: 700, fontSize: '20px' }}>
                     IT技术论坛
