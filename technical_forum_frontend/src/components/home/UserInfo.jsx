@@ -197,7 +197,7 @@ class UserInfo extends React.Component {
     const { imageUrl } = this.state;
     let element;
     if (this.state.loginin) {
-      element = <div>
+      element = <div style={{height:'823px'}}>
         <Modal
           title="提醒"
           visible={this.state.visible}
@@ -213,7 +213,7 @@ class UserInfo extends React.Component {
           <a onClick={this.updatePassword} style={{ float: 'right' }}>修改密码</a>
         </div>
 
-        <Descriptions bordered style={{ backgroundColor: "white" }}>
+        <Descriptions bordered style={{ backgroundColor: "white" ,}} >
           <Descriptions.Item label="用户名" span={3}>{this.state.user.username}</Descriptions.Item >
           <Descriptions.Item label="头像" span={3}>
             <Upload
