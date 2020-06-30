@@ -111,8 +111,9 @@ class PostList extends React.Component {
   render() {
 
     return <List
+   
       header={
-        <div>
+        <div  >
           <h2 style={{ display: "inline" }}>帖子信息</h2>
           <Search
             placeholder="查找标题"
@@ -139,7 +140,7 @@ class PostList extends React.Component {
         /*渲染列表每一项,展示帖子信息*/
         <List.Item
           key={item.title}
-          style={{ marginTop: "10px" }}
+          style={{ marginTop: "10px",borderBottomColor:'black'}}
           actions={[
             <IconText icon={EyeOutlined} text={item.count} key="list-vertical-like-o" />,
             <IconText icon={MessageOutlined} text={item.commentQuantity} key="list-vertical-message" />,

@@ -4,7 +4,6 @@ import { Layout, Menu } from 'antd';
 import { Card, Row, Col, Pagination } from 'antd';
 import { Link } from 'react-router-dom'
 import PostList from './forumpost/PostList'
-import SizeContext from 'antd/lib/config-provider/SizeContext';
 //主页组件
 const { Header, Content, Footer, Sider } = Layout;
 class HomePage extends React.Component {
